@@ -57,6 +57,7 @@ export const routes = {
 			abs: "/dashboard/index" || "/dashboard",
 			rel: "index",
 		},
+
 		recipients: {
 			index: {
 				abs: "/dashboard/recipients",
@@ -192,8 +193,12 @@ export const routes = {
 			},
 		},
 		wallets: {
-			abs: "/dashboard/fund-wallets",
-			rel: "fund-wallets",
+			abs: "/dashboard/wallets",
+			rel: "wallets",
+		},
+		fundwallet: {
+			abs: "/dashboard/fundwallets",
+			rel: "fundwallets",
 		},
 		earn: {
 			abs: "/dashboard/earn",

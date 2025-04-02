@@ -6,8 +6,6 @@ import { HeroSection } from "../../components/PageComponents/Landing/HeroSection
 import { cutGreenPlus, display1, display2, whiteCircle } from "../../data";
 
 export default function About() {
-	//const MAPBOX_ACCESS_TOKEN = "pk.eyJ1IjoiaGVpc2llbmJlcmciLCJhIjoiY203b3UyOGR6MGRuZzJqcXRpZnFmYnRwaCJ9.sWbZRpSx53eP9IaM1HCS3w"; // Replace with your actual token
-
 	return (
 		<div className="v-layer-wrapper !bg-[var(--common-faint-bg)]">
 			<section className="v-each-section relative has-bg" id="v-hero">

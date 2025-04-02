@@ -15,7 +15,7 @@ import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Items";
 import { Link } from "react-router";
 
-export const FundWallet = () => {
+export const Wallet = () => {
 	const styleButtonInner = "p-2 rounded-full bg-[#F1C34E] animate-active";
 
 	return (

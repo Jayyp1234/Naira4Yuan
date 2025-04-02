@@ -16,7 +16,6 @@ import { Home } from "./pages/Dashboard/Home/Home";
 import About from "./pages/Landing/About";
 import AML from "./pages/Landing/AML";
 import Privacy from "./pages/Landing/Privacy";
-import Graph from "./pages/Landing/GraphBox";
 import Terms from "./pages/Landing/Terms";
 import Contact from "./pages/Landing/Contact";
 
@@ -30,12 +29,15 @@ import { TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
 import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
 // earn
 import { EarnIndex } from "./pages/Dashboard/Earn/EarnIndex";
+// fund wallet
+import { FundWalletIndex } from "./pages/Dashboard/FundWallet/Index";
+import { FundWallet } from "./pages/Dashboard/FundWallet/FundWallet";
 // recipient
 import { RecipientIndex } from "./pages/Dashboard/Recipient";
 import { RecipientMain } from "./pages/Dashboard/Recipient/RecipientMain";
 import { RecipientPageDetails } from "./pages/Dashboard/Recipient/RecipientPageDetails";
 import { RecipientTransaction } from "./pages/Dashboard/Recipient/RecipientTransaction";
-import { FundWallet } from "./pages/Dashboard/Home/Wallet";
+import { Wallet } from "./pages/Dashboard/Home/Wallet";
 import { AccountIndex } from "./pages/Dashboard/Account/AccountIndex";
 import { Inbox } from "./pages/Dashboard/Account/Inbox";
 import { Limit } from "./pages/Dashboard/Account/Limit";
@@ -72,7 +74,6 @@ const App = () => {
 				<Route path={routes.AML} index element={<AML />} />
 				<Route path={routes.TERMS} index element={<Terms />} />
 				<Route path={routes.PRIVACY} index element={<Privacy />} />
-				<Route path={routes.CHART} index element={<Graph />} />
 
 				{/* Auth Routes */}
 				<Route path="/auth" element={<AuthPage />}>
@@ -88,7 +89,9 @@ const App = () => {
 
 					<Route path={routes.DASHBOARD.send.rel} element={<Send />} />
 
-					<Route path={routes.DASHBOARD.wallets.rel} element={<FundWallet />} />
+					<Route path={routes.DASHBOARD.wallets.rel} element={<Wallet />} />
+					
+					
 
 					<Route path={routes.DASHBOARD.transaction.index.rel} element={<TransactionIndex />}>
 						<Route index element={<TransactionMain />} />
@@ -147,6 +150,11 @@ const App = () => {
 
 					<Route path={routes.DASHBOARD.error.rel} element={<DashboardError />} />
 				</Route>
+
+				<Route path="/dashboard/fundwallets" element={<FundWalletIndex />} >
+					<Route path={routes.DASHBOARD.fundwallet.abs} index element={<FundWallet />} />
+				</Route>
+				
 
 				{/* 404 Not Found Route */}
 				{/* <Route path="*" element={<NotFound />} /> */}

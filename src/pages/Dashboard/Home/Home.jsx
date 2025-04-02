@@ -20,7 +20,7 @@ export const Home = () => {
 				<h2 className="text-3xl tracking-tight font-bold">00.00 NGN</h2>
 				<div className="flex items-center gap-x-3 mt-2">
 					<button
-						onClick={() => navigate(routes.DASHBOARD.wallets.abs)}
+						onClick={() => navigate(routes.DASHBOARD.fundwallet.abs)}
 						type="button"
 						className="animate-active rounded-no-tl font-medium flex items-center justify-center py-2.5 px-5 text-sm rounded-xl text-black bg-gray-200">
 						Fund Wallet
