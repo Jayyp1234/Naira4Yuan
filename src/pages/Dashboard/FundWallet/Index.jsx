@@ -1,10 +1,10 @@
-import React from "react";
+// import React from "react";
 import { Outlet, useLocation } from "react-router";
 import { DashboardHeader2 } from "@/Layouts/Dashboard/DashboardHeader2";
-import { StateDataContext } from "../../../App";
+// import { StateDataContext } from "../../../App";
 
 export const FundWalletIndex = () => {
-    const { stateData, setStateData } = React.useContext(StateDataContext);
+  // const { stateData, setStateData } = React.useContext(StateDataContext);
     const { pathname } = useLocation();
 
     const hiddenSidebarRoutePrefixes = [];
