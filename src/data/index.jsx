@@ -23,6 +23,9 @@ import appstore from "@/assets/media/images/app-store.png";
 // logos
 import LogoFullDarkVariant from "@/assets/media/logos/Naira4yuan-logo-dark-variant.png";
 import LogoFullWhiteVariant from "@/assets/media/logos/Naira4yuan-logo-white-variant.png";
+import Alipay from "@/assets/media/logos/alipay.png";
+import BankTransfer from "@/assets/media/logos/banktranfer.png";
+import WeChat from "@/assets/media/logos/Wechat.png";
 
 // companies
 import TechCabal from "@/assets/media/company/b9a63e5445ff13e2abf8e8af414e89c3.png";
@@ -110,5 +113,8 @@ export {
 	ChineseImage,
 	ImageCompany1,
 	ImageCompany2,
-	ImageCompany3,
+  ImageCompany3,
+  Alipay,
+  BankTransfer,
+  WeChat,
 };

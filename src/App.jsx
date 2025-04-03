@@ -20,7 +20,6 @@ import Terms from "./pages/Landing/Terms";
 import Contact from "./pages/Landing/Contact";
 
 import { routes } from "./data/routes";
-import { Send } from "./pages/Dashboard/Send/Send";
 import DashboardError from "./pages/Errors/DashboardError";
 // transaction
 import { TransactionIndex } from "./pages/Dashboard/Transaction";
@@ -32,6 +31,9 @@ import { EarnIndex } from "./pages/Dashboard/Earn/EarnIndex";
 // fund wallet
 import { FundWalletIndex } from "./pages/Dashboard/FundWallet/Index";
 import { FundWallet } from "./pages/Dashboard/FundWallet/FundWallet";
+//send
+import { Send } from "./pages/Dashboard/Send/Send";
+import { SendIndex } from "./pages/Dashboard/Send/Index";
 // recipient
 import { RecipientIndex } from "./pages/Dashboard/Recipient";
 import { RecipientMain } from "./pages/Dashboard/Recipient/RecipientMain";
@@ -87,7 +89,7 @@ const App = () => {
 				<Route path="/dashboard" element={<DashboardIndex />}>
 					<Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
 
-					<Route path={routes.DASHBOARD.send.rel} element={<Send />} />
+          {/* <Route path={routes.DASHBOARD.send.rel} element={<Send />} /> */}
 
 					<Route path={routes.DASHBOARD.wallets.rel} element={<Wallet />} />
 					
@@ -153,8 +155,11 @@ const App = () => {
 
 				<Route path="/dashboard/fundwallets" element={<FundWalletIndex />} >
 					<Route path={routes.DASHBOARD.fundwallet.abs} index element={<FundWallet />} />
-				</Route>
-				
+        </Route>
+
+        <Route path="/dashboard/send" element={<SendIndex />} >
+          <Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
+        </Route>
 
 				{/* 404 Not Found Route */}
 				{/* <Route path="*" element={<NotFound />} /> */}

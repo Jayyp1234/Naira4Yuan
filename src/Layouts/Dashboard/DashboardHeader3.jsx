@@ -2,39 +2,12 @@
 import { Link, useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
 import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
-import { routes } from "../../data/routes";
-import { XIcon } from "lucide-react"; // Assuming you're using lucide icons
+import { XIcon } from "lucide-react";
 
-export const DashboardHeader4 = () => {
-  const navigate = useNavigate();
-  return (
-    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-4 pb-3">
-      <Link to={""}>
-        <figure className="flex items-center justify-center max-w-32">
-          <img src={LogoFullDarkVariant} alt="" />
-        </figure>
-      </Link>
-      <aside>
-        <button type="button" onClick={() => navigate(routes.DASHBOARD.account.index.rel)} className="flex items-center gap-x-2">
-          <figure className="flex items-center justify-center overflow-hidden rounded-full w-10 h-10">
-            <img src={DefaultAvatarImage} alt="" />
-          </figure>
-          <div className="flex items-center gap-x-1.5">
-            <span className="hidden sm:inline-flex uppercase font-semibold text-sm">ADEREMI IBRAHIM TUNDE</span>
-            <IconWrapper>
-              <ChevronRightIcon />
-            </IconWrapper>
-          </div>
-        </button>
-      </aside>
-    </header>
-  );
-};
-
-const steps = ["Amount", "Verification", "Payment"];
+const steps = ["Amount", "Review", "Payment"];
 const currentStepIndex = 0; // You can update this dynamically based on props or route
 
-export const DashboardHeader2 = () => {
+export const DashboardHeader3 = () => {
   const navigate = useNavigate();
 
   return (
@@ -66,17 +39,24 @@ export const DashboardHeader2 = () => {
         </nav>
       </div>
 
-      <div className="flex items-center gap-3">
-        <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
-          <img src={DefaultAvatarImage} alt="User Avatar" className="w-full h-full object-cover" />
-        </figure>
+      <div>
         <button
           type="button"
-          onClick={() => navigate(-1)}
-          className="p-2 text-black hover:bg-gray-100 rounded-full"
+          onClick={() => navigate(routes.DASHBOARD.account.index.rel)}
+          className="flex items-center gap-x-2 whitespace-nowrap"
         >
-          <XIcon className="w-6 h-6" />
+          <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
+            <img src={DefaultAvatarImage} alt="User Avatar" className="w-full h-full object-cover" />
+          </figure>
+
+          <div className="flex items-center gap-x-1.5 flex-nowrap">
+            <span className="hidden sm:block uppercase font-semibold text-sm">ADEREMI IBRAHIM TUNDE</span>
+            <IconWrapper>
+              <ChevronRightIcon />
+            </IconWrapper>
+          </div>
         </button>
+
       </div>
     </header>
   );
