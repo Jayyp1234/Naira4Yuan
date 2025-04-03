@@ -50,7 +50,7 @@ export default function LandingPageHeader() {
 											<span className="v-subtext">Join Community</span>
 										</Link>
 									</li>
-									<li className="v-each-link">
+                  <li className="v-each-link">
 										<Link to={routes} className="v-link">
 											<span className="v-subtext">Support</span>
 										</Link>
@@ -77,11 +77,11 @@ export default function LandingPageHeader() {
 											<FeaturesDropdownContent />
 										</DropdownMenu>
 									</li>
-									<li className="v-each-link">
+                  {/* <li className="v-each-link">
 										<Link to={routes} className="v-link">
 											<span className="v-subtext">Support</span>
 										</Link>
-									</li>
+									</li> */}
 									<li className="v-each-link">
 										<Link to={routes} className="v-link">
 											<span className="v-subtext">Blog</span>
