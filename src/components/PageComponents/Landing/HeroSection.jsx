@@ -22,7 +22,9 @@ export const HeroSection = ({ pageTitle = "" }) => {
 								<span className="text-sm leading-tight flex">Truspilot</span>
 							</div>
 						</div>
-            <h1 className="text-4xl text-white md:text-6xl sm:text-5xl font-bold leading-tight w-md relative">{pageTitle}</h1>
+            <div className="lg:w-11/12 xl:w-9/12">
+              <h1 className="text-4xl text-white md:text-6xl sm:text-5xl font-bold leading-tight w-md relative">{pageTitle}</h1>
+            </div>
 						<div className="v-hero-text-content w-full lg:text-start lg:items-start mx-auto flex flex-col items-center text-center relative sm:w-10/12 lg:ms-0">
 							<span className="text-white text-lg">
 								The fastest 🚀 way to make payment for goods and services in China
