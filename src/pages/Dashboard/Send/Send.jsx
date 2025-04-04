@@ -97,7 +97,7 @@ export const SendStep1 = () => {
               {/* Payment Method Selection */}
               <div>
                 <h3 className="text-sm font-medium text-gray-700 mb-2">Payment method</h3>
-                <div className="flex flex-wrap gap-2 bg-gray-100 p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 p-2 rounded-lg">
                   {[
                     { name: "Alipay", logo: Alipay },
                     { name: "Wechat", logo: BankTransfer },
@@ -106,12 +106,12 @@ export const SendStep1 = () => {
                     <label
                       key={index}
                       className={`flex items-center gap-2 justify-between px-3 py-2 rounded-md flex-1 min-w-[100px] sm:min-w-[120px] md:px-4 border cursor-pointer text-xs sm:text-[.8rem] transition-all ${selectedMethod === method.name
-                        ? "bg-green-900 text-white border-green-800"
-                        : "bg-white text-gray-500 border-gray-300"
+                        ? "bg-[#013930] text-white"
+                        : "bg-[#F8F9FD] text-[#94A3B8]"
                         }`}
                     >
                       <div className="flex items-center gap-1">
-                        <img src={method.logo} alt={method.name} className="w-12 h-auto sm:w-6" />
+                        <img src={method.logo} alt={method.name} className="w-14 h-auto sm:w-6" />
                         <span className="font-medium">{method.name}</span>
                       </div>
                       <input
