@@ -321,41 +321,101 @@ export const SendStep2 = () => {
   );
 };
 
+// export const SendStep3 = () => {
+//   const navigate = useNavigate();
+//   return (
+//     <>
+//       <section className="flex flex-col items-center text-center">
+//         <figure className="max-w-56">
+//           <img src={CompletedIcon} alt="" />
+//         </figure>
+//         <div className="mb-5 mt-6">
+//           <h1 className="text-3xl font-semibold">Payment on the way🎉</h1>
+//           <span className="text-slate-700">
+//             You can track your payment on the
+//             <Link
+//               to={routes.DASHBOARD.transaction.abs}
+//               className="underline mx-1 underline-offset-[1.5px] hover:font-bold transition-all ease-in-out duration-300">
+//               transaction
+//             </Link>
+//             page
+//           </span>
+//         </div>
+//         <div className="flex flex-col gap-y-2 w-full mt-4">
+//           <button
+//             type="button"
+//             onClick={() => navigate(routes.DASHBOARD.index.abs)}
+//             className="animate-active text-white bg-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
+//             Go back home
+//           </button>
+//           <button
+//             type="button"
+//             // onClick={}
+//             className="animate-active bg-white text-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
+//             Download receipt
+//           </button>
+//         </div>
+//       </section>
+//     </>
+//   );
+// };
+
+
 export const SendStep3 = () => {
   const navigate = useNavigate();
+  const { setStateData } = React.useContext(StateDataContext);
+
+  const resetStepperToFirstStep = () => {
+    // Reset the stepper state after navigation
+    setStateData(prevState => ({
+      ...prevState,
+      dashboard: {
+        ...prevState.dashboard,
+        send: { ...prevState.dashboard.send, stepperVal: 1 }
+      }
+    }));
+  };
+
+  const handleGoBackHome = () => {
+    // Navigate first
+    navigate(routes.DASHBOARD.index.abs);
+
+    // Reset the stepper state after a brief delay (ensures navigation happens first)
+    setTimeout(() => {
+      resetStepperToFirstStep();
+    }, 500); // Adjust the timeout duration if needed
+  };
+
   return (
-    <>
-      <section className="flex flex-col items-center text-center">
-        <figure className="max-w-56">
-          <img src={CompletedIcon} alt="" />
-        </figure>
-        <div className="mb-5 mt-6">
-          <h1 className="text-3xl font-semibold">Payment on the way🎉</h1>
-          <span className="text-slate-700">
-            You can track your payment on the
-            <Link
-              to={routes.DASHBOARD.transaction.abs}
-              className="underline mx-1 underline-offset-[1.5px] hover:font-bold transition-all ease-in-out duration-300">
-              transaction
-            </Link>
-            page
-          </span>
-        </div>
-        <div className="flex flex-col gap-y-2 w-full mt-4">
-          <button
-            type="button"
-            onClick={() => navigate(routes.DASHBOARD.index.abs)}
-            className="animate-active text-white bg-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
-            Go back home
-          </button>
-          <button
-            type="button"
-            // onClick={}
-            className="animate-active bg-white text-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
-            Download receipt
-          </button>
-        </div>
-      </section>
-    </>
+    <section className="flex flex-col items-center text-center">
+      <figure className="max-w-56">
+        <img src={CompletedIcon} alt="" />
+      </figure>
+      <div className="mb-5 mt-6">
+        <h1 className="text-3xl font-semibold">Payment on the way🎉</h1>
+        <span className="text-slate-700">
+          You can track your payment on the
+          <Link
+            to={routes.DASHBOARD.transaction.abs}
+            className="underline mx-1 underline-offset-[1.5px] hover:font-bold transition-all ease-in-out duration-300">
+            transaction
+          </Link>
+          page
+        </span>
+      </div>
+      <div className="flex flex-col gap-y-2 w-full mt-4">
+        <button
+          type="button"
+          onClick={handleGoBackHome}
+          className="animate-active text-white bg-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
+          Go back home
+        </button>
+        <button
+          type="button"
+          className="animate-active bg-white text-main rounded-no-tl border border-solid border-main flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-bold">
+          Download receipt
+        </button>
+      </div>
+    </section>
   );
 };

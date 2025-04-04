@@ -804,7 +804,7 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
         <div className="mt-4">
           <FooterButton
             text="I have made the transfer"
-            onClick={handleTransferComplete}
+            onClick={() => toggleModal(false)}
             className="!text-[1.05rem] animate-active"
           />
         </div>
@@ -862,7 +862,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
               <label
                 key={preference.id}
                 htmlFor={preference.id}
-                className="flex items-center justify-between cursor-pointer border-b border-gray-200 last:border-b-0 pb-2"
+                className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
               >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">
@@ -875,7 +875,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
                     <span className="text-sm leading-tight flex">{preference.label}</span>
                   </div>
                   {selectedOption === preference.id && (
-                    <div className="ml-2">
+                    <div className="ml-2 ">
                       {tickCircle({})}
                     </div>
                   )}

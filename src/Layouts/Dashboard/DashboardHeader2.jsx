@@ -38,13 +38,13 @@ export const DashboardHeader2 = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-4 pb-3">
+    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
       <div className="flex items-center gap-8 w-full">
         <img src={LogoFullDarkVariant} alt="Naira4Yuan" className="w-28 sm:w-32 object-contain" />
 
         <nav className="hidden sm:flex items-center flex-1">
           <div className="flex items-center w-full relative">
-            <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-3/4 h-1 bg-[#F7F9FD] rounded-full z-0"></div>
+            <div className="absolute left-1/2 -translate-x-1/2 top-2 -translate-y-1/2 w-3/4 h-1 bg-[#F7F9FD] rounded-full z-0"></div>
             {steps.map((step, index) => (
               <div
                 key={index}
