@@ -95,7 +95,6 @@ import { useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
 import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
 
-// Dummy routes object (Replace this with actual route imports)
 const routes = {
   DASHBOARD: {
     account: {
@@ -108,24 +107,25 @@ const routes = {
 
 export const DashboardHeader3 = ({
   user = { name: "ADEREMI IBRAHIM TUNDE", avatar: DefaultAvatarImage },
+  steps = ["Amount", "Review", "Payment"],
+  currentStepIndex = 0,
 }) => {
   const navigate = useNavigate();
-  const steps = ["Amount", "Review", "Payment"];
-  const currentStepIndex = 0; // You can update this dynamically
-  const progressWidth = `${(currentStepIndex / (steps.length - 1)) * 100}%`;
+  const progressWidth =
+    steps.length > 1
+      ? `${(currentStepIndex / (steps.length - 1)) * 100}%`
+      : "0%";
 
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
-      {/* Left Section: Logo & Steps */}
+      {/* Left Section */}
       <div className="flex items-center gap-8 w-full">
-        {/* Logo */}
         <img
           src={LogoFullDarkVariant}
           alt="Naira4Yuan"
           className="w-28 sm:w-32 object-contain"
         />
 
-        {/* Step Navigation (Hidden on Mobile) */}
         <nav className="hidden sm:flex items-center flex-1">
           <div className="flex items-center justify-center w-full relative">
             <div className="w-4/5">
@@ -136,14 +136,12 @@ export const DashboardHeader3 = ({
                     className="bg-[#013930] h-full rounded-full relative transition-all duration-300 ease-in-out"
                     style={{ width: progressWidth }}
                   >
-                    <span
-                      className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-4 h-4 bg-[#013930] rounded-full border-2 border-[#013930] shadow"
-                    ></span>
+                    <span className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-4 h-4 bg-[#013930] rounded-full border-2 border-[#013930] shadow"></span>
                   </div>
                 </div>
               </div>
 
-              {/* Steps container */}
+              {/* Steps */}
               <div className="flex justify-between w-full">
                 {steps.map((step, index) => (
                   <div key={index}>
@@ -163,14 +161,13 @@ export const DashboardHeader3 = ({
         </nav>
       </div>
 
-      {/* Right Section: Profile */}
+      {/* Right Section */}
       <div>
         <button
           type="button"
           onClick={() => navigate(routes.DASHBOARD.account.index.rel)}
           className="flex items-center gap-x-2 whitespace-nowrap"
         >
-          {/* User Avatar */}
           <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
             <img
               src={user.avatar || DefaultAvatarImage}
@@ -179,7 +176,6 @@ export const DashboardHeader3 = ({
             />
           </figure>
 
-          {/* User Name & Icon */}
           <div className="flex items-center gap-x-1.5 flex-nowrap">
             <span className="hidden sm:block uppercase font-semibold text-sm">
               {user.name}
