@@ -12,7 +12,6 @@ import { routes } from "@/data/routes";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../../components/ui/accordion";
 import { Beneficiary } from "../../../components/PageComponents/Dashboard/Beneficiary";
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
-import { DashboardHeader3 } from "@/Layouts/Dashboard/DashboardHeader3";
 
 export const Send = () => {
   const {
@@ -24,10 +23,6 @@ export const Send = () => {
 
   return (
     <>
-      <DashboardHeader3
-        currentStepIndex={send.stepperVal - 1} // 👈 this makes the progress update
-      />
-
       <div className="max-w-xl mx-auto">
         {send.stepperVal === 1 && <SendStep1 />}
         {send.stepperVal === 2 && <SendStep2 />}

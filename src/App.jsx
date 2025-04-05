@@ -88,12 +88,7 @@ const App = () => {
 				{/* Dashboard Routes */}
 				<Route path="/dashboard" element={<DashboardIndex />}>
 					<Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
-
-          {/* <Route path={routes.DASHBOARD.send.rel} element={<Send />} /> */}
-
 					<Route path={routes.DASHBOARD.wallets.rel} element={<Wallet />} />
-					
-					
 
 					<Route path={routes.DASHBOARD.transaction.index.rel} element={<TransactionIndex />}>
 						<Route index element={<TransactionMain />} />
@@ -155,11 +150,11 @@ const App = () => {
 
 				<Route path="/dashboard/fundwallets" element={<FundWalletIndex />} >
 					<Route path={routes.DASHBOARD.fundwallet.abs} index element={<FundWallet />} />
-        </Route>
+				</Route>
 
-        <Route path="/dashboard/send" element={<SendIndex />} >
-          <Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
-        </Route>
+				<Route path="/dashboard/send" element={<SendIndex />} >
+					<Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
+				</Route>
 
 				{/* 404 Not Found Route */}
 				{/* <Route path="*" element={<NotFound />} /> */}
