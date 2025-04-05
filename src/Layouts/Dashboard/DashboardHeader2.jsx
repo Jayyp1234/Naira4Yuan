@@ -43,27 +43,44 @@ export const DashboardHeader2 = () => {
         <img src={LogoFullDarkVariant} alt="Naira4Yuan" className="w-28 sm:w-32 object-contain" />
 
         <nav className="hidden sm:flex items-center flex-1">
-          <div className="flex items-center w-full relative">
-            <div className="absolute left-1/2 -translate-x-1/2 top-2 -translate-y-1/2 w-3/4 h-1 bg-[#F7F9FD] rounded-full z-0"></div>
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="relative z-10 flex flex-col items-center justify-center flex-1 text-center"
-              >
-                <div
-                  className={`w-4 h-4 rounded-full mb-1 ${index === currentStepIndex ? "bg-[#0B2C25]" : "bg-gray-300"
-                    }`}
-                ></div>
-                <span
-                  className={`text-sm font-medium ${index === currentStepIndex ? "text-black font-semibold" : "text-gray-500"
-                    }`}
-                >
-                  {step}
-                </span>
+          <div className="flex items-center justify-center w-full relative">
+            <div className="w-4/5">
+              {/* Progress bar */}
+              <div className="px-6">
+                <div className="w-full mb-1 bg-[#F8F9FD] rounded-full h-[8px]">
+                  <div
+                    className="bg-[#013930] h-full rounded-full relative"
+                    style={{ width: `0%` }}
+                  >
+                    <span
+                      className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2 w-4 h-4 bg-[#013930] rounded-full border-2 border-[#013930] shadow"
+                    ></span>
+                  </div>
+                </div>
               </div>
-            ))}
+
+              {/* Steps container */}
+              <div className="flex justify-between w-full">
+                {steps.map((step, index) => (
+                  <div
+                    key={index}
+                    className=""
+                  >
+                    <span
+                      className={`text-sm font-medium ${index === currentStepIndex
+                        ? "text-black font-semibold"
+                        : "text-gray-500"
+                        }`}
+                    >
+                      {step}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </nav>
+
       </div>
 
       <div className="flex items-center gap-3">

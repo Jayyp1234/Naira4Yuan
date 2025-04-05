@@ -100,8 +100,8 @@ export const SendStep1 = () => {
                 <div className="flex flex-wrap gap-2 p-2 rounded-lg">
                   {[
                     { name: "Alipay", logo: Alipay },
-                    { name: "Wechat", logo: BankTransfer },
-                    { name: "Bank Transfer", logo: WeChat },
+                    { name: "Wechat", logo: WeChat },
+                    { name: "Bank Transfer", logo: BankTransfer },
                   ].map((method, index) => (
                     <label
                       key={index}
@@ -146,10 +146,16 @@ export const SendStep1 = () => {
 
               {/* Upload QR Code */}
               <div className="border border-dashed border-gray-400 p-4 rounded-lg bg-gray-100">
-                <button className="flex items-center justify-center gap-2">
-                  <DownloadIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <span className="text-gray-700 font-medium text-xs sm:text-sm">Upload Alipay QR code</span>
-                </button>
+                <label htmlFor="qrUpload" className="cursor-pointer flex items-center gap-2">
+                  <DownloadIcon className="w-5 h-5" />
+                  <span className="text-gray-700 font-medium">Upload Alipay QR code</span>
+                </label>
+                <input
+                  type="file"
+                  id="qrUpload"
+                  className="hidden"
+                  accept="image/png,application/pdf"
+                />
                 <p className="text-xs text-gray-500 mt-1">File size should be a minimum of 2MB and in PNG or PDF format.</p>
               </div>
 
@@ -169,16 +175,16 @@ export const SendStep1 = () => {
       </section>
 
       <div className="mt-4">
-          <FooterButton text="Continue" onClick={() => {
-            setStateData(prevState => ({
-              ...prevState,
-              dashboard: {
-                ...prevState.dashboard,
-                send: { ...prevState.dashboard.send, stepperVal: 2 }
-              }
-            }));
-          }} className="!text-[1.05rem]" />
-        </div>
+        <FooterButton text="Continue" onClick={() => {
+          setStateData(prevState => ({
+            ...prevState,
+            dashboard: {
+              ...prevState.dashboard,
+              send: { ...prevState.dashboard.send, stepperVal: 2 }
+            }
+          }));
+        }} className="!text-[1.05rem]" />
+      </div>
     </div>
   );
 };
