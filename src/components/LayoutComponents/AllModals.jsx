@@ -1,4 +1,4 @@
-// import React from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "../BaseComponents/Modal";
 import { FormControl, RadioInput } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
@@ -8,7 +8,7 @@ import { CopyIcon2, IconWrapper, WarningIcon, tickCircle } from "../../data/Icon
 import { BorderWrapper } from "../PageComponents/Dashboard/Items";
 import Iframe from "../BaseComponents/Iframe";
 import { routes } from "../../data/routes";
-import { useState } from "react";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
@@ -450,475 +450,6 @@ export const HowToUseNaira4YuanModal = ({ open, modalData, action }) => {
   );
 };
 
-// // 1. Manual BVN Verification Modal
-// const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-//   const [formData, setFormData] = useState({
-//     fullName: '',
-//     phoneNumber: '',
-//     dateOfBirth: ''
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData(prev => ({ ...prev, [name]: value }));
-//   };
-
-//   return (
-//     <Modal
-//       isOpen={open}
-//       onRequestClose={() => toggleModal("SELECT_BANK", false)}
-//       modalHeader={{
-//         hasHeader: true,
-//         modalTitle: "Manual BVN Verification",
-//         style: "border-b",
-//         textStyle: "text-main"
-//       }}
-//     >
-//       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-//           <FormControl
-//             type="text"
-//             name="fullName"
-//             value={formData.fullName}
-//             onChange={handleChange}
-//             label={{
-//               exist: true,
-//               text: "Full name",
-//             }}
-//             placeholder="Enter your full name"
-//           />
-//           <FormControl
-//             type="tel"
-//             name="phoneNumber"
-//             value={formData.phoneNumber}
-//             onChange={handleChange}
-//             inputMode="numeric"
-//             label={{
-//               exist: true,
-//               text: "Phone number",
-//             }}
-//             placeholder="Enter your phone number"
-//           />
-//           <FormControl
-//             type="date"
-//             name="dateOfBirth"
-//             value={formData.dateOfBirth}
-//             onChange={handleChange}
-//             label={{
-//               exist: true,
-//               text: "Date of birth",
-//             }}
-//             placeholder="MM/DD/YY"
-//           />
-//         </div>
-//         <div>
-//           <FooterButton
-//             text="Verify"
-//             onClick={() => {
-//               action?.();
-//               toggleModal("SELECT_BANK", false);
-//             }}
-//             className="!text-[1.05rem] uppercase"
-//           />
-//         </div>
-//       </div>
-//     </Modal>
-//   );
-// };
-
-// // 2. BVN Verification Modal (OTP)
-// const BvnVerificationModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-//   const [otp, setOtp] = useState("");
-//   const [showManualVerification, setShowManualVerification] = useState(false);
-
-//   return (
-//     <>
-//       <Modal
-//         isOpen={open && !showManualVerification}
-//         onRequestClose={() => toggleModal("AUTH_BVN_VERIFICATION", false)}
-//         modalHeader={{
-//           hasHeader: true,
-//           modalTitle: "Verify BVN",
-//           style: "border-b",
-//           textStyle: "text-main"
-//         }}
-//       >
-//         <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-//             <section>
-//               <span className="block text-center">
-//                 We sent a code to <b>08132*****157</b> to confirm your BVN
-//               </span>
-//               <div className="flex flex-col gap-y-2 mt-6">
-//                 <div>
-//                   <label htmlFor="code" className="text-[.94rem]">
-//                     Enter code
-//                   </label>
-//                   <InputOTP
-//                     maxLength={4}
-//                     className="flex flex-col"
-//                     value={otp}
-//                     onChange={(value) => setOtp(value)}
-//                   >
-//                     <InputOTPGroup className="flex gap-x-4">
-//                       <InputOTPSlot index={0} className={inputModalStyle} />
-//                       <InputOTPSlot index={1} className={inputModalStyle} />
-//                       <InputOTPSlot index={2} className={inputModalStyle} />
-//                       <InputOTPSlot index={3} className={inputModalStyle} />
-//                     </InputOTPGroup>
-//                   </InputOTP>
-//                 </div>
-//               </div>
-//             </section>
-//             <div className="mt-6 text-center">
-//               <span className="text-[.95rem]">
-//                 Didn't receive a code?
-//                 <button type="button" className="ms-2 font-semibold underline text-main">
-//                   Click to resend
-//                 </button>
-//               </span>
-//             </div>
-//             <div className="mt-6 text-center">
-//               <span className="text-[.95rem]">
-//                 I don't have access to my BVN phone number
-//                 <button
-//                   type="button"
-//                   className="ms-2 font-semibold underline text-main"
-//                   onClick={() => setShowManualVerification(true)}
-//                 >
-//                   Use manual method
-//                 </button>
-//               </span>
-//             </div>
-//           </div>
-//           <div>
-//             <FooterButton
-//               text="Continue"
-//               onClick={() => {
-//                 action?.();
-//                 toggleModal("AUTH_BVN_VERIFICATION", false);
-//               }}
-//               className="!text-[1.05rem] uppercase"
-//             />
-//           </div>
-//         </div>
-//       </Modal>
-
-//       <FundWalletManualBVNVerificationModal
-//         open={showManualVerification}
-//         modalData={{
-//           toggleModal: () => setShowManualVerification(false),
-//           parentToggleModal: () => toggleModal("AUTH_BVN_VERIFICATION", false)
-//         }}
-//         action={action}
-//       />
-//     </>
-//   );
-// };
-
-// // 3. Simple Verification ID Modal
-// const SimpleVerificationIdModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-//   const [showBvnVerification, setShowBvnVerification] = useState(false);
-
-//   return (
-//     <>
-//       <Modal
-//         isOpen={open && !showBvnVerification}
-//         onRequestClose={() => toggleModal("SELECT_BANK", false)}
-//         modalHeader={{
-//           hasHeader: true,
-//           modalTitle: "Simple Verification",
-//           style: "border-b",
-//           textStyle: "text-main"
-//         }}
-//       >
-//         <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-//             <FormControl
-//               type="tel"
-//               inputMode="numeric"
-//               label={{
-//                 exist: true,
-//                 text: "ID type",
-//               }}
-//               placeholder="Enter your phone number"
-//             />
-//           </div>
-//           <div>
-//             <FooterButton
-//               text="Proceed"
-//               onClick={() => setShowBvnVerification(true)}
-//               className="!text-[1.05rem] uppercase"
-//             />
-//           </div>
-//         </div>
-//       </Modal>
-
-//       <BvnVerificationModal
-//         open={showBvnVerification}
-//         modalData={{
-//           toggleModal: () => setShowBvnVerification(false),
-//           parentToggleModal: () => toggleModal("SELECT_BANK", false)
-//         }}
-//         action={action}
-//       />
-//     </>
-//   );
-// };
-
-// // 4. Simple Verification Modal
-// const SimpleVerificationModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-//   const [selectedOption, setSelectedOption] = useState("basic-verification");
-//   const [showIdVerification, setShowIdVerification] = useState(false);
-
-//   const preferences = [
-//     { id: "basic-verification", label: "Basic Verification" },
-//     { id: "individual-account-verification", label: "Individual Account Verification" },
-//   ];
-
-//   const handleOptionChange = (id) => {
-//     setSelectedOption(id);
-//   };
-
-//   return (
-//     <>
-//       <Modal
-//         isOpen={open && !showIdVerification}
-//         onRequestClose={() => toggleModal("SELECT_BANK", false)}
-//         modalHeader={{
-//           hasHeader: true,
-//           modalTitle: "Simple Verification",
-//           style: "border-b",
-//           textStyle: ""
-//         }}
-//       >
-//         <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
-//           <div className="flex flex-col flex-grow gap-y-4 min-h-60">
-//             {preferences.map((preference) => (
-//               <label
-//                 key={preference.id}
-//                 htmlFor={preference.id}
-//                 className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-3"
-//               >
-//                 <div className="flex items-center justify-between w-full">
-//                   <div className="flex items-center gap-2">
-//                     <RadioInput
-//                       name="preferences"
-//                       id={preference.id}
-//                       checked={selectedOption === preference.id}
-//                       onChange={() => handleOptionChange(preference.id)}
-//                     />
-//                     <span className="text-sm leading-tight flex">{preference.label}</span>
-//                   </div>
-//                 </div>
-//               </label>
-//             ))}
-//           </div>
-//           <div className="mt-2">
-//             <FooterButton
-//               text="Proceed"
-//               onClick={() => setShowIdVerification(true)}
-//               className="!text-[1.05rem] animate-active"
-//             />
-//           </div>
-//         </div>
-//       </Modal>
-
-//       <SimpleVerificationIdModal
-//         open={showIdVerification}
-//         modalData={{
-//           toggleModal: () => setShowIdVerification(false),
-//           parentToggleModal: () => toggleModal("SELECT_BANK", false)
-//         }}
-//         action={action}
-//       />
-//     </>
-//   );
-// };
-
-// // 5. Bank Transfer Modal
-// const FundWalletBankTransferModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-
-//   const handleTransferComplete = () => {
-//     // Execute any provided action
-//     action?.();
-//     // Close the modal
-//     toggleModal("DASHBOARD_BANK_TRANSFER", false);
-//   };
-
-//   return (
-//     <Modal
-//       isOpen={open}
-//       onRequestClose={() => toggleModal("DASHBOARD_BANK_TRANSFER", false)}
-//       modalHeader={{
-//         hasHeader: true,
-//         modalTitle: "",
-//         style: "border-b",
-//         textStyle: ""
-//       }}
-//     >
-//       <div className="p-6 pb-10 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-//           <header className="text-center">
-//             <h2 className="text-3xl font-semibold">Bank transfer details</h2>
-//           </header>
-//           <div className="flex flex-col gap-y-3">
-//             <span className="text-sm">
-//               Transfer funds from any Nigerian bank to the account details below.
-//               Once the payment is made, the amount will automatically be credited
-//               to your Gate Africa wallet.
-//             </span>
-//             <div className="flex items-center gap-x-2 rounded-lg p-2 bg-yellow-100 mb-2">
-//               <IconWrapper className="text-yellow-400">
-//                 <WarningIcon />
-//               </IconWrapper>
-//               <span className="leading-tight text-[.95rem]">NB: A fee of ¥1 will be charged</span>
-//             </div>
-//             <button
-//               type="button"
-//               className="flex justify-center mx-auto items-center font-medium bg-slate-200 rounded-lg rounded-no-tl py-2.5 px-5 gap-x-2"
-//               onClick={() => navigator.clipboard.writeText('0050924366')}
-//             >
-//               <h4 className="text-xl">0050924366</h4>
-//               <IconWrapper>
-//                 <CopyIcon2 />
-//               </IconWrapper>
-//             </button>
-//             <BorderWrapper cn="py-3 px-4 flex flex-col items-start rounded-tl-sm mt-2" radiusSize="lg">
-//               <span className="flex items-center gap-x-2">
-//                 <span className="font-medium">Bank:</span>
-//                 <span className="text-slate-500">Safe Haven Microfinance Bank</span>
-//               </span>
-//               <span className="flex items-center gap-x-2">
-//                 <span className="font-medium">Acc Name:</span>
-//                 <span className="text-slate-500">Gate Africa KORA</span>
-//               </span>
-//             </BorderWrapper>
-//           </div>
-//         </div>
-//         <div className="mt-4">
-//           <FooterButton
-//             text="I have made the transfer"
-//             onClick={handleTransferComplete}
-//             className="!text-[1.05rem] animate-active"
-//           />
-//         </div>
-//       </div>
-//     </Modal>
-//   );
-// };
-
-// // 6. Main Verification Modal
-// export const FundWalletVerificationModal = ({ open, modalData, action }) => {
-//   const { toggleModal } = modalData;
-//   const [selectedOption, setSelectedOption] = useState("");
-//   const [showSimpleVerification, setShowSimpleVerification] = useState(false);
-//   const [showBankTransfer, setShowBankTransfer] = useState(false);
-
-//   const preferences = [
-//     { id: "basic-verification", label: "Basic Verification" },
-//     { id: "individual-account-verification", label: "Individual Account Verification" },
-//   ];
-
-//   const handleOptionChange = (id) => {
-//     setSelectedOption(id);
-//   };
-
-//   const handleProceed = () => {
-//     if (selectedOption === "basic-verification") {
-//       setShowSimpleVerification(true);
-//     } else {
-//       setShowBankTransfer(true);
-//       toggleModal("SELECT_BANK", false);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <Modal
-//         isOpen={open && !showSimpleVerification && !showBankTransfer}
-//         onRequestClose={() => toggleModal("SELECT_BANK", false)}
-//         modalHeader={{
-//           hasHeader: true,
-//           modalTitle: "KYC Verification",
-//           style: "border-b",
-//           textStyle: ""
-//         }}
-//       >
-//         <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
-//           <div className="w-10/12 xl:w-7/12 mx-auto text-center">
-//             <span className="text-[.95rem]">
-//               You have to be verified to proceed with this transaction.
-//             </span>
-//           </div>
-
-//           <div className="flex flex-col flex-grow gap-y-3 min-h-60">
-//             {preferences.map((preference) => (
-//               <label
-//                 key={preference.id}
-//                 htmlFor={preference.id}
-//                 className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
-//               >
-//                 <div className="flex items-center justify-between w-full">
-//                   <div className="flex items-center gap-2">
-//                     <RadioInput
-//                       name="preferences"
-//                       id={preference.id}
-//                       checked={selectedOption === preference.id}
-//                       onChange={() => handleOptionChange(preference.id)}
-//                     />
-//                     <span className="text-sm leading-tight flex">{preference.label}</span>
-//                   </div>
-//                   {selectedOption === preference.id && (
-//                     <div className="ml-2 ">
-//                       {tickCircle({})}
-//                     </div>
-//                   )}
-//                 </div>
-//               </label>
-//             ))}
-//           </div>
-
-//           <div className="mt-2">
-//             <FooterButton
-//               text="Proceed"
-//               onClick={handleProceed}
-//               className="!text-[1.05rem] animate-active"
-//             />
-//           </div>
-//         </div>
-//       </Modal>
-
-//       <SimpleVerificationModal
-//         open={showSimpleVerification}
-//         modalData={{
-//           toggleModal: () => setShowSimpleVerification(false),
-//           parentToggleModal: () => toggleModal("SELECT_BANK", false)
-//         }}
-//         action={() => {
-//           setShowSimpleVerification(false);
-//           setShowBankTransfer(true);
-//         }}
-//       />
-
-//       <FundWalletBankTransferModal
-//         open={showBankTransfer}
-//         modalData={{
-//           toggleModal: () => setShowBankTransfer(false),
-//           parentToggleModal: () => toggleModal("SELECT_BANK", false)
-//         }}
-//         action={action}
-//       />
-//     </>
-//   );
-// };
-
-// 1. Manual BVN Verification Modal
 const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [formData, setFormData] = useState({
@@ -995,7 +526,6 @@ const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-// 2. BVN Verification Modal (OTP)
 const BvnVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [otp, setOtp] = useState("");
@@ -1086,7 +616,6 @@ const BvnVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-// 3. Simple Verification ID Modal
 const SimpleVerificationIdModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [showBvnVerification, setShowBvnVerification] = useState(false);
@@ -1137,7 +666,6 @@ const SimpleVerificationIdModal = ({ open, modalData, action }) => {
   );
 };
 
-// 4. Simple Verification Modal
 const SimpleVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [selectedOption, setSelectedOption] = useState("basic-verification");
@@ -1208,7 +736,6 @@ const SimpleVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-// 5. Bank Transfer Modal
 const FundWalletBankTransferModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
 
@@ -1280,9 +807,6 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
   );
 };
 
-
-
-// 6. Main Verification Modal
 export const FundWalletVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [selectedOption, setSelectedOption] = useState("");
@@ -1389,3 +913,108 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
     </>
   );
 };
+
+export function DatePickerModal({ open, modalData, onDateSelect, dateType, currentValue }) {
+  const { toggleModal } = modalData;
+  const [selectedDate, setSelectedDate] = useState(currentValue || null);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  useEffect(() => {
+    setSelectedDate(currentValue);
+  }, [currentValue]);
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  const getFirstDayOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+  const generateCalendarDays = () => {
+    const daysInMonth = getDaysInMonth(currentMonth);
+    const firstDay = getFirstDayOfMonth(currentMonth);
+    const days = [];
+
+    for (let i = 0; i < firstDay; i++) {
+      days.push(<div key={`empty-${i}`} className="w-10 h-10" />);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      const isSelected = selectedDate?.toDateString() === date.toDateString();
+
+      days.push(
+        <button
+          key={day}
+          onClick={() => setSelectedDate(date)}
+          className={`w-10 h-10 rounded-full flex items-center justify-center text-sm 
+            ${isSelected ? "bg-[#004D40] text-white" : "hover:bg-gray-100"}`}
+        >
+          {day}
+        </button>
+      );
+    }
+
+    return days;
+  };
+
+  const navigateMonth = (direction) => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + (direction === "next" ? 1 : -1)));
+  };
+
+  const handleConfirm = () => {
+    if (selectedDate) {
+      onDateSelect(dateType, selectedDate); // Pass both dateType and selected date
+      toggleModal("DATE_PICKER", false);
+    }
+  };
+
+  return (
+    <div>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("DATE_PICKER", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Select Start/End date",
+          style: "border-b",
+          textStyle: "text-black",
+        }}
+      >
+        <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+          <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+            <div className="flex items-center justify-between mb-6">
+              <button onClick={() => navigateMonth("prev")} className="p-2 bg-gray-200 hover:bg-[#004D40] hover:text-white rounded-full">
+                <ChevronLeft size={24} />
+              </button>
+              <span className="text-lg font-medium">
+                {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+              </span>
+              <button onClick={() => navigateMonth("next")} className="p-2 bg-gray-200 hover:bg-[#004D40] hover:text-white rounded-full">
+                <ChevronRight size={24} />
+              </button>
+            </div>
+  
+            <div className="grid grid-cols-7 gap-1 mb-4">
+              {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
+                <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
+                  {day}
+                </div>
+              ))}
+              {generateCalendarDays()}
+            </div>
+          </div>
+  
+          <div>
+            <FooterButton
+              text="Choose date"
+              onClick={handleConfirm}
+              className="!text-[1.05rem]"
+            />
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
