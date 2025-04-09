@@ -33,7 +33,7 @@ export const SendIndex = () => {
             <DashboardSidebar />
           </div>
         </aside>
-        <aside className={`w-full mx-auto ${shouldHideSidebar ? "" : "md:w-4/6 lg:w-4/5"}`}>
+        <aside className={`w-full mx-auto ${shouldHideSidebar ? "" : "md:w-4/6 lg:w-4/5 mx-auto"}`}>
           <Outlet />
         </aside>
       </main>

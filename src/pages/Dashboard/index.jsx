@@ -15,7 +15,7 @@ export const DashboardIndex = () => {
 	return (
 		<div className="min-h-screen flex flex-col">
 			<DashboardHeader />
-			<main className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-36 xl:pl-10 pt-10 mx-auto relative flex">
+      <main className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 pt-10 mx-auto relative flex">
 				{/* {shouldHideSidebar && ( */}
 				<aside
 					className={`${
