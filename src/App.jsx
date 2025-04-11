@@ -99,8 +99,6 @@ const App = () => {
         <Route path="/dashboard" element={<DashboardIndex />}>
           <Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
 
-          <Route path={routes.DASHBOARD.inbox.rel} element={<Inbox />} />
-
           <Route path={routes.DASHBOARD.wallets.index.rel} element={<Wallet />}>
             <Route path={routes.DASHBOARD.wallets.transaction.rel} element={<WalletTransaction />} />
           </Route>

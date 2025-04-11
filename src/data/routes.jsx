@@ -98,10 +98,6 @@ export const routes = {
       //   rel: "helpDetails",
       // },
     },
-    inbox: {
-      abs: "/dashboard/inbox",
-      rel: "inbox",
-    },
     account: {
       index: {
         abs: "/dashboard/account",

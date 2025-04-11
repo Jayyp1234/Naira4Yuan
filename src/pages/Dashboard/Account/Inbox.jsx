@@ -22,7 +22,7 @@ export const Inbox = () => {
 									<p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
 								</aside>
 								<aside className="flex items-center gap-x-4">
-									<Badge text="Active" className={`py-0.5`} status="success" />
+                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
 								</aside>
 							</div>
 						</li>
@@ -35,10 +35,36 @@ export const Inbox = () => {
 									<p className="text-gray-500 text-sm leading-tight">You sent ¥5.6 to Adams R.</p>
 								</aside>
 								<aside className="flex items-center gap-x-4">
-									<Badge text="Active" className={`py-0.5`} status="success" />
-								</aside>
-							</div>
-						</li>
+                  <Badge text="Account" className={`py-0.5`} status="account" />
+                </aside>
+              </div>
+            </li>
+            <li>
+              <div className="flex items-center justify-between flex-grow gap-3">
+                <aside className="text-start flex flex-col gap-y-1">
+                  <h3 className="text-lg leading-tight font-medium">
+                    We’re making some changes - <small className="text-slate-600 tracking-tight">12/01/25</small>
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
+                </aside>
+                <aside className="flex items-center gap-x-4">
+                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
+                </aside>
+              </div>
+            </li>
+            <li>
+              <div className="flex items-center justify-between flex-grow gap-3">
+                <aside className="text-start flex flex-col gap-y-1">
+                  <h3 className="text-lg leading-tight font-medium">
+                    We’re making some changes - <small className="text-slate-600 tracking-tight">12/01/25</small>
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
+                </aside>
+                <aside className="flex items-center gap-x-4">
+                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
+                </aside>
+              </div>
+            </li>
 					</ul>
 				</div>
 			</section>
