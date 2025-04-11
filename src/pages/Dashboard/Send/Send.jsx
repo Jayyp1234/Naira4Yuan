@@ -99,7 +99,7 @@ export const SendStep1 = () => {
               {/* Payment Method Selection */}
               <div>
                 <h3 className="text-sm font-medium text-gray-700 mb-2">Payment method</h3>
-                <div className="flex flex-wrap gap-2 p-2 rounded-lg">
+                <div className="flex flex-wrap gap-2 rounded-lg">
                   {[
                     { name: "Alipay", logo: Alipay },
                     { name: "Wechat", logo: WeChat },

@@ -995,7 +995,7 @@ export function DatePickerModal({ open, modalData, onDateSelect, dateType, curre
                 <ChevronRight size={24} />
               </button>
             </div>
-  
+
             <div className="grid grid-cols-7 gap-1 mb-4">
               {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
                 <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
@@ -1005,7 +1005,7 @@ export function DatePickerModal({ open, modalData, onDateSelect, dateType, curre
               {generateCalendarDays()}
             </div>
           </div>
-  
+
           <div>
             <FooterButton
               text="Choose date"
@@ -1018,3 +1018,44 @@ export function DatePickerModal({ open, modalData, onDateSelect, dateType, curre
     </div>
   );
 }
+
+export const WalletOptionModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const menuItems = [
+    "Statements and reports",
+    "Direct Debits",
+    "Auto conversions",
+    "Get proof of account details",
+    "Close balance"
+  ];
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("Wallet", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "",
+          style: "border-b",
+          textStyle: ""
+        }}
+      >
+        <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+          <div className="flex flex-col flex-grow gap-y-3 mb-10">
+            {menuItems.map((item, index) => (
+              <button
+                key={index}
+                className="w-full flex items-center justify-between p-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                onClick={() => console.log(`Selected: ${item}`)}
+              >
+                <span className="text-lg font-normal text-gray-800">{item}</span>
+                <ChevronRight className="h-5 w-5 text-gray-400" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};

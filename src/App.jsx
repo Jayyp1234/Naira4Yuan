@@ -25,7 +25,9 @@ import DashboardError from "./pages/Errors/DashboardError";
 import { TransactionIndex } from "./pages/Dashboard/Transaction";
 import { TransactionDetails } from "./pages/Dashboard/Transaction/TransactionDetails";
 import { TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
-import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
+import { TransactionInput } from "./pages/Dashboard/Transaction/TransactionInput";
+// import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
+// import { TransactionHelpDetails } from "./pages/Dashboard/Transaction/TransactionHelpDetails";
 // earn
 import { EarnIndex } from "./pages/Dashboard/Earn/EarnIndex";
 // fund wallet
@@ -39,7 +41,7 @@ import { RecipientIndex } from "./pages/Dashboard/Recipient";
 import { RecipientMain } from "./pages/Dashboard/Recipient/RecipientMain";
 import { RecipientPageDetails } from "./pages/Dashboard/Recipient/RecipientPageDetails";
 import { RecipientTransaction } from "./pages/Dashboard/Recipient/RecipientTransaction";
-import { Wallet } from "./pages/Dashboard/Home/Wallet";
+import { Wallet } from "./pages/Dashboard/Wallet/Wallet";
 import { AccountIndex } from "./pages/Dashboard/Account/AccountIndex";
 import { Inbox } from "./pages/Dashboard/Account/Inbox";
 import { Limit } from "./pages/Dashboard/Account/Limit";
@@ -61,106 +63,133 @@ import { LogoutEverywhere } from "./pages/Dashboard/Account/Settings/LogoutEvery
 import { SocialLogin } from "./pages/Dashboard/Account/Settings/SocialLogin";
 import { TextMessage } from "./pages/Dashboard/Account/Settings/TextMessage";
 import { AuthenticatorApp } from "./pages/Dashboard/Account/AuthenticatorApp";
+// help
+import { HelpIndex } from "./pages/Dashboard/Help/Index";
+import { Help } from "./pages/Dashboard/Help/Help";
+import { HelpTransaction } from "./pages/Dashboard/Help/HelpTransaction";
+import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
+import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
+import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
+
 // recipients and transaction
 
 export const StateDataContext = React.createContext(null);
 
 const App = () => {
-	const [stateData, setStateData] = React.useState(states);
-	return (
-		<StateDataContext.Provider value={{ stateData, setStateData }}>
-			<Routes>
-				<Route path={routes.INDEX} index element={<LandingPage />} />
-				<Route path={routes.ABOUT} index element={<About />} />
-				<Route path={routes.CONTACT} index element={<Contact />} />
-				<Route path={routes.AML} index element={<AML />} />
-				<Route path={routes.TERMS} index element={<Terms />} />
-				<Route path={routes.PRIVACY} index element={<Privacy />} />
+  const [stateData, setStateData] = React.useState(states);
+  return (
+    <StateDataContext.Provider value={{ stateData, setStateData }}>
+      <Routes>
+        <Route path={routes.INDEX} index element={<LandingPage />} />
+        <Route path={routes.ABOUT} index element={<About />} />
+        <Route path={routes.CONTACT} index element={<Contact />} />
+        <Route path={routes.AML} index element={<AML />} />
+        <Route path={routes.TERMS} index element={<Terms />} />
+        <Route path={routes.PRIVACY} index element={<Privacy />} />
 
-				{/* Auth Routes */}
-				<Route path="/auth" element={<AuthPage />}>
-					<Route path={routes.AUTH.login.rel} index element={<Login />} />
-					<Route path={routes.AUTH.register.rel} element={<Register />} />
-					<Route path={routes.AUTH.loginErr.rel} element={<TroubleLoggingIn />} />
-					<Route path="/auth/*" index element={<h1>Hellow</h1>} />
-				</Route>
+        {/* Auth Routes */}
+        <Route path="/auth" element={<AuthPage />}>
+          <Route path={routes.AUTH.login.rel} index element={<Login />} />
+          <Route path={routes.AUTH.register.rel} element={<Register />} />
+          <Route path={routes.AUTH.loginErr.rel} element={<TroubleLoggingIn />} />
+          <Route path="/auth/*" index element={<h1>Hellow</h1>} />
+        </Route>
 
-				{/* Dashboard Routes */}
-				<Route path="/dashboard" element={<DashboardIndex />}>
-					<Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
-					<Route path={routes.DASHBOARD.wallets.rel} element={<Wallet />} />
+        {/* Dashboard Routes */}
+        <Route path="/dashboard" element={<DashboardIndex />}>
+          <Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
 
-					<Route path={routes.DASHBOARD.transaction.index.rel} element={<TransactionIndex />}>
-						<Route index element={<TransactionMain />} />
-						<Route path={routes.DASHBOARD.transaction.details.rel} element={<TransactionDetails />} />
-						<Route path={routes.DASHBOARD.transaction.help.rel} element={<TransactionHelp />} />
-					</Route>
-					<Route path={routes.DASHBOARD.earn.rel} element={<EarnIndex />} />
+          <Route path={routes.DASHBOARD.inbox.rel} element={<Inbox />} />
 
-					<Route path={routes.DASHBOARD.recipients.index.rel} element={<RecipientIndex />}>
-						<Route index element={<RecipientMain />} />
-						<Route path={`${routes.DASHBOARD.recipients.recep.rel}/:recipientId`} element={<RecipientPageDetails />} />
-						<Route path={`${routes.DASHBOARD.recipients.transaction.rel}/:recipientId`} element={<RecipientTransaction />} />
-					</Route>
+          <Route path={routes.DASHBOARD.wallets.index.rel} element={<Wallet />}>
+            <Route path={routes.DASHBOARD.wallets.transaction.rel} element={<WalletTransaction />} />
+          </Route>
 
-					<Route path={routes.DASHBOARD.account.index.rel}>
-						<Route index element={<AccountIndex />} />
+          <Route path={routes.DASHBOARD.transaction.index.rel} element={<TransactionIndex />}>
+            <Route index element={<TransactionMain />} />
+            <Route path={routes.DASHBOARD.transaction.details.rel} element={<TransactionDetails />} />
+            <Route path={routes.DASHBOARD.transaction.input.rel} element={<TransactionInput />} />
+            {/* <Route path={routes.DASHBOARD.transaction.help.rel} element={<TransactionHelp />} />
+            <Route path={routes.DASHBOARD.transaction.helpDetails.rel} element={<TransactionHelpDetails />} /> */}
+          </Route>
+          <Route path={routes.DASHBOARD.earn.rel} element={<EarnIndex />} />
 
-						<Route path={routes.DASHBOARD.account.statementReport.index.rel}>
-							<Route index element={<StatementReportIndex />} />
-							<Route path={routes.DASHBOARD.account.statementReport.statement.rel} element={<Statement />} />
-							<Route path={routes.DASHBOARD.account.statementReport.statementFees.rel} element={<StatementFees />} />
-							<Route path={routes.DASHBOARD.account.statementReport.ownership.rel} element={<AccountOwnership />} />
-						</Route>
+          <Route path={routes.DASHBOARD.recipients.index.rel} element={<RecipientIndex />}>
+            <Route index element={<RecipientMain />} />
+            <Route path={`${routes.DASHBOARD.recipients.recep.rel}/:recipientId`} element={<RecipientPageDetails />} />
+            <Route path={`${routes.DASHBOARD.recipients.transaction.rel}/:recipientId`} element={<RecipientTransaction />} />
+          </Route>
 
-						{/* security */}
-						<Route path={routes.DASHBOARD.account.security.index.rel}>
-							<Route index element={<Settings />} />
-							<Route path={routes.DASHBOARD.account.security.password.index.rel} element={<Password />} />
+          <Route path={routes.DASHBOARD.account.index.rel}>
+            <Route index element={<AccountIndex />} />
 
-							<Route path={routes.DASHBOARD.account.security._2stepVerification.index.rel}>
-								<Route index element={<TwoFA />} />
-								<Route path={routes.DASHBOARD.account.security._2stepVerification.message.rel} element={<TextMessage />} />
-								<Route path={routes.DASHBOARD.account.security._2stepVerification.authenticator.rel} element={<AuthenticatorApp />} />
-							</Route>
+            <Route path={routes.DASHBOARD.account.statementReport.index.rel}>
+              <Route index element={<StatementReportIndex />} />
+              <Route path={routes.DASHBOARD.account.statementReport.statement.rel} element={<Statement />} />
+              <Route path={routes.DASHBOARD.account.statementReport.statementFees.rel} element={<StatementFees />} />
+              <Route path={routes.DASHBOARD.account.statementReport.ownership.rel} element={<AccountOwnership />} />
+            </Route>
 
-							<Route path={routes.DASHBOARD.account.security.socialLogin.rel} element={<SocialLogin />} />
-							<Route path={routes.DASHBOARD.account.security.find.rel} element={<FindMeBy />} />
-							<Route path={routes.DASHBOARD.account.security.logout.rel} element={<LogoutEverywhere />} />
-						</Route>
+            {/* security */}
+            <Route path={routes.DASHBOARD.account.security.index.rel}>
+              <Route index element={<Settings />} />
+              <Route path={routes.DASHBOARD.account.security.password.index.rel} element={<Password />} />
 
-						<Route path={routes.DASHBOARD.account.notification.index.rel}>
-							<Route index element={<NotificationIndex />} />
-							<Route path={routes.DASHBOARD.account.notification.alert.rel} element={<Notifications />} />
-							<Route path={routes.DASHBOARD.account.notification.exchange.rel} element={<MarketAlerts />} />
-						</Route>
+              <Route path={routes.DASHBOARD.account.security._2stepVerification.index.rel}>
+                <Route index element={<TwoFA />} />
+                <Route path={routes.DASHBOARD.account.security._2stepVerification.message.rel} element={<TextMessage />} />
+                <Route path={routes.DASHBOARD.account.security._2stepVerification.authenticator.rel} element={<AuthenticatorApp />} />
+              </Route>
 
-						<Route path={routes.DASHBOARD.account.personal.index.rel}>
-							<Route index element={<PersonalDetails />} />
-							<Route path={routes.DASHBOARD.account.personal.update.rel} element={<Update />} />
-						</Route>
+              <Route path={routes.DASHBOARD.account.security.socialLogin.rel} element={<SocialLogin />} />
+              <Route path={routes.DASHBOARD.account.security.find.rel} element={<FindMeBy />} />
+              <Route path={routes.DASHBOARD.account.security.logout.rel} element={<LogoutEverywhere />} />
+            </Route>
 
-						<Route path={routes.DASHBOARD.account.language.rel} element={<Language />} />
-						<Route path={routes.DASHBOARD.account.inbox.rel} element={<Inbox />} />
-						<Route path={routes.DASHBOARD.account.limit.rel} element={<Limit />} />
-					</Route>
+            <Route path={routes.DASHBOARD.account.notification.index.rel}>
+              <Route index element={<NotificationIndex />} />
+              <Route path={routes.DASHBOARD.account.notification.alert.rel} element={<Notifications />} />
+              <Route path={routes.DASHBOARD.account.notification.exchange.rel} element={<MarketAlerts />} />
+            </Route>
 
-					<Route path={routes.DASHBOARD.error.rel} element={<DashboardError />} />
-				</Route>
+            <Route path={routes.DASHBOARD.account.personal.index.rel}>
+              <Route index element={<PersonalDetails />} />
+              <Route path={routes.DASHBOARD.account.personal.update.rel} element={<Update />} />
+            </Route>
 
-				<Route path="/dashboard/fundwallets" element={<FundWalletIndex />} >
-					<Route path={routes.DASHBOARD.fundwallet.abs} index element={<FundWallet />} />
-				</Route>
+            <Route path={routes.DASHBOARD.account.language.rel} element={<Language />} />
+            <Route path={routes.DASHBOARD.account.inbox.rel} element={<Inbox />} />
+            <Route path={routes.DASHBOARD.account.limit.rel} element={<Limit />} />
+          </Route>
 
-				<Route path="/dashboard/send" element={<SendIndex />} >
-					<Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
-				</Route>
+          <Route path={routes.DASHBOARD.error.rel} element={<DashboardError />} />
+        </Route>
 
-				{/* 404 Not Found Route */}
-				{/* <Route path="*" element={<NotFound />} /> */}
-			</Routes>
-		</StateDataContext.Provider>
-	);
+        <Route path="/dashboard/fundwallets" element={<FundWalletIndex />} >
+          <Route path={routes.DASHBOARD.fundwallet.abs} index element={<FundWallet />} />
+        </Route>
+
+        <Route path="/dashboard/send" element={<SendIndex />} >
+          <Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
+        </Route>
+
+        {/* <Route path="/dashboard/help" element={<HelpIndex />} >
+          <Route path={routes.DASHBOARD.help.abs} index element={<Help />} />
+          <Route path={routes.DASHBOARD.help.t.abs} index element={<HelpTransaction />} />
+        </Route> */}
+
+        <Route path="/dashboard/help" element={<HelpIndex />}>
+          <Route index element={<Help />} />
+          <Route path="t" element={<HelpTransaction />} />
+          <Route path="c" element={<HelpContact />} />
+          <Route path="c/:helpId" element={<HelpDetails />} /> {/* ← ✅ Use relative path */}
+        </Route>
+
+        {/* 404 Not Found Route */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
+    </StateDataContext.Provider>
+  );
 };
 
 export default App;

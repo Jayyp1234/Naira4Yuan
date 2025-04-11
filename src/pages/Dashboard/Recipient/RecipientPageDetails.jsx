@@ -6,7 +6,7 @@ import { routes } from "@/data/routes";
 import { SwitchInput } from "../../../components/BaseComponents/FormInputs";
 
 export const RecipientPageDetails = () => {
-	const { recipientId } = useParams();
+  const { recipientId } = useParams();
 	return (
 		<>
 			<header className="flex flex-col gap-y-4">
