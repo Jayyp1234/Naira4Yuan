@@ -267,34 +267,160 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
   );
 };
 
+// export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) => {
+//   const { toggleModal } = modalData;
+//   const countries = [{ id: "ngn", label: "NGN-Balance", icon: NGN }];
+
+//   return (
+//     <Modal
+//       isOpen={open}
+//       onRequestClose={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)}
+//       modalHeader={{ hasHeader: true, modalTitle: "Select balance", style: "border-b", textStyle: "text-black" }}>
+//       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+//         <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
+//           {countries.map((country, index) => (
+//             <label
+//               key={country.id || index}
+//               htmlFor={country.id}
+//               className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2">
+//               <div className="flex items-center gap-2">
+//                 <RadioInput name="country" id={country.id} />
+//                 <span className="text-sm leading-tight flex">{country.label}</span>
+//               </div>
+//               <figure className="w-5 h-5">
+//                 <img src={country.icon} alt="" className="img-fluid" />
+//               </figure>
+//             </label>
+//           ))}
+//         </div>
+//         <div>
+//           <FooterButton text="Continue" onClick={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)} className="!text-[1.05rem]" />
+//         </div>
+//       </div>
+//     </Modal>
+//   );
+// };
+
+// export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) => {
+//   const { toggleModal } = modalData;
+
+//   const countries = [
+//     { id: "ngn", label: "NGN-Balance", icon: NGN }
+//     // You can add more balances like { id: "usd", label: "USD-Balance", icon: USD }
+//   ];
+
+//   const [selectedBalance, setSelectedBalance] = useState("ngn");
+
+//   const handleContinue = () => {
+//     toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false);
+//     if (action) action(selectedBalance);
+//   };
+
+//   return (
+//     <Modal
+//       isOpen={open}
+//       onRequestClose={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)}
+//       modalHeader={{
+//         hasHeader: true,
+//         modalTitle: "Select balance",
+//         style: "border-b",
+//         textStyle: "text-black",
+//       }}
+//     >
+//       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+//         <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
+//           {countries.map((country) => (
+//             <label
+//               key={country.id}
+//               htmlFor={country.id}
+//               className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
+//             >
+//               <div className="flex items-center gap-2">
+//                 <RadioInput
+//                   name="country"
+//                   id={country.id}
+//                   checked={selectedBalance === country.id}
+//                   onChange={() => setSelectedBalance(country.id)}
+//                 />
+//                 <span className="text-sm leading-tight flex">{country.label}</span>
+//               </div>
+//               <figure className="w-5 h-5">
+//                 <img src={country.icon} alt={`${country.label} icon`} className="img-fluid" />
+//               </figure>
+//             </label>
+//           ))}
+//         </div>
+//         <div>
+//           <FooterButton
+//             text="Continue"
+//             onClick={handleContinue}
+//             className="!text-[1.05rem]"
+//           />
+//         </div>
+//       </div>
+//     </Modal>
+//   );
+// };
+
+
 export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
-  const countries = [{ id: "ngn", label: "NGN-Balance", icon: NGN }];
+
+  const countries = [
+    { id: "ngn", label: "NGN-Balance", icon: NGN },
+    // Add more currencies here as needed
+  ];
+
+  const [selectedBalance, setSelectedBalance] = useState("ngn");
+
+  const handleContinue = () => {
+    toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false);
+    if (action) {
+      action(selectedBalance); // Make sure action is passed and correctly called
+    }
+  };
 
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Select balance", style: "border-b", textStyle: "text-black" }}>
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Select balance",
+        style: "border-b",
+        textStyle: "text-black",
+      }}
+    >
       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
-          {countries.map((country, index) => (
+          {countries.map((country) => (
             <label
-              key={country.id || index}
+              key={country.id}
               htmlFor={country.id}
-              className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2">
+              className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
+            >
               <div className="flex items-center gap-2">
-                <RadioInput name="country" id={country.id} />
+                <RadioInput
+                  name="country"
+                  id={country.id}
+                  checked={selectedBalance === country.id}
+                  onChange={() => setSelectedBalance(country.id)} // This is where the state is updated
+                />
                 <span className="text-sm leading-tight flex">{country.label}</span>
               </div>
               <figure className="w-5 h-5">
-                <img src={country.icon} alt="" className="img-fluid" />
+                <img src={country.icon} alt={`${country.label} icon`} className="img-fluid" />
               </figure>
             </label>
           ))}
         </div>
         <div>
-          <FooterButton text="Continue" onClick={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)} className="!text-[1.05rem]" />
+          <FooterButton
+            text="Continue"
+            onClick={handleContinue}
+            className="!text-[1.05rem]"
+            disabled={!selectedBalance} // Disable the button if no balance is selected
+          />
         </div>
       </div>
     </Modal>
@@ -1059,3 +1185,107 @@ export const WalletOptionModal = ({ open, modalData, action }) => {
     </>
   );
 };
+
+export const FileFormatModal = ({ open, modalData, selectedValue, setSelectedValue }) => {
+  const { toggleModal } = modalData;
+
+  const preferences = [
+    { id: "pdf", label: "PDF" },
+    { id: "xlsx", label: "XLSX (Excel)" },
+    { id: "csv", label: "CSV" },
+    { id: "word", label: "Word" },
+  ];
+
+  const handleContinue = () => {
+    toggleModal("PDF", false);
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("PDF", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Select format", style: "border-b", textStyle: "" }}
+    >
+      <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+        <div className="flex flex-col gap-y-3 min-h-60">
+          {preferences.map((pref) => (
+            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 cursor-pointer border-b">
+              <div className="flex items-center gap-2">
+                <RadioInput
+                  name="file-format-options"
+                  id={pref.id}
+                  checked={selectedValue === pref.id}
+                  onChange={() => setSelectedValue(pref.id)}
+                />
+                <span className="text-sm">{pref.label}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+        <div className="mt-2">
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] animate-active"
+            onClick={handleContinue}
+            disabled={!selectedValue}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const LanguageModal = ({ open, modalData, selectedValue, setSelectedValue }) => {
+  const { toggleModal } = modalData;
+
+  const preferences = [
+    { id: "english", label: "English" },
+    { id: "french", label: "French" },
+    { id: "spanish", label: "Spanish" },
+    { id: "danish", label: "Danish" },
+    { id: "dutch", label: "Dutch" },
+    { id: "italian", label: "Italian" },
+  ];
+
+  const handleContinue = () => {
+    toggleModal(false);
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal(false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Select Language", style: "border-b", textStyle: "" }}
+    >
+      <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+        <div className="flex flex-col gap-y-3 min-h-60">
+          {preferences.map((pref) => (
+            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 cursor-pointer border-b">
+              <div className="flex items-center gap-2">
+                <RadioInput
+                  name="language-options"
+                  id={pref.id}
+                  checked={selectedValue === pref.id}
+                  onChange={() => setSelectedValue(pref.id)}
+                />
+                <span className="text-sm">{pref.label}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+        <div className="mt-2">
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] animate-active"
+            onClick={handleContinue}
+            disabled={!selectedValue}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+
+
+

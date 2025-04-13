@@ -14,15 +14,15 @@ export const HelpContact = () => {
     <div className="">
       <div className="items-center space-x-1 text-sm text-gray-800 hidden sm:flex">
         <Link
-          to={routes.DASHBOARD.help.abs}
+          to={routes.DASHBOARD.help.index.abs}
           className="underline font-medium"
         >
           Help
         </Link>
         <ChevronRightIcon className="w-3 h-3" />
-        <Link className="underline font-medium">Contact</Link>
+        <Link to={routes.DASHBOARD.help.contact.abs} className="underline font-medium">Contact</Link>
         <ChevronRightIcon className="w-3 h-3" />
-        <Link className="underline font-medium">Transactions</Link>
+        <Link to={routes.DASHBOARD.help.transactions.abs} className="underline font-medium">Transactions</Link>
         <ChevronRightIcon className="w-3 h-3" />
         <Link className="font-normal">Transaction</Link>
       </div>

@@ -1,19 +1,27 @@
 import { useState } from "react";
-import { AccountOwnershipSelectBalanceModal, DatePickerModal } from "@/components/LayoutComponents/AllModals";
+import {
+  AccountOwnershipSelectBalanceModal,
+  DatePickerModal,
+  FileFormatModal,
+  LanguageModal,
+} from "@/components/LayoutComponents/AllModals";
 import { SwitchInput } from "../../../../components/BaseComponents/FormInputs";
 import { ChevronDownIcon, IconWrapper } from "../../../../data/Icons";
 
 export const Statement = () => {
-  const [activeDateType, setActiveDateType] = useState(null); // 'from' or 'to'
-  const [selectedDates, setSelectedDates] = useState({
-    from: null,
-    to: null,
-  });
+  const [activeDateType, setActiveDateType] = useState(null);
+  const [selectedDates, setSelectedDates] = useState({ from: null, to: null });
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
+  const [isFileFormatModalOpen, setIsFileFormatModalOpen] = useState(false);
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
 
-  const toggleModal = (type, open) => {
+  const [selectedFormat, setSelectedFormat] = useState("pdf");
+  const [selectedLanguage, setSelectedLanguage] = useState("english");
+  const [selectedBalance, setSelectedBalance] = useState(null); // Track balance selection
+
+  const toggleMainModal = (type, open) => {
     if (type === "DATE_PICKER") {
       setIsDatePickerOpen(open);
       if (!open) setActiveDateType(null);
@@ -23,10 +31,14 @@ export const Statement = () => {
   };
 
   const handleDateSelect = (type, date) => {
-    setSelectedDates(prev => ({ ...prev, [type]: date }));
+    setSelectedDates((prev) => ({ ...prev, [type]: date }));
   };
 
-  const modalData = { toggleModal };
+  const toggleFormatModal = (_, value) => setIsFileFormatModalOpen(value);
+  const toggleLanguageModal = (open) => setIsLanguageModalOpen(open);
+
+  // Check if all required fields are selected
+  const isDownloadEnabled = selectedDates.from && selectedDates.to && selectedBalance;
 
   return (
     <div className="mb-10">
@@ -48,7 +60,7 @@ export const Statement = () => {
             <h4 className="text-slate-600">Dates</h4>
 
             <div className="flex items-center gap-x-3 mt-1">
-              {["Last month", "Last quarter", "Last year"].map(label => (
+              {["Last month", "Last quarter", "Last year"].map((label) => (
                 <button
                   key={label}
                   type="button"
@@ -67,11 +79,11 @@ export const Statement = () => {
                   type="button"
                   onClick={() => {
                     setActiveDateType("from");
-                    toggleModal("DATE_PICKER", true);
+                    toggleMainModal("DATE_PICKER", true);
                   }}
                   className="flex items-center justify-between px-3.5 py-3 w-full"
                 >
-                  <span className="text-[.95rem] text-slate text-[#94A3B8]">
+                  <span className="text-[.95rem] text-[#94A3B8]">
                     {selectedDates.from ? selectedDates.from.toDateString() : "Choose a start date"}
                   </span>
                   <IconWrapper>
@@ -87,11 +99,11 @@ export const Statement = () => {
                   type="button"
                   onClick={() => {
                     setActiveDateType("to");
-                    toggleModal("DATE_PICKER", true);
+                    toggleMainModal("DATE_PICKER", true);
                   }}
                   className="flex items-center justify-between px-3.5 py-3 w-full"
                 >
-                  <span className="text-[.95rem] text-slate text-[#94A3B8]">
+                  <span className="text-[.95rem] text-[#94A3B8]">
                     {selectedDates.to ? selectedDates.to.toDateString() : "Choose an end date"}
                   </span>
                   <IconWrapper>
@@ -106,7 +118,7 @@ export const Statement = () => {
                 <button
                   type="button"
                   className="flex items-center justify-between bg-[#F8F9FD] px-3.5 py-3 w-full rounded-lg"
-                  onClick={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", true)}
+                  onClick={() => toggleMainModal("DASHBOARD_ACCOUNT_OWNERSHIP", true)}
                 >
                   <span className="uppercase">NGN</span>
                   <IconWrapper>
@@ -118,8 +130,12 @@ export const Statement = () => {
               {/* FILE FORMAT */}
               <div className="flex flex-col gap-y-0.5">
                 <span>File format</span>
-                <button type="button" className="flex items-center justify-between bg-[#F8F9FD] px-3.5 py-3 w-full rounded-lg">
-                  <span className="uppercase">PDF</span>
+                <button
+                  onClick={() => toggleFormatModal("PDF", true)}
+                  type="button"
+                  className="flex items-center justify-between bg-[#F8F9FD] px-3.5 py-3 w-full rounded-lg"
+                >
+                  <span className="uppercase">{selectedFormat}</span>
                   <IconWrapper>
                     <ChevronDownIcon />
                   </IconWrapper>
@@ -135,8 +151,12 @@ export const Statement = () => {
               {/* LANGUAGE SELECT */}
               <div className="flex flex-col gap-y-0.5">
                 <span>Statement Language</span>
-                <button type="button" className="flex items-center justify-between bg-[#F8F9FD] px-3.5 py-3 w-full rounded-lg">
-                  <span>English</span>
+                <button
+                  type="button"
+                  className="flex items-center justify-between bg-[#F8F9FD] px-3.5 py-3 w-full rounded-lg"
+                  onClick={() => toggleLanguageModal(true)}
+                >
+                  <span className="capitalize">{selectedLanguage}</span>
                   <IconWrapper>
                     <ChevronDownIcon />
                   </IconWrapper>
@@ -149,8 +169,8 @@ export const Statement = () => {
           <div className="mt-8 text-center flex flex-col items-center gap-y-4">
             <button
               type="button"
-              disabled
-              className="px-8 rounded-lg disabled:cursor-not-allowed disabled:opacity-60 enabled:active:scale-95 transition-all ease-in-out enabled:bg-main enabled:text-white enabled:border-main disabled:border-slate-200 py-4 w-full disabled:bg-gray-300 flex items-center justify-center"
+              disabled={!isDownloadEnabled}
+              className="px-8 rounded-lg disabled:cursor-not-allowed disabled:opacity-60 enabled:active:scale-95 transition-all ease-in-out enabled:bg-[#F1C34E] enabled:text-[#122231] enabled:border-[#F1C34E] disabled:border-slate-200 py-4 w-full disabled:bg-gray-300 flex items-center justify-center"
             >
               Download
             </button>
@@ -167,14 +187,33 @@ export const Statement = () => {
         dateType={activeDateType}
         currentValue={selectedDates[activeDateType]}
         onDateSelect={handleDateSelect}
-        modalData={{ toggleModal }}
+        modalData={{ toggleModal: toggleMainModal }}
       />
 
       {/* BALANCE MODAL */}
       <AccountOwnershipSelectBalanceModal
         open={isBalanceModalOpen}
-        modalData={{ toggleModal }}
-        action={() => { }}
+        modalData={{ toggleModal: toggleMainModal }}
+        action={(value) => {
+          setSelectedBalance(value); // Set selected balance
+          toggleMainModal("DASHBOARD_ACCOUNT_OWNERSHIP", false);
+        }}
+      />
+
+      {/* FILE FORMAT MODAL */}
+      <FileFormatModal
+        open={isFileFormatModalOpen}
+        modalData={{ toggleModal: toggleFormatModal }}
+        selectedValue={selectedFormat}
+        setSelectedValue={setSelectedFormat}
+      />
+
+      {/* LANGUAGE MODAL */}
+      <LanguageModal
+        open={isLanguageModalOpen}
+        modalData={{ toggleModal: toggleLanguageModal }}
+        selectedValue={selectedLanguage}
+        setSelectedValue={setSelectedLanguage}
       />
     </div>
   );

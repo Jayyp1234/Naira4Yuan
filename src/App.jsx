@@ -171,17 +171,13 @@ const App = () => {
           <Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
         </Route>
 
-        {/* <Route path="/dashboard/help" element={<HelpIndex />} >
-          <Route path={routes.DASHBOARD.help.abs} index element={<Help />} />
-          <Route path={routes.DASHBOARD.help.t.abs} index element={<HelpTransaction />} />
-        </Route> */}
-
-        <Route path="/dashboard/help" element={<HelpIndex />}>
+        <Route path={routes.DASHBOARD.help.index.abs} element={<HelpIndex />}>
           <Route index element={<Help />} />
-          <Route path="t" element={<HelpTransaction />} />
-          <Route path="c" element={<HelpContact />} />
-          <Route path="c/:helpId" element={<HelpDetails />} /> {/* ← ✅ Use relative path */}
+          <Route path={routes.DASHBOARD.help.transactions.rel} element={<HelpTransaction />} />
+          <Route path={routes.DASHBOARD.help.contact.rel} element={<HelpContact />} />
+          <Route path={`${routes.DASHBOARD.help.contact.rel}/:helpId`} element={<HelpDetails />} />
         </Route>
+
 
         {/* 404 Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
