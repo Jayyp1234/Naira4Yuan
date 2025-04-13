@@ -19,6 +19,10 @@ import ScanCodeImage from "@/assets/media/images/UlDv6rkurQ6rmDvo1yXw7LFMzs.png"
 import display1 from "@/assets/media/images/a99493b73854cc309f4bede7449a7a55.jpg";
 import display2 from "@/assets/media/images/a114bdd80b5d6da5a380011ec953d4d3.jpg";
 import appstore from "@/assets/media/images/app-store.png";
+import Step1 from "@/assets/media/images/1 1202201564.png";
+import Step2 from "@/assets/media/images/2 10.png";
+import Step3 from "@/assets/media/images/3 52.png";
+import Step4 from "@/assets/media/images/22 1.png";
 
 // logos
 import LogoFullDarkVariant from "@/assets/media/logos/Naira4yuan-logo-dark-variant.png";
@@ -117,4 +121,8 @@ export {
   Alipay,
   BankTransfer,
   WeChat,
+  Step1,
+  Step2,
+  Step3,
+  Step4,
 };

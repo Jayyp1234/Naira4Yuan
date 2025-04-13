@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Modal } from "../BaseComponents/Modal";
 import { FormControl, RadioInput } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import { CHN, FRA, NGN } from "@/data";
+import { CHN, FRA, NGN, Step1, Step2, Step3, Step4 } from "@/data";
 import { FooterButton } from "../BaseComponents/FooterButton";
 import { CopyIcon2, IconWrapper, WarningIcon, tickCircle } from "../../data/Icons";
 import { BorderWrapper } from "../PageComponents/Dashboard/Items";
@@ -1426,6 +1426,101 @@ export const LanguageModal = ({ open, modalData, selectedValue, setSelectedValue
   );
 };
 
+export const HowToGetAlipayQrModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 4;
 
+  // Reset step when modal is closed/reopened
+  useEffect(() => {
+    if (open) {
+      setCurrentStep(1);
+    }
+  }, [open]);
 
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      // On the last step, complete the process
+      toggleModal("HOW_TO_GETALIPAYQR", false);
+      action && action();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const stepContent = {
+    1: {
+      image: Step1, // Make sure this path exists
+      text: "Open the Alipay app and tap the \"Pay\" icon located on the home screen."
+    },
+    2: {
+      image: Step4,
+      text: "Click on “Receive” on the Pay vendor page.  Receive is just under the Select payment method column."
+    },
+    3: {
+      image: Step2,
+      text: "A QR code with an orange background will appear on your screen for receiving funds."
+    },
+    4: {
+      image: Step3,
+      text: "Save or share the image to your gallery — it will display with a blue background. Once uploaded, Naira4Yuan will use this code to process a CNY deposit into the linked Alipay account."
+    }
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("HOW_TO_GETALIPAYQR", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "How to get your Alipay QR Code", style: "border-b", textStyle: "" }}>
+      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full mx-auto">
+        <figure className="bg-[#F5F5DC] rounded-xl pt-4 pb-0 w-full flex justify-center">
+          <img
+            src={stepContent[currentStep].image}
+            alt={`Step ${currentStep} of ${totalSteps}`}
+            className="w-auto mx-auto "
+          />
+        </figure>
+
+        <div className="flex flex-col items-center justify-center mt-4">
+          <div className="w-full">
+            <div className="mb-4">
+              <p className="font-bold text-lg">Step {currentStep} of {totalSteps}</p>
+              <div className="flex gap-1 my-2">
+                {[...Array(totalSteps)].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 rounded-full ${index + 1 === currentStep ? 'bg-green-600 w-8' : 'bg-gray-200 w-2'}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <p className="text-gray-700">{stepContent[currentStep].text}</p>
+          </div>
+        </div>
+
+        <div className="flex items-center space-x-3 mt-1">
+          <button
+            onClick={handlePrevious}
+            className={`px-8 py-3 bg-[#f9f9e6] text-black rounded-md ${currentStep === 1 ? 'opacity-50' : ''}`}
+            disabled={currentStep === 1}
+          >
+            Previous
+          </button>
+          <button
+            onClick={handleNext}
+            className="px-8 py-3 bg-[#f2cc4d] text-black rounded-md"
+          >
+            {currentStep === totalSteps ? "Finish" : "Next"}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
 

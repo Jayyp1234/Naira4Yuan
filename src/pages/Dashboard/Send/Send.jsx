@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Items";
 import { ChevronDownIcon, GalleryImageIcon, IconWrapper, WalletVariantIcon } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { StateDataContext } from "../../../App";
 import { useModalTrigger } from "../../../hooks/useModalTrigger";
 import { Xchange } from "../../../components/LayoutComponents/Xchange";
-import { BankTransferModal } from "../../../components/LayoutComponents/AllModals";
+import { BankTransferModal, HowToGetAlipayQrModal } from "../../../components/LayoutComponents/AllModals";
 import { CompletedIcon, Alipay, BankTransfer, WeChat } from "@/data";
 import { DownloadIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
@@ -48,6 +48,23 @@ export const SendStep1 = () => {
   const toggleAccordion = (value) => {
     setOpenItem(openItem === value ? null : value);
   };
+
+  const [modalState, setModalState] = useState({
+    HOW_TO_GETALIPAYQR: false
+  });
+
+  const toggleModal = (modalName, isOpen) => {
+    setModalState(prev => ({
+      ...prev,
+      [modalName]: isOpen !== undefined ? isOpen : !prev[modalName]
+    }));
+  };
+
+  const handleModalComplete = () => {
+    // Any additional actions after modal is completed
+    console.log("Modal steps completed");
+  };
+
 
   return (
     <div className="flex flex-col gap-y-5 mb-10 px-4 md:px-6 lg:px-8">
@@ -162,9 +179,12 @@ export const SendStep1 = () => {
               </div>
 
               {/* Save as Beneficiary */}
-              <div className="flex items-center gap-2 mb-5">
-                <input type="checkbox" id="saveBeneficiary" className="w-4 h-4" />
-                <label htmlFor="saveBeneficiary" className="text-sm text-gray-700">Save as beneficiary</label>
+              <div className="flex justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="saveBeneficiary" className="w-4 h-4" />
+                  <label htmlFor="saveBeneficiary" className="text-sm text-gray-700">Save as beneficiary</label>
+                </div>
+                <button onClick={() => toggleModal("HOW_TO_GETALIPAYQR", true)} href="#" className=" text-sm font-regular underline">How to get QR Code</button>
               </div>
 
               {/* Add a Nickname */}
@@ -187,6 +207,12 @@ export const SendStep1 = () => {
           }));
         }} className="!text-[1.05rem]" />
       </div>
+
+      <HowToGetAlipayQrModal
+        open={modalState.HOW_TO_GETALIPAYQR}
+        modalData={{ toggleModal }}
+        action={handleModalComplete}
+      />
     </div>
   );
 };
