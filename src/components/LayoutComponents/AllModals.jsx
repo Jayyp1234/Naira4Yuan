@@ -70,6 +70,69 @@ export const SelectIdTypeModal = ({ open, modalData, action }) => {
   );
 };
 
+export const SetPasswordModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [pin, setPin] = useState("");
+  const [confirmPin, setConfirmPin] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = () => {
+    if (pin.length !== 4 || confirmPin.length !== 4) {
+      setError("PIN must be exactly 4 digits.");
+    } else if (pin !== confirmPin) {
+      setError("PINs do not match.");
+    } else {
+      setError("");
+      action(pin);
+      toggleModal("SET_PASSWORD", false);
+    }
+  };
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("SET_PASSWORD", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Enter a pin", style: "border-b", textStyle: "text-main" }}
+    >
+      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+          <section>
+            <span>
+              Enter your preferred 4-digit pin for your Naira4Yuan account.
+            </span>
+            <div className="flex flex-col gap-y-2 mt-6">
+              <FormControl
+                type="password"
+                inputMode="numeric"
+                label={{ exist: true, text: "Pin *" }}
+                placeholder="Enter your pin"
+                value={pin}
+                onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              />
+              <FormControl
+                type="password"
+                inputMode="numeric"
+                label={{ exist: true, text: "Repeat Pin *" }}
+                placeholder="Enter your pin again"
+                value={confirmPin}
+                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+              />
+            </div>
+            {error && <span className="text-xs text-[#FF0000]">{error}</span>}
+          </section>
+        </div>
+        <div>
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem]"
+            onClick={handleSubmit}
+            disabled={pin.length < 4 || confirmPin.length < 4}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
 export const ManualBVNVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   return (
@@ -133,7 +196,7 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
                 <label htmlFor="code" className="text-[.94rem]">
                   Enter code
                 </label>
-                <InputOTP maxLength={4} className="flex flex-col">
+                <InputOTP maxLength={4} className="flex flex-col" id="email-verification-otp">
                   <InputOTPGroup className="flex gap-x-4">
                     <InputOTPSlot index={0} className={inputModalStyle} />
                     <InputOTPSlot index={1} className={inputModalStyle} />
@@ -146,7 +209,7 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
           </section>
           <div className="mt-6">
             <span className="text-[.95rem]">
-              Didn't receive a code?
+              Didn{`'`}t receive a code?
               <button type="button" className="ms-2 font-semibold underline text-main">
                 Click to resend in 0:58
               </button>
@@ -155,6 +218,84 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
         </div>
         <div>
           <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const NumberVerificationModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [otp, setOtp] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = () => {
+    if (otp.length !== 4) {
+      setError("Please enter the 4-digit code.");
+    } else {
+      setError("");
+      action(otp); // Send OTP to parent handler
+      toggleModal("AUTH_NUMBER_VERIFICATION", false); // Close modal
+    }
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("AUTH_NUMBER_VERIFICATION", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Verify phone number",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+          <section>
+            <span>
+              We sent a code to <b>2348068745750</b> on text and WhatsApp
+            </span>
+            <div className="flex flex-col gap-y-2 mt-6">
+              <div>
+                <label htmlFor="code" className="text-[.94rem]">
+                  Enter code
+                </label>
+                <InputOTP
+                  maxLength={4}
+                  className="flex flex-col"
+                  id="phone-verification-otp"
+                  value={otp}
+                  onChange={(val) => setOtp(val)}
+                >
+                  <InputOTPGroup className="flex gap-x-4">
+                    <InputOTPSlot index={0} className={inputModalStyle} />
+                    <InputOTPSlot index={1} className={inputModalStyle} />
+                    <InputOTPSlot index={2} className={inputModalStyle} />
+                    <InputOTPSlot index={3} className={inputModalStyle} />
+                  </InputOTPGroup>
+                </InputOTP>
+                {error && <span className="text-xs text-[#FF0000]">{error}</span>}
+              </div>
+            </div>
+          </section>
+
+          <div className="mt-6">
+            <span className="text-[.95rem]">
+              Didn{`'`}t receive a code?
+              <button type="button" className="ms-2 font-semibold underline text-main">
+                Click to resend in 0:58
+              </button>
+            </span>
+          </div>
+        </div>
+        <div>
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={handleSubmit}
+            disabled={otp.length !== 4}
+          />
         </div>
       </div>
     </Modal>
@@ -368,7 +509,6 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
 
   const countries = [
     { id: "ngn", label: "NGN-Balance", icon: NGN },
-    // Add more currencies here as needed
   ];
 
   const [selectedBalance, setSelectedBalance] = useState("ngn");
@@ -376,7 +516,7 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
   const handleContinue = () => {
     toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false);
     if (action) {
-      action(selectedBalance); // Make sure action is passed and correctly called
+      action(selectedBalance);
     }
   };
 
