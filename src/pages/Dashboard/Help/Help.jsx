@@ -1,15 +1,14 @@
 
 import { useState } from "react";
-import { ArrowUp, ArrowDown, ArrowRight, User, BarChart3 } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowRight, User, BarChart3, Play, PlayCircle, Book, Calendar, Captions, Tv, GraduationCap } from 'lucide-react';
 import { Link, useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import { StateDataContext } from "../../../App";
 import { routes } from "@/data/routes";
-import { ChevronLeftIcon } from "@/data/Icons";
+import { WhatsApp } from "@mui/icons-material";
 
 export const Help = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
 
   const transactions = [
     {
@@ -98,28 +97,40 @@ export const Help = () => {
   const topics = [
     {
       id: 1,
-      title: "Sending money",
-      description: "Setting up, paying for, editing and canceling transfers.",
-      icon: <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6" />
+      title: "How To Videos",
+      description: "Step-by-step video guides on how to use all Naira4Yuan features.",
+      icon: <PlayCircle className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 2,
-      title: "Managing your account",
-      description: "Setting up, paying for, editing and canceling transfers.",
-      icon: <User className="w-5 h-5 sm:w-6 sm:h-6" />
+      title: "Naira4yuan Articles",
+      description: "Curated articles just for you — guides & insights from Naira4Yuan.",
+      icon: <Book className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 3,
-      title: "Receiving money",
-      description: "Setting up, paying for, editing and canceling transfers.",
-      icon: <ArrowDown className="w-5 h-5 sm:w-6 sm:h-6" />
+      title: "Naira4yuan Blog",
+      description: "Regular insights into our users' stories and experiences with Yuan.",
+      icon: <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 4,
-      title: "Naira4yuan Business",
-      description: "Setting up, paying for, editing and canceling transfers.",
-      icon: <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6" />
-    }
+      title: "The Yuan Podcasts (TYP)",
+      description: "The Yuan Podcast showcases top industry leaders for insightful discussions.",
+      icon: <Captions className="w-5 h-5 sm:w-6 sm:h-6" />
+    },
+    {
+      id: 5,
+      title: "Naira4yuan Webinars",
+      description: "Naira4yuan webinars just for you — guides & insights from Naira4Yuan.",
+      icon: <Tv className="w-5 h-5 sm:w-6 sm:h-6" />
+    },
+    {
+      id: 6,
+      title: "Naira4yuan Community",
+      description: "Join the Naira4yuan community with lots of perks and benefits.",
+      icon: <WhatsApp className="w-5 h-5 sm:w-6 sm:h-6" />
+    },
   ];
 
   const displayedTransactions = transactions.slice(0, 3);
@@ -171,8 +182,10 @@ export const Help = () => {
         </div>
 
         <div className="mt-8 mb-10">
-          <h3 className="text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8">Explore all topics</h3>
-
+          <div className="flex items-center gap-2 mb-6 sm:mb-8">
+            <h3 className="text-sm sm:text-base md:text-lg font-medium ">Explore our knowledgebase </h3>
+            <GraduationCap />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {topics.map((topic) => (
               <div key={topic.id} className="bg-[#F8F9FD] rounded-lg p-5 sm:p-7 md:p-10 flex flex-col items-center text-center">
