@@ -1,5 +1,5 @@
 
-import { ArrowDownIcon, IconWrapper, ChevronRightIcon } from "@/data/Icons";
+import { ArrowDownIcon, IconWrapper, ChevronRightIcon, ChevronLeftIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { Link, useNavigate } from "react-router";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronRightIcon } from "@/data/Icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { Link, useNavigate, useParams } from "react-router";
 

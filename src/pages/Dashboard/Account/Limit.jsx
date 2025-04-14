@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Bell } from "lucide-react";
 import { SwitchBusinessAccountModal } from "@/components/LayoutComponents/AllModals";
 import { useNavigate } from "react-router";
+import { ChevronLeftIcon } from "@/data/Icons";
 
 export const Limit = () => {
   const navigate = useNavigate();
@@ -16,6 +17,15 @@ export const Limit = () => {
 
   return (
     <div className="mb-14 max-w-3xl">
+      <nav className="flex items-center flex-1 mb-3">
+        <button
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeftIcon className="w-4 h-4" />
+          <span>Back</span>
+        </button>
+      </nav>
       <header>
         <h2 className="text-2xl font-bold">Limits</h2>
       </header>

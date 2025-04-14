@@ -1,10 +1,12 @@
 import { StateDataContext } from "@/App";
-import { ChevronDownIcon, IconWrapper } from "@/data/Icons";
+import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { AccountOwnershipSelectBalanceModal } from "@/components/LayoutComponents/AllModals";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export const AccountOwnership = () => {
+  const navigate = useNavigate();
   const { stateData, setStateData } = React.useContext(StateDataContext);
 
   const {
@@ -32,6 +34,15 @@ export const AccountOwnership = () => {
   return (
     <>
       <div className="max-w-2xl">
+        <nav className="flex items-center flex-1 mb-3">
+          <button
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeftIcon className="w-4 h-4" />
+            <span>Back</span>
+          </button>
+        </nav>
         <header className="flex flex-col items-start gap-y-8">
           <h2 className="text-2xl font-bold">Proof of account ownership</h2>
           <span>

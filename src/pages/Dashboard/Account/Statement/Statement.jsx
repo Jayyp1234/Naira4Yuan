@@ -6,9 +6,12 @@ import {
   LanguageModal,
 } from "@/components/LayoutComponents/AllModals";
 import { SwitchInput } from "../../../../components/BaseComponents/FormInputs";
-import { ChevronDownIcon, IconWrapper } from "../../../../data/Icons";
+import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "../../../../data/Icons";
+import { useNavigate } from "react-router";
 
 export const Statement = () => {
+  const navigate = useNavigate();
+
   const [activeDateType, setActiveDateType] = useState(null);
   const [selectedDates, setSelectedDates] = useState({ from: null, to: null });
 
@@ -42,6 +45,15 @@ export const Statement = () => {
 
   return (
     <div className="mb-10">
+      <nav className="flex items-center flex-1 mb-3">
+        <button
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeftIcon className="w-4 h-4" />
+          <span>Back</span>
+        </button>
+      </nav>
       <header>
         <h2 className="text-2xl font-bold">Statement</h2>
       </header>

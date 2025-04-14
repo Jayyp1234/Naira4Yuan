@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { DatePickerModal } from "@/components/LayoutComponents/AllModals";
-import { ChevronDownIcon, IconWrapper } from "../../../../data/Icons";
+import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "../../../../data/Icons";
+import { useNavigate } from "react-router";
 
 export const StatementFees = () => {
+  const navigate = useNavigate();
   const [activeDateType, setActiveDateType] = useState(null);
   const [selectedDates, setSelectedDates] = useState({ from: null, to: null });
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -23,6 +25,15 @@ export const StatementFees = () => {
 
   return (
     <div>
+      <nav className="flex items-center flex-1 mb-3">
+        <button
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          onClick={() => navigate(-1)}
+        >
+          <ChevronLeftIcon className="w-4 h-4" />
+          <span>Back</span>
+        </button>
+      </nav>
       <header>
         <h2 className="text-2xl font-bold">Statement of fees</h2>
       </header>

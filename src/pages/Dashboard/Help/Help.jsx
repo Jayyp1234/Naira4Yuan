@@ -5,10 +5,11 @@ import { Link, useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import { StateDataContext } from "../../../App";
 import { routes } from "@/data/routes";
+import { ChevronLeftIcon } from "@/data/Icons";
 
 export const Help = () => {
   const { pathname } = useLocation();
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   const transactions = [
     {
@@ -125,70 +126,72 @@ export const Help = () => {
 
 
   return (
-    <div className="xs:w-11/12 xl:w-5/6 mx-auto">
-      <div className="">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg sm:text-xl md:text-2xl text-center text-black w-full font-medium">Hello, how can we help?</h2>
-        </div>
+    <>
+      <div className="xs:w-11/12 xl:w-5/6 mx-auto">
+        <div className="">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl text-center text-black w-full font-medium">Hello, how can we help?</h2>
+          </div>
 
-        <div className="mb-2 mt-8 sm:mt-12">
-          <div className="flex justify-between items-center">
-            <h3 className="text-sm sm:text-base md:text-lg font-medium">Do you need help with a recent transaction?</h3>
-            {transactions.length > 3 && (
-              <Link
-                to={routes.DASHBOARD.help.transactions.abs}
-                className="text-xs sm:text-sm md:text-base text-black hover:underline"
-              >
-                See all
-              </Link>
-            )}
+          <div className="mb-2 mt-8 sm:mt-12">
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm sm:text-base md:text-lg font-medium">Do you need help with a recent transaction?</h3>
+              {transactions.length > 3 && (
+                <Link
+                  to={routes.DASHBOARD.help.transactions.abs}
+                  className="text-xs sm:text-sm md:text-base text-black hover:underline"
+                >
+                  See all
+                </Link>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-2 sm:space-y-4">
+            {displayedTransactions.map((transaction) => (
+              <div key={transaction.id} className="flex justify-between items-center py-2 sm:py-3 border-b border-gray-100">
+                <div className="flex items-center">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
+                    {transaction.icon}
+                  </div>
+                  <div>
+                    <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
+                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
+                    {transaction.amount}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="space-y-2 sm:space-y-4">
-          {displayedTransactions.map((transaction) => (
-            <div key={transaction.id} className="flex justify-between items-center py-2 sm:py-3 border-b border-gray-100">
-              <div className="flex items-center">
-                <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
-                  {transaction.icon}
+        <div className="mt-8 mb-10">
+          <h3 className="text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8">Explore all topics</h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {topics.map((topic) => (
+              <div key={topic.id} className="bg-[#F8F9FD] rounded-lg p-5 sm:p-7 md:p-10 flex flex-col items-center text-center">
+                <div className="bg-white p-4 rounded-full flex items-center justify-center shadow-sm mb-4 sm:mb-5">
+                  {topic.icon}
                 </div>
-                <div>
-                  <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
-                  <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
-                </div>
+                <h3 className="text-base sm:text-lg font-normal mb-3 sm:mb-4">{topic.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-600 max-w-xs px-2">
+                  {topic.description}
+                </p>
               </div>
-              <div className="text-right">
-                <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
-                  {transaction.amount}
-                </h5>
-                <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div className="text-center mt-8 sm:mt-12">
+            <Link to={routes.DASHBOARD.help.contact.abs} className="text-black underline text-sm sm:text-base">Contact us</Link>
+          </div>
         </div>
       </div>
-
-      <div className="mt-8 mb-10">
-        <h3 className="text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8">Explore all topics</h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {topics.map((topic) => (
-            <div key={topic.id} className="bg-[#F8F9FD] rounded-lg p-5 sm:p-7 md:p-10 flex flex-col items-center text-center">
-              <div className="bg-white p-4 rounded-full flex items-center justify-center shadow-sm mb-4 sm:mb-5">
-                {topic.icon}
-              </div>
-              <h3 className="text-base sm:text-lg font-normal mb-3 sm:mb-4">{topic.title}</h3>
-              <p className="text-xs sm:text-sm text-gray-600 max-w-xs px-2">
-                {topic.description}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-8 sm:mt-12">
-          <Link to={routes.DASHBOARD.help.contact.abs} className="text-black underline text-sm sm:text-base">Contact us</Link>
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
