@@ -25,7 +25,7 @@ import Step3 from "@/assets/media/images/3 52.png";
 import Step4 from "@/assets/media/images/22 1.png";
 
 // logos
-import LogoFullDarkVariant from "@/assets/media/logos/Naira4yuan-logo-dark-variant.png";
+import LogoFullDarkVariant from "@/assets/media/logos/n 1.png";
 import LogoFullWhiteVariant from "@/assets/media/logos/Naira4yuan-logo-white-variant.png";
 import Alipay from "@/assets/media/logos/alipay.png";
 import BankTransfer from "@/assets/media/logos/banktranfer.png";

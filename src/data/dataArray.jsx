@@ -337,7 +337,7 @@ export const accountArray = [
 				title: "Limits",
 				description: "Manage your transfer limits",
 				icon: LimitIcon,
-				to: routes.DASHBOARD.account.limit.rel,
+        to: routes.DASHBOARD.account.limit.index.rel,
 			},
 			{
 				title: "KYC Verification",

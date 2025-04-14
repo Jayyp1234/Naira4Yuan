@@ -104,8 +104,18 @@ export const routes = {
         rel: "account",
       },
       limit: {
-        abs: "/dashboard/account/limit",
-        rel: "limit",
+        index: {
+          abs: "/dashboard/account/limit",
+          rel: "limit",
+        },
+        upgrade: {
+          abs: "/dashboard/account/upgrade",
+          rel: "upgrade",
+        },
+        upgraded: {
+          abs: "/dashboard/account/upgraded",
+          rel: "upgraded",
+        },
       },
       language: {
         abs: "/dashboard/account/language",

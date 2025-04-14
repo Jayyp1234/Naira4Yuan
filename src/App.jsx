@@ -70,6 +70,7 @@ import { HelpTransaction } from "./pages/Dashboard/Help/HelpTransaction";
 import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
 import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
 import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
+import { LimitUpgrade, Upgrade } from "./pages/Dashboard/Account/LimitUpgrade";
 
 // recipients and transaction
 
@@ -157,7 +158,12 @@ const App = () => {
 
             <Route path={routes.DASHBOARD.account.language.rel} element={<Language />} />
             <Route path={routes.DASHBOARD.account.inbox.rel} element={<Inbox />} />
-            <Route path={routes.DASHBOARD.account.limit.rel} element={<Limit />} />
+
+            <Route path={routes.DASHBOARD.account.limit.index.rel}>
+              <Route index element={<Limit />} />
+              <Route path={routes.DASHBOARD.account.limit.upgrade.rel} element={<LimitUpgrade />} />
+              <Route path={routes.DASHBOARD.account.limit.upgraded.rel} element={<Upgrade />} />
+            </Route>
           </Route>
 
           <Route path={routes.DASHBOARD.error.rel} element={<DashboardError />} />

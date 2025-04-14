@@ -1,4 +1,5 @@
 import { IconWrapper } from "@/data/Icons";
+import { ChevronDownIcon, DownloadIcon } from "@/data/Icons";
 import React from "react";
 
 export const FormControl = ({ type = "text", label = {}, style = "", icon = {}, floatEle, ...others }) => {
@@ -74,3 +75,32 @@ export const CheckBox = ({ className = "", ...others }) => {
 		/>
 	);
 };
+
+export const FileUpload = ({ id, label }) => (
+  <div className="w-full">
+    <label htmlFor={id} className="sr-only">
+      {label}
+    </label>
+    <div className="bg-[#F8F9FD] border-2 border-dashed border-gray-300 rounded-lg rounded-no-tl p-3 cursor-pointer hover:bg-[#eff1f7] transition-colors">
+      <div className="flex items-center space-x-3">
+        <IconWrapper>
+          <DownloadIcon className="w-5 h-5 text-gray-700" />
+        </IconWrapper>
+        <span className="text-base text-gray-700">{label}</span>
+      </div>
+      <input type="file" id={id} className="hidden" />
+    </div>
+  </div>
+);
+
+export const SelectBox = ({ label, placeholder }) => (
+  <div className="w-full">
+    <label className="block text-base font-normal text-gray-900 mb-1">{label}</label>
+    <div className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer">
+      <span className="block truncate text-gray-400 text-base">{placeholder}</span>
+      <IconWrapper>
+        <ChevronDownIcon className="w-5 h-5 text-gray-400" />
+      </IconWrapper>
+    </div>
+  </div>
+);

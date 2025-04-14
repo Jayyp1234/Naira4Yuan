@@ -1524,3 +1524,274 @@ export const HowToGetAlipayQrModal = ({ open, modalData, action }) => {
   );
 };
 
+export const SwitchBusinessAccountModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("SWITCH_BUSINESS_ACCOUNT", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Switch to a Business Account", style: "border-b", textStyle: "" }}>
+      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+        <div className="flex flex-col space-y-3">
+          <div className="bg-[#F8F9FD] p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+
+              {/* Left Section */}
+              <div className="flex-1">
+                <h3 className="text-lg font-medium mt-1">Business Account</h3>
+
+                <ul className="mt-2 space-y-2 text-sm sm:text-base">
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Daily Incoming Transactions: ₦10,000 - ₦5,000,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Daily Outgoing Transactions: ¥50 - ¥10,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Total Monthly Incoming Limit: ₦50,000,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Total Monthly Outgoing Limit: ¥100,000</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#F8F9FD] p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+
+              {/* Left Section */}
+              <div className="flex-1">
+                <h3 className="text-lg font-medium mt-1">What you’ll need</h3>
+
+                <ul className="mt-2 space-y-2 text-sm sm:text-base">
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>You must be individual verified before attempting to switch to a business account</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Regulatory ID Card</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Your Selfie</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Your Business Details: CAC Certificate, Memart</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <FooterButton onClick={action} text="Proceed" className="!text-[1.05rem] uppercase" />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const SelectIdModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("SELECT_MEANS_ID", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Select means of identification", style: "", textStyle: "text-main" }}>
+      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+          <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RadioInput name="referral" id="bvn" />
+              <span className="text-sm leading-tight flex">National ID Card</span>
+            </div>
+          </label>
+          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RadioInput name="referral" id="nin" />
+              <span className="text-sm leading-tight flex">NIN</span>
+            </div>
+          </label>
+          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RadioInput name="referral" id="nin" />
+              <span className="text-sm leading-tight flex">Voter’s card</span>
+            </div>
+          </label>
+          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RadioInput name="referral" id="nin" />
+              <span className="text-sm leading-tight flex">International passport</span>
+            </div>
+          </label>
+        </div>
+        <div>
+          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const StateOfOriginModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [selectedState, setSelectedState] = useState("");
+
+  const handleSelect = (e) => setSelectedState(e.target.value);
+
+  const states = [
+    "Oyo", "Osun", "Lagos", "Ondo", "Benin", "Bayelsa", "Jos", "Abia"
+  ];
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("STATE_ORIGIN", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "State of Origin",
+        style: "",
+        textStyle: "text-main"
+      }}
+    >
+      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72 mb-8">
+          {states.map((state) => (
+            <label
+              key={state}
+              htmlFor={state.toLowerCase()}
+              className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2"
+            >
+              <div className="flex items-center gap-2">
+                <RadioInput
+                  name="referral"
+                  id={state.toLowerCase()}
+                  value={state}
+                  checked={selectedState === state}
+                  onChange={handleSelect}
+                />
+                <span className="text-sm leading-tight flex">{state}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+        <div>
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={() => action?.(selectedState)}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const StateOfResidenceModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [selectedState, setSelectedState] = useState("");
+
+  const handleSelect = (e) => setSelectedState(e.target.value);
+
+  const states = [
+    "Oyo", "Osun", "Lagos", "Ondo", "Benin", "Bayelsa", "Jos", "Abia"
+  ];
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("STATE_RESIDENCE", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "State of residence",
+        style: "",
+        textStyle: "text-main"
+      }}
+    >
+      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+          {states.map((state) => (
+            <label
+              key={state}
+              htmlFor={state.toLowerCase()}
+              className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2"
+            >
+              <div className="flex items-center gap-2">
+                <RadioInput
+                  name="referral"
+                  id={state.toLowerCase()}
+                  value={state}
+                  checked={selectedState === state}
+                  onChange={handleSelect}
+                />
+                <span className="text-sm leading-tight flex">{state}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+        <div>
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={() => action?.(selectedState)}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const CityModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  const [selectedCity, setSelectedCity] = useState("");
+
+  const handleCitySelection = (city) => {
+    setSelectedCity(city);
+    toggleModal("CITY", false); // Close modal
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("CITY", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "City",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+          {/* Repeatable labels for each city */}
+          {["Ibadan", "Ogbomoso", "Ado-awaye", "Eruwa", "Benin", "Fiditi", "Igbo-ora", "Iseyin", "Egbeda"].map(
+            (city, index) => (
+              <label key={index} className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+                <div className="flex items-center gap-2">
+                  <RadioInput name="referral" id={city} />
+                  <span className="text-sm leading-tight flex">{city}</span>
+                </div>
+              </label>
+            )
+          )}
+        </div>
+        <div>
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={() => action(selectedCity)}
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};

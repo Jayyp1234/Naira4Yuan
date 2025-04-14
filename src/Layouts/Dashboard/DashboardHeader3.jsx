@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
-import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
+import { ChevronLeftIcon, ChevronRightIcon, IconWrapper } from "@/data/Icons";
 
 const routes = {
   DASHBOARD: {
@@ -28,11 +28,11 @@ export const DashboardHeader3 = ({
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
       {/* Left Section */}
       <div className="flex items-center gap-8 w-full">
-        <img
-          src={LogoFullDarkVariant}
-          alt="Naira4Yuan"
-          className="w-28 sm:w-32 object-contain"
-        />
+        <Link to={""}>
+          <figure className="flex items-center justify-center max-w-32">
+            <img src={LogoFullDarkVariant} alt="" />
+          </figure>
+        </Link>
 
         <nav className="hidden sm:flex items-center flex-1">
           <div className="flex items-center justify-center w-full relative">
@@ -97,3 +97,69 @@ export const DashboardHeader3 = ({
     </header>
   );
 };
+
+export const DashboardHeader5 = ({
+  user = { name: "ADEREMI IBRAHIM TUNDE", avatar: DefaultAvatarImage },
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
+      {/* Left Section - Logo and Navigation */}
+      <div className="flex items-center gap-8 w-full">
+        {/* Logo */}
+        <figure className="flex items-center justify-center max-w-32">
+          <img
+            src={LogoFullDarkVariant}
+            alt="Company Logo"
+            className="max-w-full h-auto"
+          />
+        </figure>
+
+        {/* Navigation - Hidden on mobile */}
+        <nav className="hidden sm:flex items-center flex-1">
+          <button
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            onClick={() => navigate(-1)}
+          >
+            <ChevronLeftIcon className="w-4 h-4" />
+            <span>Back</span>
+          </button>
+        </nav>
+      </div>
+
+      {/* Right Section - User Profile */}
+      <div>
+        <button
+          type="button"
+          onClick={() => navigate(routes.DASHBOARD.account.index.rel)}
+          className="flex items-center gap-x-2 whitespace-nowrap hover:opacity-80 transition-opacity"
+          aria-label="User account"
+        >
+          {/* User Avatar */}
+          <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center border border-gray-200">
+            <img
+              src={user.avatar || DefaultAvatarImage}
+              alt={`${user.name}'s avatar`}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = DefaultAvatarImage; // Fallback if avatar fails to load
+              }}
+            />
+          </figure>
+
+          {/* User Name and Chevron */}
+          <div className="flex items-center gap-x-1.5 flex-nowrap">
+            <span className="hidden sm:block uppercase font-semibold text-sm truncate max-w-[120px]">
+              {user.name}
+            </span>
+            <IconWrapper className="text-gray-500">
+              <ChevronRightIcon className="w-4 h-4" />
+            </IconWrapper>
+          </div>
+        </button>
+      </div>
+    </header>
+  );
+};
+
