@@ -15,6 +15,52 @@ import {
   SetPasswordModal,
 } from "../../components/LayoutComponents/AllModals";
 
+// export default function Register() {
+//   const {
+//     stateData: {
+//       auth: { register },
+//     },
+//     stateData,
+//     setStateData,
+//   } = React.useContext(StateDataContext);
+
+//   return (
+//     <div className="w-full md:w-9/12 lg:w-8/12 xl:w-3/6 pt-10 sm:py-14 md:py-20 mx-auto">
+//       {!register.isVerified && (
+//         <header className="flex justify-between items-center gap-x-3">
+//           <h2 className="text-3xl font-bold">
+//             {!register.isRegistered && <>{register.stepperVal === 1 && "Register"}</>}
+//             {register.isRegistered && <>{register.stepperVal === 2 && "Individual Verification"}</>}
+//           </h2>
+//           <div className="flex flex-col gap-y-1.5 text-end">
+//             {(!register.isRegistered && register.stepperVal === 1) || (register.isRegistered && register.stepperVal === 2) ? (
+//               <span className="bg-slate-200 flex items-center justify-center select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
+//                 {register.stepperVal} of 2
+//               </span>
+//             ) : null}
+//             {register.stepperVal === 2 && (
+//               <button type="button" className="text-xs text-main">
+//                 Skip this step
+//               </button>
+//             )}
+//           </div>
+//         </header>
+//       )}
+
+//       {register.isVerified ? (
+//         <Verified />
+//       ) : register.isRegistered && register.stepperVal !== 2 ? (
+//         <Registered />
+//       ) : (
+//         <main className="mt-12">
+//           {register.stepperVal === 1 && <RegisterStepper1 />}
+//           {register.stepperVal === 2 && <RegisterStepper2 />}
+//         </main>
+//       )}
+//     </div>
+//   );
+// }
+
 export default function Register() {
   const {
     stateData: {
@@ -26,40 +72,29 @@ export default function Register() {
 
   return (
     <div className="w-full md:w-9/12 lg:w-8/12 xl:w-3/6 pt-10 sm:py-14 md:py-20 mx-auto">
-      {!register.isVerified && (
+      {!register.isRegistered && (
         <header className="flex justify-between items-center gap-x-3">
           <h2 className="text-3xl font-bold">
-            {!register.isRegistered && <>{register.stepperVal === 1 && "Register"}</>}
-            {register.isRegistered && <>{register.stepperVal === 2 && "Individual Verification"}</>}
+            Register
           </h2>
           <div className="flex flex-col gap-y-1.5 text-end">
-            {(!register.isRegistered && register.stepperVal === 1) || (register.isRegistered && register.stepperVal === 2) ? (
-              <span className="bg-slate-200 flex items-center justify-center select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
-                {register.stepperVal} of 2
-              </span>
-            ) : null}
-            {register.stepperVal === 2 && (
-              <button type="button" className="text-xs text-main">
-                Skip this step
-              </button>
-            )}
+            <span className="bg-slate-200 flex items-center justify-center select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
+              Step 1 of 1
+            </span>
           </div>
         </header>
       )}
 
-      {register.isVerified ? (
-        <Verified />
-      ) : register.isRegistered && register.stepperVal !== 2 ? (
+      {register.isRegistered ? (
         <Registered />
       ) : (
         <main className="mt-12">
-          {register.stepperVal === 1 && <RegisterStepper1 />}
-          {register.stepperVal === 2 && <RegisterStepper2 />}
+            <RegisterStepper1 />
         </main>
       )}
     </div>
   );
-}
+};
 
 export const RegisterStepper1 = () => {
   const { stateData, setStateData } = React.useContext(StateDataContext);

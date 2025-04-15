@@ -71,6 +71,7 @@ import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
 import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
 import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
 import { LimitUpgrade, Upgrade } from "./pages/Dashboard/Account/LimitUpgrade";
+import Individual from "./pages/Dashboard/Account/Individual";
 
 // recipients and transaction
 
@@ -163,6 +164,7 @@ const App = () => {
               <Route index element={<Limit />} />
               <Route path={routes.DASHBOARD.account.limit.upgrade.rel} element={<LimitUpgrade />} />
               <Route path={routes.DASHBOARD.account.limit.upgraded.rel} element={<Upgrade />} />
+              <Route path={routes.DASHBOARD.account.limit.individual.rel} element={<Individual />} />
             </Route>
           </Route>
 

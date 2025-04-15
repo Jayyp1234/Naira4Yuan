@@ -60,9 +60,9 @@ export const Limit = () => {
               </div>
 
               {/* Right Section */}
-              <div className="bg-[#013930] text-white px-8 py-3 rounded-lg rounded-no-tl self-start">
-                <p className="text-base">Verified</p>
-              </div>
+              <button className="bg-[#013930] text-white text-sm px-8 py-3 rounded-lg rounded-no-tl self-start">
+                Verified
+              </button>
             </div>
           </div>
           <div className="bg-[#F8F9FD] p-4 rounded-lg">
@@ -93,9 +93,9 @@ export const Limit = () => {
               </div>
 
               {/* Right Section */}
-              <div className="bg-[#013930] text-white px-8 py-3 rounded-lg rounded-no-tl self-start">
-                <p className="text-base">Verified</p>
-              </div>
+              <button onClick={() => navigate("/dashboard/account/limit/individual")} className="bg-[#F5F5DC] text-[#013930] text-sm px-8 py-3 rounded-lg rounded-no-tl self-start">
+                Verify Now
+              </button>
             </div>
           </div>
         </div>

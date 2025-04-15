@@ -116,6 +116,10 @@ export const routes = {
           abs: "/dashboard/account/upgraded",
           rel: "upgraded",
         },
+        individual: {
+          abs: "/dashboard/account/individual",
+          rel: "individual",
+        },
       },
       language: {
         abs: "/dashboard/account/language",
