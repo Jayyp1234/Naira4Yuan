@@ -89,6 +89,18 @@ export const routes = {
         abs: "/dashboard/transaction/input",
         rel: "input",
       },
+      transactions: {
+        abs: "/dashboard/transaction/transactions",
+        rel: "transactions",
+      },
+      send: {
+        abs: "/dashboard/transaction/send",
+        rel: "send",
+      },
+      cashback: {
+        abs: "/dashboard/transaction/cashback",
+        rel: "cashback",
+      },
       // help: {
       //   abs: "/dashboard/transaction/help",
       //   rel: "help",
@@ -219,10 +231,10 @@ export const routes = {
         abs: "/dashboard/wallets",
         rel: "wallets",
       },
-      transaction: {
+      transactions: {
         abs: "/dashboard/wallets/t",
         rel: "t",
-      }
+      },
     },
     fundwallet: {
       abs: "/dashboard/fundwallets",

@@ -23,6 +23,7 @@ import Step1 from "@/assets/media/images/1 1202201564.png";
 import Step2 from "@/assets/media/images/2 10.png";
 import Step3 from "@/assets/media/images/3 52.png";
 import Step4 from "@/assets/media/images/22 1.png";
+import Graph from "@/assets/media/images/Screenshot_2025-01-21_205341-removebg-preview 1.png";
 
 // logos
 import LogoFullDarkVariant from "@/assets/media/logos/n 1.png";
@@ -125,4 +126,5 @@ export {
   Step2,
   Step3,
   Step4,
+  Graph,
 };

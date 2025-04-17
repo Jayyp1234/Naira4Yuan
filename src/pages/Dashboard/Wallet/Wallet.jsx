@@ -108,7 +108,7 @@ export const Wallet = () => {
             <section className="my-8">
               <header className="flex items-center justify-between gap-x-4 mb-3 pb-1 border-b">
                 <h2 className="text-md tracking-tight font-normal">Today</h2>
-                <Link to="" className=" font-medium text-slate-600">
+                <Link to={routes.DASHBOARD.transaction.transactions.abs} className=" font-medium text-slate-600">
                   See all
                 </Link>
               </header>

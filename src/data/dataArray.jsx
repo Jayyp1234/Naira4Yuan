@@ -247,23 +247,23 @@ export const SideBarArray = [
 	{
 		icon: WalletIcon,
 		text: "Wallets",
-		goto: routes.DASHBOARD.wallets.abs,
+    goto: routes.DASHBOARD.wallets.index.abs,
 	},
 	{
 		icon: YenIcon,
 		text: "Earn",
 		goto: routes.DASHBOARD.earn.abs,
 	},
-	{
-		icon: YenIcon,
-		text: "Send",
-		goto: routes.DASHBOARD.send.abs,
-	},
-	{
-		icon: YenIcon,
-		text: "Transaction",
-		goto: routes.DASHBOARD.transaction.index.abs,
-	},
+  // {
+  // 	icon: YenIcon,
+  // 	text: "Send",
+  // 	goto: routes.DASHBOARD.send.abs,
+  // },
+  // {
+  // 	icon: YenIcon,
+  // 	text: "Transaction",
+  // 	goto: routes.DASHBOARD.transaction.index.abs,
+  // },
 ];
 
 export const transactionDetailsArray = [
@@ -321,7 +321,7 @@ export const accountArray = [
 			{
 				title: "Help",
 				icon: QuestionIcon,
-				to: routes.DASHBOARD.account,
+        to: routes.DASHBOARD.help.index.abs,
 			},
 			{
 				title: "Statements and reports",

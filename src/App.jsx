@@ -24,7 +24,7 @@ import DashboardError from "./pages/Errors/DashboardError";
 // transaction
 import { TransactionIndex } from "./pages/Dashboard/Transaction";
 import { TransactionDetails } from "./pages/Dashboard/Transaction/TransactionDetails";
-import { TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
+import { CashBack, SentIn, TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
 import { TransactionInput } from "./pages/Dashboard/Transaction/TransactionInput";
 // import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
 // import { TransactionHelpDetails } from "./pages/Dashboard/Transaction/TransactionHelpDetails";
@@ -69,9 +69,10 @@ import { Help } from "./pages/Dashboard/Help/Help";
 import { HelpTransaction } from "./pages/Dashboard/Help/HelpTransaction";
 import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
 import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
-import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
 import { LimitUpgrade, Upgrade } from "./pages/Dashboard/Account/LimitUpgrade";
 import Individual from "./pages/Dashboard/Account/Individual";
+import { Transactions } from "./pages/Dashboard/Transaction/Transactions";
+import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
 
 // recipients and transaction
 
@@ -102,15 +103,16 @@ const App = () => {
           <Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
 
           <Route path={routes.DASHBOARD.wallets.index.rel} element={<Wallet />}>
-            <Route path={routes.DASHBOARD.wallets.transaction.rel} element={<WalletTransaction />} />
+            <Route path={routes.DASHBOARD.wallets.transactions.rel} element={<WalletTransaction />} />
           </Route>
 
           <Route path={routes.DASHBOARD.transaction.index.rel} element={<TransactionIndex />}>
             <Route index element={<TransactionMain />} />
             <Route path={routes.DASHBOARD.transaction.details.rel} element={<TransactionDetails />} />
             <Route path={routes.DASHBOARD.transaction.input.rel} element={<TransactionInput />} />
-            {/* <Route path={routes.DASHBOARD.transaction.help.rel} element={<TransactionHelp />} />
-            <Route path={routes.DASHBOARD.transaction.helpDetails.rel} element={<TransactionHelpDetails />} /> */}
+            <Route path={routes.DASHBOARD.transaction.transactions.rel} element={<Transactions />} />
+            <Route path={routes.DASHBOARD.transaction.send.rel} element={<SentIn />} />
+            <Route path={routes.DASHBOARD.transaction.cashback.rel} element={<CashBack />} />
           </Route>
           <Route path={routes.DASHBOARD.earn.rel} element={<EarnIndex />} />
 

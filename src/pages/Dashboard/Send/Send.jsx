@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router";
 import { StateDataContext } from "../../../App";
 import { useModalTrigger } from "../../../hooks/useModalTrigger";
 import { Xchange } from "../../../components/LayoutComponents/Xchange";
-import { BankTransferModal, HowToGetAlipayQrModal } from "../../../components/LayoutComponents/AllModals";
+import { AddNicknameModal, BankTransferModal, HowToGetAlipayQrModal } from "../../../components/LayoutComponents/AllModals";
 import { CompletedIcon, Alipay, BankTransfer, WeChat } from "@/data";
 import { DownloadIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../../components/ui/accordion";
 import { Beneficiary } from "../../../components/PageComponents/Dashboard/Beneficiary";
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
+import { Check } from "lucide-react";
 
 export const Send = () => {
   const {
@@ -35,7 +36,7 @@ export const Send = () => {
 export const SendStep1 = () => {
   const navigate = useNavigate();
 
-  const [openItem, setOpenItem] = React.useState(null);
+  const [openItem, setOpenItem] = React.useState("item-1");
   const [selectedMethod, setSelectedMethod] = React.useState("Alipay"); // Default selection
 
   const {
@@ -50,20 +51,28 @@ export const SendStep1 = () => {
   };
 
   const [modalState, setModalState] = useState({
-    HOW_TO_GETALIPAYQR: false
+    HOW_TO_GETALIPAYQR: false,
+    ADD_NICKNAME: false,
   });
 
-  const toggleModal = (modalName, isOpen) => {
+  const toggleModal = (modalKey, value) => {
     setModalState(prev => ({
       ...prev,
-      [modalName]: isOpen !== undefined ? isOpen : !prev[modalName]
+      [modalKey]: value !== undefined ? value : !prev[modalKey],
     }));
   };
 
   const handleModalComplete = () => {
-    // Any additional actions after modal is completed
     console.log("Modal steps completed");
   };
+
+  const handleNicknameSubmit = (nickname) => {
+    console.log("Nickname submitted:", nickname);
+  };
+
+  const isComingSoon = selectedMethod === "Wechat" || selectedMethod === "Bank Transfer";
+
+  const [isChecked, setIsChecked] = useState(false);
 
 
   return (
@@ -77,35 +86,14 @@ export const SendStep1 = () => {
       </section>
 
       <section className="my-2">
-        <Accordion type="single" collapsible className="w-full flex flex-col gap-y-4">
-          {/* Beneficiary Selection */}
-          <AccordionItem value="item-1" className="border border-solid border-slate-300 rounded-lg">
-            <AccordionTrigger
-              onClick={() => toggleAccordion("item-1")}
-              className="hover:no-underline px-4 [&>svg]:hidden flex justify-between items-center w-full"
-            >
-              <span className="text-base md:text-lg font-medium">Select recipient from beneficiary</span>
-              <IconWrapper>
-                <ChevronDownIcon className={`w-6 h-6 transition-transform ${openItem === "item-1" ? "rotate-180" : "rotate-0"}`} />
-              </IconWrapper>
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="px-4">
-                <ul className="flex flex-col gap-y-2.5">
-                  {Array.from({ length: 4 }).map((_, index) => (
-                    <Beneficiary key={index} itemAs="button" onClick={() => console.log("Selected")} />
-                  ))}
-                </ul>
-                <div className="text-end pe-3 mt-3">
-                  <button onClick={() => navigate(routes.DASHBOARD.recipients.index.abs)}
-                    className="text-slate-600 font-semibold text-lg hover:underline">See all</button>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+        <Accordion type="single"
+          collapsible
+          value={openItem}
+          onValueChange={(value) => setOpenItem(value)}
+          className="w-full flex flex-col gap-y-4">
           {/* Add a New Recipient */}
-          <AccordionItem value="item-2" className="border border-solid border-slate-300 rounded-lg">
-            <AccordionTrigger onClick={() => toggleAccordion("item-2")} className="hover:no-underline px-4 [&>svg]:hidden">
+          <AccordionItem value="item-1" className="border border-solid border-slate-300 rounded-lg">
+            <AccordionTrigger onClick={() => toggleAccordion("item-1")} className="hover:no-underline px-4 [&>svg]:hidden">
               <span className="text-base md:text-lg font-medium">Add a new recipient</span>
               <IconWrapper>
                 <ChevronDownIcon className={`w-7 h-7 ${openItem == `item-2` ? "rotate-180" : "rotate-0"}`} />
@@ -146,14 +134,21 @@ export const SendStep1 = () => {
                 </div>
               </div>
 
-              {/* Alipay ID Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Alipay ID</label>
-                <input
-                  type="text"
-                  placeholder="Enter Alipay ID"
-                  className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
-                />
+                {!isComingSoon ? (
+                  <>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{selectedMethod} ID</label>
+                    <input
+                      type="text"
+                      placeholder={`Enter ${selectedMethod} ID`}
+                      className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                    />
+                  </>
+                ) : (
+                  <div className="w-full p-4 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded-lg">
+                    <p className="text-sm font-medium">{selectedMethod} support is coming soon!</p>
+                  </div>
+                )}
               </div>
 
               {/* OR Divider */}
@@ -180,16 +175,65 @@ export const SendStep1 = () => {
 
               {/* Save as Beneficiary */}
               <div className="flex justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <input type="checkbox" id="saveBeneficiary" className="w-4 h-4" />
-                  <label htmlFor="saveBeneficiary" className="text-sm text-gray-700">Save as beneficiary</label>
-                </div>
+                <label className="flex items-center gap-2 cursor-pointer" htmlFor="saveBeneficiary">
+                  {/* Hidden native checkbox for accessibility */}
+                  <input
+                    id="saveBeneficiary"
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={(e) => setIsChecked(e.target.checked)}
+                    className="sr-only"
+                  />
+
+                  {/* Custom checkbox UI */}
+                  <span
+                    className={`w-4 h-4 flex items-center justify-center rounded border-2 border-[#013930] transition-all duration-200 ${isChecked ? "bg-white" : "bg-transparent"
+                      }`}
+                  >
+                    {isChecked && <Check className="text-[#013930] w-3 h-3" />}
+                  </span>
+
+                  <span className="text-base text-black font-medium select-none" id="saveBeneficiaryLabel">
+                    Save as beneficiary
+                  </span>
+                </label>
+
                 <button onClick={() => toggleModal("HOW_TO_GETALIPAYQR", true)} href="#" className=" text-sm font-regular underline">How to get QR Code</button>
               </div>
 
               {/* Add a Nickname */}
               <div>
-                <a href="#" className=" text-sm font-regular underline">Add a nickname</a>
+                <button
+                  className="text-sm font-regular underline"
+                  onClick={() => toggleModal("ADD_NICKNAME", true)}
+                >
+                  Add a nickname
+                </button>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          {/* Beneficiary Selection */}
+          <AccordionItem value="item-2" className="border border-solid border-slate-300 rounded-lg">
+            <AccordionTrigger
+              onClick={() => toggleAccordion("item-2")}
+              className="hover:no-underline px-4 [&>svg]:hidden flex justify-between items-center w-full"
+            >
+              <span className="text-base md:text-lg font-medium">Select recipient from beneficiary</span>
+              <IconWrapper>
+                <ChevronDownIcon className={`w-6 h-6 transition-transform ${openItem === "item-2" ? "rotate-180" : "rotate-0"}`} />
+              </IconWrapper>
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-4">
+                <ul className="flex flex-col gap-y-2.5">
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <Beneficiary key={index} itemAs="button" onClick={() => console.log("Selected")} />
+                  ))}
+                </ul>
+                <div className="text-end pe-3 mt-3">
+                  <button onClick={() => navigate(routes.DASHBOARD.recipients.index.abs)}
+                    className="text-slate-600 font-semibold text-lg hover:underline">See all</button>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -212,6 +256,11 @@ export const SendStep1 = () => {
         open={modalState.HOW_TO_GETALIPAYQR}
         modalData={{ toggleModal }}
         action={handleModalComplete}
+      />
+      <AddNicknameModal
+        open={modalState.ADD_NICKNAME}
+        modalData={{ toggleModal }}
+        action={handleNicknameSubmit}
       />
     </div>
   );

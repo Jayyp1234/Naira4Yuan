@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
 import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
 import { routes } from "../../data/routes";
+import { Bell } from "lucide-react";
 
 export const DashboardHeader = () => {
 	const navigate = useNavigate();
@@ -13,18 +14,25 @@ export const DashboardHeader = () => {
 					<img src={LogoFullDarkVariant} alt="" />
 				</figure>
 			</Link>
-			<aside>
-				<button type="button" onClick={() => navigate(routes.DASHBOARD.account.index.rel)} className="flex items-center gap-x-2">
-					<figure className="flex items-center justify-center overflow-hidden rounded-full w-10 h-10">
-						<img src={DefaultAvatarImage} alt="" />
-					</figure>
-					<div className="flex items-center gap-x-1.5">
-						<span className="hidden sm:inline-flex uppercase font-semibold text-sm">ADEREMI IBRAHIM TUNDE</span>
-						<IconWrapper>
-							<ChevronRightIcon />
-						</IconWrapper>
-					</div>
-				</button>
+      <aside>
+        <div className="flex items-center space-x-4">
+          <button onClick={() => navigate(routes.DASHBOARD.account.inbox.abs)}>
+            <IconWrapper>
+              <Bell />
+            </IconWrapper>
+          </button>
+          <button type="button" onClick={() => navigate(routes.DASHBOARD.account.index.rel)} className="flex items-center gap-x-2">
+            <figure className="flex items-center justify-center overflow-hidden rounded-full w-10 h-10">
+              <img src={DefaultAvatarImage} alt="" />
+            </figure>
+            <div className="flex items-center gap-x-1.5">
+              <span className="hidden sm:inline-flex uppercase font-semibold text-sm">ADEREMI IBRAHIM TUNDE</span>
+              <IconWrapper>
+                <ChevronRightIcon />
+              </IconWrapper>
+            </div>
+          </button>
+        </div>
 			</aside>
 		</header>
 	);

@@ -38,11 +38,11 @@ export const DashboardHeader2 = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
-      <div className="flex items-center gap-8 w-full">
+    <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-6 pb-3">
+      <div className="flex items-start gap-8 w-full">
         <img src={LogoFullDarkVariant} alt="Naira4Yuan" className="w-28 sm:w-32 object-contain" />
 
-        <nav className="hidden sm:flex items-center flex-1">
+        <nav className="hidden sm:flex items-start flex-1 mt-2">
           <div className="flex items-center justify-center w-full relative">
             <div className="w-4/5">
               {/* Progress bar */}
@@ -83,7 +83,7 @@ export const DashboardHeader2 = () => {
 
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3"> 
         <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
           <img src={DefaultAvatarImage} alt="User Avatar" className="w-full h-full object-cover" />
         </figure>

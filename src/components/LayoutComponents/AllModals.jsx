@@ -812,12 +812,12 @@ const BvnVerificationModal = ({ open, modalData, action }) => {
         <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
             <section>
-              <span className="block text-center">
+              <span className="block text-center text-lg">
                 We sent a code to <b>08132*****157</b> to confirm your BVN
               </span>
               <div className="flex flex-col gap-y-2 mt-6">
                 <div>
-                  <label htmlFor="code" className="text-[.94rem]">
+                  <label htmlFor="code" className="text-base">
                     Enter code
                   </label>
                   <InputOTP
@@ -837,16 +837,16 @@ const BvnVerificationModal = ({ open, modalData, action }) => {
               </div>
             </section>
             <div className="mt-6 text-center">
-              <span className="text-[.95rem]">
-                Didn't receive a code?
+              <span className="text-base">
+                Didn{`'`}t receive a code?
                 <button type="button" className="ms-2 font-semibold underline text-main">
                   Click to resend
                 </button>
               </span>
             </div>
             <div className="mt-6 text-center">
-              <span className="text-[.95rem]">
-                I don't have access to my BVN phone number
+              <span className="text-base">
+                I don{`'`}t have access to my BVN phone number
                 <button
                   type="button"
                   className="ms-2 font-semibold underline text-main"
@@ -900,22 +900,23 @@ const SimpleVerificationIdModal = ({ open, modalData, action }) => {
       >
         <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-            <FormControl
-              type="tel"
-              inputMode="numeric"
-              label={{
-                exist: true,
-                text: "ID type",
-              }}
-              placeholder="Enter your phone number"
-            />
+            <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b pb-2">
+              <div className="flex items-center gap-2">
+                <RadioInput name="referral" id="bvn" />
+                <span className="text-lg font-medium leading-tight flex">Bank Verification Number (BVN)</span>
+              </div>
+            </label>
+            <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+              <div className="flex items-center gap-2">
+                <RadioInput name="referral" id="nin" />
+                <span className="text-lg font-medium leading-tight flex">National Identity Number (NIN)</span>
+              </div>
+            </label>
           </div>
           <div>
             <FooterButton
-              text="Proceed"
               onClick={() => setShowBvnVerification(true)}
-              className="!text-[1.05rem] uppercase"
-            />
+              text="Continue" className="!text-[1.05rem] uppercase" />
           </div>
         </div>
       </Modal>
@@ -974,7 +975,7 @@ const SimpleVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-sm leading-tight flex">{preference.label}</span>
+                    <span className="text-lg font-medium leading-tight flex">{preference.label}</span>
                   </div>
                 </div>
               </label>
@@ -1029,7 +1030,7 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
             <h2 className="text-3xl font-semibold">Bank transfer details</h2>
           </header>
           <div className="flex flex-col gap-y-3">
-            <span className="text-sm">
+            <span className="text-base">
               Transfer funds from any Nigerian bank to the account details below. Once the payment is made, the amount will automatically be credited
               to your Gate Africa wallet, ready for use on the platform.
             </span>
@@ -1037,7 +1038,7 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
               <IconWrapper className="text-yellow-400">
                 <WarningIcon />
               </IconWrapper>
-              <span className="leading-tight text-[.95rem]">NB: A fee of ¥1 will be charged</span>
+              <span className="leading-tight text-base">NB: A fee of ¥1 will be charged</span>
             </div>
             <button
               type="button"
@@ -1110,7 +1111,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
       >
         <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
           <div className="w-10/12 xl:w-7/12 mx-auto text-center">
-            <span className="text-[.95rem]">
+            <span className="text-base">
               You have to be verified to proceed with this transaction.
             </span>
           </div>
@@ -1130,7 +1131,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-sm leading-tight flex">{preference.label}</span>
+                    <span className="text-lg font-medium leading-tight flex">{preference.label}</span>
                   </div>
                   {selectedOption === preference.id && (
                     <div className="ml-2">
@@ -1791,6 +1792,200 @@ export const CityModal = ({ open, modalData, action }) => {
             onClick={() => action(selectedCity)}
           />
         </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const IndividualAccModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("INDIVIDUAL_ACC", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Individual Account Overview",
+        style: "border-b",
+        textStyle: ""
+      }}
+    >
+      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+        <div className="flex flex-col space-y-3">
+          <div className="bg-[#F8F9FD] p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+
+              {/* Left Section */}
+              <div className="flex-1">
+                <h3 className="text-lg font-medium mt-1">Individual Account</h3>
+
+                <ul className="mt-2 space-y-2 text-sm sm:text-base">
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Daily Incoming Transactions: ₦1,000 - ₦500,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Daily Outgoing Transactions: ¥20 - ¥3,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Total Monthly Incoming Limit: ₦2,000,000</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Total Monthly Outgoing Limit: ¥30,000</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="bg-[#F8F9FD] p-4 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+
+              {/* Left Section */}
+              <div className="flex-1">
+                <h3 className="text-lg font-medium mt-1">What’s Required</h3>
+
+                <ul className="mt-2 space-y-2 text-sm sm:text-base">
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Basic Identity Verification (BVN or NIN)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>A valid ID (e.g. National ID, Voter’s Card, Driver’s License)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>Your Selfie for facial verification</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5">
+          <FooterButton onClick={action} text="Proceed" className="!text-[1.05rem] uppercase" />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const AddNicknameModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [nickname, setNickname] = useState("");
+
+  const handleProceed = () => {
+    action(nickname); // Send nickname up to parent
+    toggleModal("ADD_NICKNAME", false); // Optionally close modal after
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("ADD_NICKNAME", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Add your nickname",
+        style: "border-b",
+        textStyle: ""
+      }}
+    >
+      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+        <FormControl
+          type="text"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          label={{
+            exist: true,
+            text: "Nickname",
+          }}
+          placeholder="Enter your nickname"
+        />
+        <div className="mt-5">
+          <FooterButton
+            onClick={handleProceed}
+            text="Proceed"
+            className="!text-[1.05rem] uppercase"
+          />
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const WithdrawalModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("WITHDRAWAL", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Withdrawal option",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-6 w-full max-w-xl mx-auto flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-4">
+          <FormControl
+            type="text"
+            label={{
+              exist: true,
+              text: "Bank",
+            }}
+            placeholder="Select your bank"
+          />
+          <FormControl
+            type="tel"
+            inputMode="numeric"
+            label={{
+              exist: true,
+              text: "Account number",
+            }}
+            placeholder="Enter your account number"
+          />
+        </div>
+
+        <FooterButton
+          text="Proceed"
+          className="!text-[1.05rem] uppercase"
+          onClick={action}
+        />
+      </div>
+    </Modal>
+  );
+};
+
+export const InboxModal = ({ open, modalData, action, modalContent }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("INBOX", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: modalContent?.title || "Withdrawal option",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-6 w-full max-w-xl mx-auto flex flex-col gap-y-6">
+        <h3 className="text-lg font-medium">{modalContent?.title}</h3>
+        <p className="text-gray-500">{modalContent?.description}</p>
+        <small className="text-slate-600">{modalContent?.date}</small>
+
+        <FooterButton
+          text="Proceed"
+          className="!text-[1.05rem] uppercase"
+          onClick={action}
+        />
       </div>
     </Modal>
   );

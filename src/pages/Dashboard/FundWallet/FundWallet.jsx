@@ -131,7 +131,7 @@ export const FundWallet = () => {
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="flex-1 p-3 outline-none text-sm w-full"
+              className="flex-1 p-3 outline-none text-2xl font-bold w-full"
             />
             <div className="relative w-24">
               <select

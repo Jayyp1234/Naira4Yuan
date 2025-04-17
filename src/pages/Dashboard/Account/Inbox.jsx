@@ -1,10 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import Badge from "../../../components/BaseComponents/Badge";
 import { ChevronLeftIcon } from "@/data/Icons";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { InboxModal } from "@/components/LayoutComponents/AllModals";
 
 export const Inbox = () => {
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+
+  const handleLinkClick = (content) => {
+    setModalContent(content);  // Set the content for the modal
+    setIsModalOpen(true);  // Open the modal
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);  // Close the modal
+  };
+
+  const links = [
+    {
+      title: "We’re making some changes",
+      description: "We have updated the transfer limits",
+      date: "12/01/25",
+      badge: "System",
+      status: "success",
+    },
+    {
+      title: "Transaction successful",
+      description: "You sent ¥5.6 to Adams R.",
+      date: "12/01/25",
+      badge: "Account",
+      status: "account",
+    },
+    {
+      title: " We’re making some changes",
+      description: "We have updated the transfer limits",
+      date: "12/01/25",
+      badge: "System",
+      status: "success",
+    },
+    {
+      title: "We’re making some changes",
+      description: "We have updated the transfer limits",
+      date: "12/01/25",
+      badge: "System",
+      status: "success",
+    },
+  ];
 
   return (
     <div>
@@ -26,61 +70,34 @@ export const Inbox = () => {
         </header>
         <div>
           <ul className="py-4 w-full flex flex-col gap-y-4">
-            <li>
-              <div className="flex items-center justify-between flex-grow gap-3">
-                <aside className="text-start flex flex-col gap-y-1">
-                  <h3 className="text-lg leading-tight font-medium">
-                    We’re making some changes - <small className="text-slate-600 tracking-tight">12/01/25</small>
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
-                </aside>
-                <aside className="flex items-center gap-x-4">
-                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
-                </aside>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center justify-between flex-grow gap-3">
-                <aside className="text-start flex flex-col gap-y-1">
-                  <h3 className="text-lg leading-tight font-medium">
-                    Transaction successful - <small className="text-slate-600 tracking-tight">12/01/25</small>
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-tight">You sent ¥5.6 to Adams R.</p>
-                </aside>
-                <aside className="flex items-center gap-x-4">
-                  <Badge text="Account" className={`py-0.5`} status="account" />
-                </aside>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center justify-between flex-grow gap-3">
-                <aside className="text-start flex flex-col gap-y-1">
-                  <h3 className="text-lg leading-tight font-medium">
-                    We’re making some changes - <small className="text-slate-600 tracking-tight">12/01/25</small>
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
-                </aside>
-                <aside className="flex items-center gap-x-4">
-                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
-                </aside>
-              </div>
-            </li>
-            <li>
-              <div className="flex items-center justify-between flex-grow gap-3">
-                <aside className="text-start flex flex-col gap-y-1">
-                  <h3 className="text-lg leading-tight font-medium">
-                    We’re making some changes - <small className="text-slate-600 tracking-tight">12/01/25</small>
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-tight">We have updated the transfer limits</p>
-                </aside>
-                <aside className="flex items-center gap-x-4">
-                  <Badge text="Sysytem" className={`py-0.5`} status="success" />
-                </aside>
-              </div>
-            </li>
+            {links.map((link, index) => (
+              <li key={index}>
+                <Link
+                  className="flex items-center justify-between flex-grow gap-3"
+                  onClick={() => handleLinkClick(link)} // Handle link click
+                >
+                  <aside className="text-start flex flex-col gap-y-1">
+                    <h3 className="text-lg leading-tight font-medium">
+                      {link.title} - <small className="text-slate-600 tracking-tight">{link.date}</small>
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-tight">{link.description}</p>
+                  </aside>
+                  <aside className="flex items-center gap-x-4">
+                    <Badge text={link.badge} className={`py-0.5`} status={link.status} />
+                  </aside>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
+
+      <InboxModal
+        open={isModalOpen}
+        modalData={{ toggleModal: closeModal }}  // Passing close function to modal
+        modalContent={modalContent}  // Pass dynamic content to modal
+        action={closeModal}  // Action when "Proceed" button is clicked (close the modal)
+      />
     </div>
   );
 };

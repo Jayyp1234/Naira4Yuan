@@ -55,7 +55,7 @@ export const WalletTransaction = () => {
             </div>
           </div>
         </header>
-        <main className="min-h-[65dvh] md:min-[75dvh] flex">
+        <main className="">
           <div className="mt-3">
             <section className="my-8">
               <header className="flex items-center justify-between gap-x-4 mb-3 pb-1 border-b">
