@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Modal } from "../BaseComponents/Modal";
 import { FormControl, RadioInput } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import { CHN, FRA, NGN, Step1, Step2, Step3, Step4 } from "@/data";
+import { CHN, CompletedIcon, FRA, NGN, Step1, Step2, Step3, Step4 } from "@/data";
 import { FooterButton } from "../BaseComponents/FooterButton";
 import { CopyIcon2, IconWrapper, WarningIcon, tickCircle } from "../../data/Icons";
 import { BorderWrapper } from "../PageComponents/Dashboard/Items";
 import Iframe from "../BaseComponents/Iframe";
 import { routes } from "../../data/routes";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowDownToLine, ChevronLeft, ChevronRight, Download } from 'lucide-react';
+import { Link } from "react-router";
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
@@ -1950,6 +1951,10 @@ export const WithdrawalModal = ({ open, modalData, action }) => {
             }}
             placeholder="Enter your account number"
           />
+          <div>
+            <label htmlFor="accname" className="text-base">Account Name</label>
+            <div className="w-full bg-[#0000001F] py-4 px-2 uppercase rounded-lg">BUSAYO OLAITAN</div>
+          </div>
         </div>
 
         <FooterButton
@@ -1957,6 +1962,178 @@ export const WithdrawalModal = ({ open, modalData, action }) => {
           className="!text-[1.05rem] uppercase"
           onClick={action}
         />
+      </div>
+    </Modal>
+  );
+};
+
+export const ProofModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [trustpilotImage, setTrustpilotImage] = useState(null);
+  const [googleImage, setGoogleImage] = useState(null);
+
+  const handleTrustpilotUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setTrustpilotImage(file);
+    }
+  };
+
+  const handleGoogleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setGoogleImage(file);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitting images:", { trustpilotImage, googleImage });
+    // TODO: Implement actual upload logic
+  };
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("PROOF", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Upload proof of review",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-6 w-full max-w-xl mx-auto">
+        <form onSubmit={handleSubmit}>
+          {/* Trustpilot */}
+          <div className="mb-2">
+            <div className="flex items-center">
+              <h2 className="text-lg font-normal mr-1">Trustpilot Review</h2>
+              <Link
+                className="text-xs underline"
+              >
+                (Review Here)
+              </Link>
+            </div>
+
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer">
+              <label htmlFor="trustpilot-upload" className="flex flex-col cursor-pointer">
+                <div className="flex gap-2">
+                  <Download className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-medium text-gray-700">Upload Screenshot of Your Trustpilot Review</span>
+                </div>
+                <p className="mt-2 text-xs text-gray-500">
+                  File size should be a minimum of 2MB and in PNG or JPG format.
+                </p>
+                <input
+                  id="trustpilot-upload"
+                  type="file"
+                  className="hidden"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={handleTrustpilotUpload}
+                />
+              </label>
+              {trustpilotImage && (
+                <div className="mt-3 text-center">
+                  <p className="text-sm text-green-600">File selected: {trustpilotImage.name}</p>
+                  <img
+                    src={URL.createObjectURL(trustpilotImage)}
+                    alt="Trustpilot preview"
+                    className="mt-2 w-auto h-32 rounded-md object-contain border"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Google Review */}
+          <div className="mb-2">
+            <div className="flex items-center">
+              <h2 className="text-lg font-normal mr-1">Google My Business Review</h2>
+              <Link
+                className="text-xs underline"
+              >
+                (Review Here)
+              </Link>
+            </div>
+
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer">
+              <label htmlFor="google-upload" className="flex flex-col cursor-pointer">
+                <div className="flex gap-2">
+                  <Download className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-medium text-gray-700">Upload Screenshot of Your Google My Business Review</span>
+                </div>
+                <p className="mt-2 text-xs text-gray-500">
+                  File size should be a minimum of 2MB and in PNG or JPG format.
+                </p>
+                <input
+                  id="google-upload"
+                  type="file"
+                  className="hidden"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={handleGoogleUpload}
+                />
+              </label>
+              {googleImage && (
+                <div className="mt-3 text-center">
+                  <p className="text-sm text-green-600">File selected: {googleImage.name}</p>
+                  <img
+                    src={URL.createObjectURL(googleImage)}
+                    alt="Google review preview"
+                    className="mt-2 w-auto h-32 rounded-md object-contain border"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mb-10">
+            <p className="text-xs">*Kindly note that you only get rewarded if you are an active user.</p>
+          </div>
+
+          <div className="mt-10 px-6">
+            <FooterButton
+              text="Submit for verification"
+              className="!text-[1rem] uppercase"
+              onClick={action}
+            />
+          </div>
+        </form>
+      </div>
+    </Modal>
+  );
+};
+
+export const ProofVerificationModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("PROOF_VERIFICATION", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Review Proof Submitted",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-6 w-full max-w-xl mx-auto">
+        <div className="flex flex-col gap-2 items-center">
+          <figure className="max-w-40">
+            <img src={CompletedIcon} alt="" />
+          </figure>
+          <p className="text-2xl text-black">Submitted.
+            Verification Pending</p>
+          <span className="block text-center mb-8">Your review proof has been successfully submitted. We’ll verify it shortly,
+            and if you’re eligible, your cashback will be credited.
+            Please check your email for updates.</span>
+          <FooterButton
+            text="Go Back Home"
+            className="!text-[1rem] uppercase"
+            onClick={action}
+          />
+        </div>
       </div>
     </Modal>
   );

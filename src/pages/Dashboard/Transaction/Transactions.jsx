@@ -109,58 +109,85 @@ export const Transactions = () => {
           <div className="mb-5">
             <h4 className="mb-1 text-lg font-normal">Today</h4>
             <hr />
-            <div className="space-y-1 mt-3">
-              {transactions.map((transaction) => (
-                <Link
-                  to={routes.DASHBOARD.transaction.index.abs}
-                  key={transaction.id}
-                  className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
-                >
-                  <div className="flex items-center">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
-                      {transaction.icon}
+            <div className="space-y-1 mt-3"> 
+              {transactions.map((transaction) => {
+                let route;
+
+                // Dynamically set route based on subtitle or type
+                if (transaction.subtitle === "Sent Out") {
+                  route = routes.DASHBOARD.transaction.index.abs;
+                } else if (transaction.subtitle === "Sent In") {
+                  route = routes.DASHBOARD.transaction.send.abs;
+                } else if (transaction.subtitle === "Reward") {
+                  route = routes.DASHBOARD.transaction.cashback.abs;
+                }
+
+                return (
+                  <Link
+                    to={route}
+                    key={transaction.id}
+                    className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
+                        {transaction.icon}
+                      </div>
+                      <div>
+                        <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
+                        <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
-                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                    <div className="text-right">
+                      <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
+                        {transaction.amount}
+                      </h5>
+                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
-                      {transaction.amount}
-                    </h5>
-                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <div className="mb-4">
             <h4 className="mb-1 text-lg font-normal">18th January, 2025</h4>
             <hr />
-            <div className="space-y-1 mt-3">
-              {transactions.map((transaction) => (
-                <Link
-                  key={transaction.id}
-                  className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
-                >
-                  <div className="flex items-center">
-                    <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
-                      {transaction.icon}
+            <div className="space-y-1 mt-3"> 
+              {transactions.map((transaction) => {
+                let route;
+
+                // Dynamically set route based on subtitle or type
+                if (transaction.subtitle === "Sent Out") {
+                  route = routes.DASHBOARD.transaction.index.abs;
+                } else if (transaction.subtitle === "Sent In") {
+                  route = routes.DASHBOARD.transaction.send.abs;
+                } else if (transaction.subtitle === "Reward") {
+                  route = routes.DASHBOARD.transaction.cashback.abs;
+                }
+
+                return (
+                  <Link
+                    to={route}
+                    key={transaction.id}
+                    className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
+                        {transaction.icon}
+                      </div>
+                      <div>
+                        <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
+                        <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
-                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                    <div className="text-right">
+                      <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
+                        {transaction.amount}
+                      </h5>
+                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
-                      {transaction.amount}
-                    </h5>
-                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </main>

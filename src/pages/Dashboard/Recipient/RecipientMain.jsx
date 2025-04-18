@@ -55,7 +55,8 @@ export const RecipientMain = () => {
 					<li className="flex flex-col items-center text-center gap-y-2">
 						<ProfileImage
 							to={`${routes.DASHBOARD.recipients.recep.abs}/123`}
-							AvatarImage={avatar1}
+              AvatarImage={avatar1}
+              extraImage={NigeriaIcon}
 							type="button"
 							as={Link}
 							hasExtraImage={true}

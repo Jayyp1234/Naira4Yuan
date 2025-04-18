@@ -5,7 +5,7 @@ import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
 
 export const Beneficiary = ({ userData, itemAs: ItemAs = "div", hasRightImage = false, subImage, ...others }) => {
 	return (
-		<ItemAs className="flex items-center justify-between gap-x-4" {...others}>
+    <ItemAs className="flex items-center justify-between gap-x-4" {...others}>
 			<ProfileImage AvatarImage={userData?.image ?? avatar4} extraImage={subImage} hasExtraImage={true} size="lg" />
 			<aside className="flex flex-grow flex-col text-start items-start">
 				<span className="font-medium text-[1.015rem]">{userData?.maintext ?? "Adam R. ACC"}</span>
