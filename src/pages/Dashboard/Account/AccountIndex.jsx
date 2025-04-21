@@ -4,7 +4,7 @@ import { BankIcon, BellIconVar, CameraIcon, ChevronRightIcon, CopyIcon, IconWrap
 import { accountArray } from "@/data/dataArray";
 import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Items";
 import { avatar2 } from "@/data";
-import { CloseAccountModal } from "@/components/LayoutComponents/AllModals";
+import { CloseAccountModal, SwitchBusinessAccountModal } from "@/components/LayoutComponents/AllModals";
 import { routes } from "@/data/routes";
 
 const commonLinkStyle =
@@ -20,18 +20,17 @@ export const AccountIndex = () => {
 
   const [modalState, setModalState] = useState({
     CLOSE_ACCOUNT: false,
+    SWITCH_BUSINESS_ACCOUNT: false,
   });
 
-  const toggleModal = (key, value) => {
+  const toggleModal = (type, value) => {
     setModalState((prev) => ({
       ...prev,
-      [key]: value,
+      [type]: value,
     }));
   };
 
   const modalData = { toggleModal };
-
-  // const commonLinkStyle = "py-2.5 px-2 rounded-lg transition-all duration-150";
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-6 mb-10">
@@ -66,12 +65,14 @@ export const AccountIndex = () => {
           </div>
         </div>
         <BorderWrapper
+          onClick={() => toggleModal("SWITCH_BUSINESS_ACCOUNT", true)}
           radiusSize="lg"
           type="button"
           as="button"
           borderStyle="border-dashed border-slate-300"
           noBorderAt="rounded-tl-none"
-          cn="border-2 py-2.5 px-3 bg-slate-100/60 flex items-center w-full gap-x-3.5">
+          cn="border-2 py-2.5 px-3 bg-slate-100/60 flex items-center w-full gap-x-3.5"
+        >
           <IconWrapper className="mt-1 bg-white p-2 rounded-full">
             <BellIconVar />
           </IconWrapper>
@@ -82,6 +83,7 @@ export const AccountIndex = () => {
             <ChevronRightIcon />
           </IconWrapper>
         </BorderWrapper>
+
         <div className="text-center flex flex-col items-center gap-y-2">
           <div className="flex items-center gap-x-2">
             <span>Membership number:</span>
@@ -168,6 +170,14 @@ export const AccountIndex = () => {
         action={() => {
           console.log("Closing account...");
           toggleModal("CLOSE_ACCOUNT", false);
+        }}
+      />
+      <SwitchBusinessAccountModal
+        open={modalState.SWITCH_BUSINESS_ACCOUNT}
+        modalData={modalData}
+        action={() => {
+          console.log("Switching to business account...");
+          toggleModal("SWITCH_BUSINESS_ACCOUNT", false);
         }}
       />
     </div >
