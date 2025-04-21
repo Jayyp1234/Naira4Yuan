@@ -5,6 +5,7 @@ import { accountArray } from "@/data/dataArray";
 import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Items";
 import { avatar2 } from "@/data";
 import { CloseAccountModal } from "@/components/LayoutComponents/AllModals";
+import { routes } from "@/data/routes";
 
 const commonLinkStyle =
   "rounded-lg transition-all ease-in-out duration-300 border border-solid border-transparent bg-transparent active:border-slate-400 active:bg-stone-100";
@@ -155,9 +156,9 @@ export const AccountIndex = () => {
           })}
         </div>
         <div className="text-center mt-5">
-          <button className="underline font-medium" type="button">
+          <Link to={routes.DASHBOARD.help.index.abs} className="underline font-medium">
             Give us feedback
-          </button>
+          </Link>
         </div>
       </aside>
 
