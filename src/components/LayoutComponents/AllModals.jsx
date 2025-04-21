@@ -19,7 +19,7 @@ export const BasicVerificationModal = ({ open, modalData, action }) => {
   return (
     <Modal
       isOpen={open}
-      onRequestClose={() => toggleModal("SELECT_BANK", false)}
+      onRequestClose={() => toggleModal("SELECT_ID", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "border-b", textStyle: "text-main" }}>
       <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
@@ -34,7 +34,7 @@ export const BasicVerificationModal = ({ open, modalData, action }) => {
           />
         </div>
         <div>
-          <FooterButton text="Proceed" className="!text-[1.05rem] uppercase" />
+          <FooterButton onClick={action} text="Proceed" className="!text-[1.05rem] uppercase" />
         </div>
       </div>
     </Modal>
@@ -46,25 +46,25 @@ export const SelectIdTypeModal = ({ open, modalData, action }) => {
   return (
     <Modal
       isOpen={open}
-      onRequestClose={() => toggleModal("SELECT_ID", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Select ID type", style: "", textStyle: "text-main" }}>
+      onRequestClose={() => toggleModal("SELECT_ID_TYPE", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
       <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+        <div className="flex flex-col flex-grow gap-y-4 min-h-72">
+          <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b pb-3">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="bvn" />
-              <span className="text-sm leading-tight flex">Bank Verification Number (BVN)</span>
+              <span className="text-xl leading-tight flex">Bank Verification Number (BVN)</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b pb-2">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="nin" />
-              <span className="text-sm leading-tight flex">National Identity Number (NIN)</span>
+              <span className="text-xl leading-tight flex">National Identity Number (NIN)</span>
             </div>
           </label>
         </div>
         <div>
-          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton onClick={action} text="Continue" className="!text-[1.05rem] uppercase" />
         </div>
       </div>
     </Modal>
@@ -136,6 +136,7 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
 
 export const ManualBVNVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+
   return (
     <Modal
       isOpen={open}
@@ -717,8 +718,9 @@ export const HowToUseNaira4YuanModal = ({ open, modalData, action }) => {
   );
 };
 
-const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
+export const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -733,7 +735,7 @@ const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
   return (
     <Modal
       isOpen={open}
-      onRequestClose={() => toggleModal("SELECT_BANK", false)}
+      onRequestClose={() => toggleModal("MANUAL_BVN_VERIFICATION", false)}
       modalHeader={{
         hasHeader: true,
         modalTitle: "Manual BVN Verification",
@@ -781,10 +783,7 @@ const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
         <div>
           <FooterButton
             text="Verify"
-            onClick={() => {
-              action?.();
-              toggleModal("SELECT_BANK", false);
-            }}
+            onClick={action}
             className="!text-[1.05rem] uppercase"
           />
         </div>
@@ -793,15 +792,14 @@ const FundWalletManualBVNVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-const BvnVerificationModal = ({ open, modalData, action }) => {
+export const BvnVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [otp, setOtp] = useState("");
-  const [showManualVerification, setShowManualVerification] = useState(false);
 
   return (
     <>
       <Modal
-        isOpen={open && !showManualVerification}
+        isOpen={open}
         onRequestClose={() => toggleModal("AUTH_BVN_VERIFICATION", false)}
         modalHeader={{
           hasHeader: true,
@@ -849,9 +847,9 @@ const BvnVerificationModal = ({ open, modalData, action }) => {
               <span className="text-base">
                 I don{`'`}t have access to my BVN phone number
                 <button
+                  onClick={() => toggleModal("MANUAL_BVN_VERIFICATION", true)}
                   type="button"
                   className="ms-2 font-semibold underline text-main"
-                  onClick={() => setShowManualVerification(true)}
                 >
                   Use manual method
                 </button>
@@ -861,36 +859,23 @@ const BvnVerificationModal = ({ open, modalData, action }) => {
           <div>
             <FooterButton
               text="Continue"
-              onClick={() => {
-                action?.();
-                toggleModal("AUTH_BVN_VERIFICATION", false);
-              }}
+              onClick={action}
               className="!text-[1.05rem] uppercase"
             />
           </div>
         </div>
       </Modal>
-
-      <FundWalletManualBVNVerificationModal
-        open={showManualVerification}
-        modalData={{
-          toggleModal: () => setShowManualVerification(false),
-          parentToggleModal: () => toggleModal("AUTH_BVN_VERIFICATION", false)
-        }}
-        action={action}
-      />
     </>
   );
 };
 
-const SimpleVerificationIdModal = ({ open, modalData, action }) => {
+export const SimpleVerificationIdModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
-  const [showBvnVerification, setShowBvnVerification] = useState(false);
 
   return (
     <>
       <Modal
-        isOpen={open && !showBvnVerification}
+        isOpen={open}
         onRequestClose={() => toggleModal("SELECT_BANK", false)}
         modalHeader={{
           hasHeader: true,
@@ -916,28 +901,18 @@ const SimpleVerificationIdModal = ({ open, modalData, action }) => {
           </div>
           <div>
             <FooterButton
-              onClick={() => setShowBvnVerification(true)}
+              onClick={action}
               text="Continue" className="!text-[1.05rem] uppercase" />
           </div>
         </div>
       </Modal>
-
-      <BvnVerificationModal
-        open={showBvnVerification}
-        modalData={{
-          toggleModal: () => setShowBvnVerification(false),
-          parentToggleModal: () => toggleModal("SELECT_BANK", false)
-        }}
-        action={action}
-      />
     </>
   );
 };
 
-const SimpleVerificationModal = ({ open, modalData, action }) => {
+export const SimpleVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [selectedOption, setSelectedOption] = useState("basic-verification");
-  const [showIdVerification, setShowIdVerification] = useState(false);
 
   const preferences = [
     { id: "basic-verification", label: "Basic Verification" },
@@ -951,17 +926,17 @@ const SimpleVerificationModal = ({ open, modalData, action }) => {
   return (
     <>
       <Modal
-        isOpen={open && !showIdVerification}
-        onRequestClose={() => toggleModal("SELECT_BANK", false)}
+        isOpen={open}
+        onRequestClose={() => toggleModal("BASIC_VERIFICATION", false)}
         modalHeader={{
           hasHeader: true,
-          modalTitle: "Simple Verification",
+          modalTitle: "Basic Verification",
           style: "border-b",
           textStyle: ""
         }}
       >
         <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
-          <div className="flex flex-col flex-grow gap-y-4 min-h-60">
+          <div className="flex flex-col flex-grow gap-y-5 min-h-60">
             {preferences.map((preference) => (
               <label
                 key={preference.id}
@@ -976,7 +951,7 @@ const SimpleVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-lg font-medium leading-tight flex">{preference.label}</span>
+                    <span className="text-2xl font-medium leading-tight flex">{preference.label}</span>
                   </div>
                 </div>
               </label>
@@ -985,34 +960,18 @@ const SimpleVerificationModal = ({ open, modalData, action }) => {
           <div className="mt-2">
             <FooterButton
               text="Proceed"
-              onClick={() => setShowIdVerification(true)}
+              onClick={action}
               className="!text-[1.05rem] animate-active"
             />
           </div>
         </div>
       </Modal>
-
-      <SimpleVerificationIdModal
-        open={showIdVerification}
-        modalData={{
-          toggleModal: () => setShowIdVerification(false),
-          parentToggleModal: () => toggleModal("SELECT_BANK", false)
-        }}
-        action={action}
-      />
     </>
   );
 };
 
-const FundWalletBankTransferModal = ({ open, modalData, action }) => {
+export const FundWalletBankTransferModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
-
-  const handleTransfer = () => {
-    // Execute any provided action
-    if (action) action();
-    // Close the modal
-    toggleModal("DASHBOARD_BANK_TRANSFER", false);
-  };
 
   return (
     <Modal
@@ -1066,7 +1025,7 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
         <div className="mt-4">
           <FooterButton
             text="I have made the transfer"
-            onClick={handleTransfer}
+            onClick={action}
             className="!text-[1.05rem] animate-active"
           />
         </div>
@@ -1078,8 +1037,6 @@ const FundWalletBankTransferModal = ({ open, modalData, action }) => {
 export const FundWalletVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
   const [selectedOption, setSelectedOption] = useState("");
-  const [showSimpleVerification, setShowSimpleVerification] = useState(false);
-  const [showBankTransfer, setShowBankTransfer] = useState(false);
 
   const preferences = [
     { id: "basic-verification", label: "Basic Verification" },
@@ -1090,19 +1047,11 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
     setSelectedOption(id);
   };
 
-  const handleProceed = () => {
-    if (selectedOption === "basic-verification") {
-      setShowSimpleVerification(true);
-    } else {
-      setShowBankTransfer(true);
-    }
-  };
-
   return (
     <>
       <Modal
-        isOpen={open && !showSimpleVerification && !showBankTransfer}
-        onRequestClose={() => toggleModal("SELECT_BANK", false)}
+        isOpen={open}
+        onRequestClose={() => toggleModal("KYC_VERIFICATION", false)}
         modalHeader={{
           hasHeader: true,
           modalTitle: "KYC Verification",
@@ -1110,14 +1059,14 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
           textStyle: ""
         }}
       >
-        <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
-          <div className="w-10/12 xl:w-7/12 mx-auto text-center">
-            <span className="text-base">
+        <div className="p-6 pb-10 flex flex-col gap-y-10 w-full mx-auto">
+          <div className="w-full xl:w-9/12 mx-auto text-center">
+            <span className="text-xl">
               You have to be verified to proceed with this transaction.
             </span>
           </div>
 
-          <div className="flex flex-col flex-grow gap-y-3 min-h-60">
+          <div className="flex flex-col flex-grow gap-y-5 min-h-60">
             {preferences.map((preference) => (
               <label
                 key={preference.id}
@@ -1132,7 +1081,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-lg font-medium leading-tight flex">{preference.label}</span>
+                    <span className="text-2xl font-medium leading-tight flex">{preference.label}</span>
                   </div>
                   {selectedOption === preference.id && (
                     <div className="ml-2">
@@ -1147,37 +1096,13 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
           <div className="mt-2">
             <FooterButton
               text="Proceed"
-              onClick={handleProceed}
+              onClick={action}
               className="!text-[1.05rem] animate-active"
             />
           </div>
         </div>
       </Modal>
 
-      <SimpleVerificationModal
-        open={showSimpleVerification}
-        modalData={{
-          toggleModal: () => setShowSimpleVerification(false),
-          parentToggleModal: () => toggleModal("SELECT_BANK", false)
-        }}
-        action={() => {
-          setShowSimpleVerification(false);
-          setShowBankTransfer(true);
-        }}
-      />
-
-      <FundWalletBankTransferModal
-        open={showBankTransfer}
-        modalData={{
-          toggleModal: (type, isOpen) => {
-            setShowBankTransfer(isOpen);
-            if (!isOpen) {
-              toggleModal("SELECT_BANK", false);
-            }
-          }
-        }}
-        action={action}
-      />
     </>
   );
 };
@@ -1921,6 +1846,8 @@ export const AddNicknameModal = ({ open, modalData, action }) => {
 export const WithdrawalModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
 
+  const banks = ["Access Bank", "GTBank", "First Bank", "UBA", "Zenith Bank"]; // Add as needed
+
   return (
     <Modal
       isOpen={open}
@@ -1934,14 +1861,23 @@ export const WithdrawalModal = ({ open, modalData, action }) => {
     >
       <div className="p-6 w-full max-w-xl mx-auto flex flex-col gap-y-6">
         <div className="flex flex-col gap-y-4">
-          <FormControl
-            type="text"
-            label={{
-              exist: true,
-              text: "Bank",
-            }}
-            placeholder="Select your bank"
-          />
+          {/* Bank Dropdown */}
+          <div className="flex flex-col gap-y-1">
+            <label htmlFor="bank" className="text-base">Bank</label>
+            <select
+              id="bank"
+              name="bank"
+              className="w-full bg-[#F8F9FD] focus:bg-[#eff1f7] text-black rounded-lg py-3.5 px-2 text-base"
+              defaultValue=""
+            >
+              <option value="" disabled>Select your bank</option>
+              {banks.map((bank) => (
+                <option key={bank} value={bank}>{bank}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Account Number */}
           <FormControl
             type="tel"
             inputMode="numeric"
@@ -1951,6 +1887,8 @@ export const WithdrawalModal = ({ open, modalData, action }) => {
             }}
             placeholder="Enter your account number"
           />
+
+          {/* Account Name */}
           <div>
             <label htmlFor="accname" className="text-base">Account Name</label>
             <div className="w-full bg-[#0000001F] py-4 px-2 uppercase rounded-lg">BUSAYO OLAITAN</div>
@@ -2123,7 +2061,7 @@ export const ProofVerificationModal = ({ open, modalData, action }) => {
           <figure className="max-w-40">
             <img src={CompletedIcon} alt="" />
           </figure>
-          <p className="text-2xl text-black">Submitted.
+          <p className="text-2xl text-black text-center">Submitted.
             Verification Pending</p>
           <span className="block text-center mb-8">Your review proof has been successfully submitted. We’ll verify it shortly,
             and if you’re eligible, your cashback will be credited.
@@ -2163,6 +2101,96 @@ export const InboxModal = ({ open, modalData, action, modalContent }) => {
           className="!text-[1.05rem] uppercase"
           onClick={action}
         />
+      </div>
+    </Modal>
+  );
+};
+
+export const DeleteConfirmationModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("DELETE_CONFIRMATION", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="pb-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-60">
+          <section className="mt-4">
+            <div className="text-center">
+              <h2 className="text-3xl font-semibold text-red-600">Delete Confirmation</h2>
+              <p className="text-base mt-2 text-gray-700">
+                Are you sure you want to delete this item? This action cannot be undone.
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+              <button
+                onClick={() => toggleModal("DELETE_CONFIRMATION", false)}
+                className="w-full sm:w-40 py-3 rounded-lg border bg-gray-100 border-gray-300 hover:bg-gray-300 text-gray-800 transition-all duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={action}
+                className="w-full sm:w-40 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-all duration-200"
+              >
+                Delete
+              </button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const CloseAccountModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("CLOSE_ACCOUNT", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="pb-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-60">
+          <section className="mt-4">
+            <div className="text-center">
+              <h2 className="text-3xl font-semibold text-red-600">Close Account</h2>
+              <p className="text-base mt-2 text-gray-700">
+                Are you sure you want to permanently close your account? This action is irreversible and all your data will be lost.
+              </p>
+            </div>
+
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+              <button
+                onClick={() => toggleModal("CLOSE_ACCOUNT", false)}
+                className="w-full sm:w-40 py-3 rounded-lg border bg-gray-100 border-gray-300 hover:bg-gray-300 text-gray-800 transition-all duration-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={action}
+                className="w-full sm:w-40 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-all duration-200"
+              >
+                Close Account
+              </button>
+            </div>
+          </section>
+        </div>
       </div>
     </Modal>
   );

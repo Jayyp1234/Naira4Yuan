@@ -4,6 +4,7 @@ import { BankIcon } from "@/data/Icons";
 import { IconWrapper } from "@/data/Icons";
 import { NigeriaIcon, ChinaIcon } from "@/data";
 import { FundWalletVerificationModal } from "/src/components/LayoutComponents/AllModals";
+import { BasicVerificationModal, BvnVerificationModal, FundWalletBankTransferModal, FundWalletManualBVNVerificationModal, SelectIdTypeModal, SimpleVerificationModal } from "@/components/LayoutComponents/AllModals";
 
 // export const FundWallet = () => {
 //   const [amount, setAmount] = useState("10000");
@@ -107,13 +108,47 @@ import { FundWalletVerificationModal } from "/src/components/LayoutComponents/Al
 
 export const FundWallet = () => {
   const [amount, setAmount] = useState("10000");
-  const [showVerification, setShowVerification] = useState(false);
+  const [isShowVerification, setIsShowVerification] = useState(false);
+  const [isBasicVerification, setIsBasicVerification] = useState(false);
+  const [isIdTypeVerification, setIsIdTypeVerification] = useState(false);
+  const [isIdVerification, setIsIdVerification] = useState(false);
+  const [isBvnVerification, setIsBvnVerification] = useState(false);
+  const [isManualVerification, setIsManualVerification] = useState(false);
+  const [isAccVerification, setIsAccVerification] = useState(false);
   const [currency, setCurrency] = useState("NGN");
 
   const currencyOptions = [
     { value: "NGN", label: "NGN", icon: NigeriaIcon },
     { value: "CNY", label: "CNY", icon: ChinaIcon },
   ];
+
+  const toggleModal = (type, value) => {
+    switch (type) {
+      case "KYC_VERIFICATION":
+        setIsShowVerification(value);
+        break;
+      case "BASIC_VERIFICATION":
+        setIsBasicVerification(value);
+        break;
+      case "SELECT_ID_TYPE":
+        setIsBasicVerification(value);
+        break;
+      case "SELECT_ID":
+        setIsIdVerification(value);
+        break;
+      case "AUTH_BVN_VERIFICATION":
+        setIsBvnVerification(value);
+        break;
+      case "MANUAL_BVN_VERIFICATION":
+        setIsManualVerification(value);
+        break;
+      case "DASHBOARD_BANK_TRANSFER":
+        setIsAccVerification(value);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -182,7 +217,7 @@ export const FundWallet = () => {
 
         <button
           type="button"
-          onClick={() => setShowVerification(true)}
+          onClick={() => toggleModal("KYC_VERIFICATION", true)}
           className="w-full py-3 text-center rounded-xl font-medium text-black bg-[#F1C34E] hover:bg-[#e3b938] transition"
         >
           Continue
@@ -190,13 +225,59 @@ export const FundWallet = () => {
       </div>
 
       <FundWalletVerificationModal
-        open={showVerification}
-        modalData={{
-          toggleModal: (type, isOpen) => setShowVerification(isOpen)
-        }}
+        open={isShowVerification}
+        modalData={{ toggleModal }}
         action={() => {
-          console.log("Transfer completed");
-          setShowVerification(false);
+          setIsShowVerification(false);
+          setIsBasicVerification(true);
+        }}
+      />
+      <SimpleVerificationModal
+        open={isBasicVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsBasicVerification(false);
+          setIsIdTypeVerification(true);
+        }}
+      />
+      <SelectIdTypeModal
+        open={isIdTypeVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsIdTypeVerification(false);
+          setIsIdVerification(true);
+        }}
+      />
+      <BasicVerificationModal
+        open={isIdVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsIdVerification(false);
+          setIsBvnVerification(true);
+        }}
+      />
+      <BvnVerificationModal
+        open={isBvnVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsBvnVerification(false);
+          setIsAccVerification(true);
+        }}
+      />
+      <FundWalletManualBVNVerificationModal
+        open={isManualVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsBvnVerification(false);
+          setIsManualVerification(false);
+          setIsAccVerification(true);
+        }}
+      />
+      <FundWalletBankTransferModal
+        open={isAccVerification}
+        modalData={{ toggleModal }}
+        action={() => {
+          setIsAccVerification(false);
         }}
       />
     </>

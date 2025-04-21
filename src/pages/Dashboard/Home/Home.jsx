@@ -193,7 +193,7 @@ export const Home = () => {
                 </aside>
                 <aside className="flex flex-col gap-y-5">
                   <Xchange />
-                  <FooterButton text="Continue" className="!text-base animate-active" />
+                  <FooterButton onClick={() => navigate(routes.DASHBOARD.send.abs)} text="Continue" className="!text-base animate-active" />
                 </aside>
               </div>
             </div>

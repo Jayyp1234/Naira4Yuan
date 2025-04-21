@@ -154,8 +154,6 @@ export const Transactions = () => {
             <div className="space-y-1 mt-3"> 
               {transactions.map((transaction) => {
                 let route;
-
-                // Dynamically set route based on subtitle or type
                 if (transaction.subtitle === "Sent Out") {
                   route = routes.DASHBOARD.transaction.index.abs;
                 } else if (transaction.subtitle === "Sent In") {

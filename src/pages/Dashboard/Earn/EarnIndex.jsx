@@ -202,7 +202,7 @@ export const EarnIndex = () => {
         <div className="transition-all duration-500 ease-in-out">
           {slides[currentSlide].content}
         </div>
-        <div className="flex gap-2 justify-center mb-5">
+        {/* <div className="flex gap-2 justify-center mb-5">
           {slides.map((slide, index) => (
             <button
               key={slide.id}
@@ -213,7 +213,7 @@ export const EarnIndex = () => {
                 } transition-all`}
             ></button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col space-y-4">
@@ -264,7 +264,7 @@ export const EarnIndex = () => {
           {cashbackData.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col sm:flex-row justify-between sm:items-center py-4 border-b last:border-none gap-2"
+              className="flex flex-col sm:flex-row justify-between sm:items-center py-3 border-b last:border-none gap-2"
             >
               <div className="flex flex-col">
                 <p className="text-black font-medium text-lg">Cashback Earned</p>

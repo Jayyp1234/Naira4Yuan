@@ -107,28 +107,40 @@ export const HelpTransaction = () => {
           </div>
 
           <div className="space-y-2 sm:space-y-4">
-            {transactions.map((transaction) => (
-              <Link
-                key={transaction.id}
-                className="flex justify-between items-center py-2 sm:py-3 border-b border-gray-100 hover:bg-gray-50 transition"
-              >
-                <div className="flex items-center">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
-                    {transaction.icon}
+            {transactions.map((transaction) => {
+              let route;
+              if (transaction.subtitle === "Sent Out") {
+                route = routes.DASHBOARD.transaction.index.abs;
+              } else if (transaction.subtitle === "Sent In") {
+                route = routes.DASHBOARD.transaction.send.abs;
+              } else if (transaction.subtitle === "Reward") {
+                route = routes.DASHBOARD.transaction.cashback.abs;
+              }
+
+              return (
+                <Link
+                  to={route}
+                  key={transaction.id}
+                  className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
+                >
+                  <div className="flex items-center">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
+                      {transaction.icon}
+                    </div>
+                    <div>
+                      <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
+                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
-                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                  <div className="text-right">
+                    <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
+                      {transaction.amount}
+                    </h5>
+                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
                   </div>
-                </div>
-                <div className="text-right">
-                  <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
-                    {transaction.amount}
-                  </h5>
-                  <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         </div>
 

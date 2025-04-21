@@ -371,20 +371,20 @@ export const accountArray = [
 			},
 		],
 	},
-	{
-		title: "Actions and Agreements",
-		list: [
-			{
-				title: "Our agreements",
-				icon: AgreementsIcon,
-				to: routes.DASHBOARD.account,
-			},
-			{
-				title: "Close account",
-				description: "Close your personal account",
-				icon: PowerIcon,
-				to: routes.DASHBOARD.account,
-			},
-		],
-	},
+  {
+    title: "Actions and Agreements",
+    list: [
+      {
+        title: "Our agreements",
+        icon: AgreementsIcon,
+        to: routes.DASHBOARD.account,
+      },
+      {
+        title: "Close account",
+        description: "Close your personal account",
+        icon: PowerIcon,
+        modal: "CLOSE_ACCOUNT",
+      },
+    ],
+  },
 ];

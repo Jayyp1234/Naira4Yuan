@@ -1,11 +1,12 @@
 
 import { useState } from "react";
-import { ArrowUp, ArrowDown, ArrowRight, User, BarChart3, Play, PlayCircle, Book, Calendar, Captions, Tv, GraduationCap } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowRight, User, BarChart3, Play, PlayCircle, Book, Calendar, Captions, Tv, GraduationCap, CalendarDays, ScanFace, RadioReceiver } from 'lucide-react';
 import { Link, useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import { StateDataContext } from "../../../App";
 import { routes } from "@/data/routes";
 import { WhatsApp } from "@mui/icons-material";
+import { UserVerificationIcon } from "@/data/Icons";
 
 export const Help = () => {
   const { pathname } = useLocation();
@@ -99,7 +100,7 @@ export const Help = () => {
       id: 1,
       title: "How To Videos",
       description: "Step-by-step video guides on how to use all Naira4Yuan features.",
-      icon: <PlayCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <Play className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 2,
@@ -111,19 +112,19 @@ export const Help = () => {
       id: 3,
       title: "Naira4yuan Blog",
       description: "Regular insights into our users' stories and experiences with Yuan.",
-      icon: <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <CalendarDays className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 4,
       title: "The Yuan Podcasts (TYP)",
       description: "The Yuan Podcast showcases top industry leaders for insightful discussions.",
-      icon: <Captions className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <UserVerificationIcon className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 5,
       title: "Naira4yuan Webinars",
       description: "Naira4yuan webinars just for you — guides & insights from Naira4Yuan.",
-      icon: <Tv className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <RadioReceiver className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 6,
@@ -132,8 +133,6 @@ export const Help = () => {
       icon: <WhatsApp className="w-5 h-5 sm:w-6 sm:h-6" />
     },
   ];
-
-  const displayedTransactions = transactions.slice(0, 3);
 
 
   return (
@@ -159,25 +158,42 @@ export const Help = () => {
           </div>
 
           <div className="space-y-2 sm:space-y-4">
-            {displayedTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex justify-between items-center py-2 sm:py-3 border-b border-gray-100">
-                <div className="flex items-center">
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
-                    {transaction.icon}
-                  </div>
-                  <div>
-                    <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
-                    <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
-                    {transaction.amount}
-                  </h5>
-                  <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
-                </div>
-              </div>
-            ))}
+            <div className="space-y-1 mt-3">
+              {transactions.slice(0, 3).map((transaction) => {
+                let route;
+                if (transaction.subtitle === "Sent Out") {
+                  route = routes.DASHBOARD.transaction.index.abs;
+                } else if (transaction.subtitle === "Sent In") {
+                  route = routes.DASHBOARD.transaction.send.abs;
+                } else if (transaction.subtitle === "Reward") {
+                  route = routes.DASHBOARD.transaction.cashback.abs;
+                }
+
+                return (
+                  <Link
+                    to={route}
+                    key={transaction.id}
+                    className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
+                  >
+                    <div className="flex items-center">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-100 rounded-full mr-2 sm:mr-4">
+                        {transaction.icon}
+                      </div>
+                      <div>
+                        <h5 className="text-sm sm:text-base md:text-regular font-normal">{transaction.title}</h5>
+                        <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.subtitle}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <h5 className={`text-sm sm:text-base md:text-regular font-normal ${transaction.type === "credit" ? "text-green-600" : "text-gray-800"}`}>
+                        {transaction.amount}
+                      </h5>
+                      <p className="text-xs sm:text-sm text-[#3D4F60]">{transaction.balance}</p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
 

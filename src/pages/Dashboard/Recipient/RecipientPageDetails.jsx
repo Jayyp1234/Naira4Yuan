@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { ProfileImage } from "../../../components/PageComponents/Dashboard/ProfileImage";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { SwitchInput } from "../../../components/BaseComponents/FormInputs";
+import { DeleteConfirmationModal } from "@/components/LayoutComponents/AllModals";
 
 export const RecipientPageDetails = () => {
+  const navigate = useNavigate();
   const { recipientId } = useParams();
+
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  const toggleModal = (key, state) => {
+    if (key === "DELETE_CONFIRMATION") {
+      setIsDeleteOpen(state);
+    }
+  };
+
+  const handleDelete = () => {
+    console.log("Item deleted!");
+    toggleModal("DELETE_CONFIRMATION", false);
+  };
+
+  const modalData = { toggleModal };
+
 	return (
 		<>
 			<header className="flex flex-col gap-y-4">
@@ -14,10 +32,10 @@ export const RecipientPageDetails = () => {
 				<div>
 					<h2 className="font-bold text-2xl">Adam Ron</h2>
 					<div className="flex items-center gap-x-3 mt-1.5">
-						<button type="button" className="rounded-xl rounded-tl-sm animate-active bg-[#F1C34E] font-semibold py-2.5 px-4 leading-tight">
+            <button onClick={() => navigate(routes.DASHBOARD.send.abs)} type="button" className="rounded-xl rounded-tl-sm animate-active bg-[#F1C34E] font-semibold py-2.5 px-4 leading-tight">
 							Send
 						</button>
-						<button type="button" className="rounded-xl rounded-tl-sm animate-active bg-red-100 text-red-600 font-semibold py-2.5 px-4 leading-tight">
+            <button onClick={() => toggleModal("DELETE_CONFIRMATION", true)} type="button" className="rounded-xl rounded-tl-sm animate-active bg-red-100 text-red-600 font-semibold py-2.5 px-4 leading-tight">
 							Delete
 						</button>
 					</div>
@@ -78,7 +96,13 @@ export const RecipientPageDetails = () => {
 						</div>
 						<span className="text-[.95rem]">View your transactions with ADAM R. ACC.</span>
 					</div>
-				</section>
+        </section>
+
+        <DeleteConfirmationModal
+          open={isDeleteOpen}
+          modalData={modalData}
+          action={handleDelete}
+        />
 			</main>
 		</>
 	);

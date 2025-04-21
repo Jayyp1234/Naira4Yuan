@@ -1,17 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
+import { routes } from "../../data/routes";
 import { ChevronLeftIcon, ChevronRightIcon, IconWrapper } from "@/data/Icons";
-
-const routes = {
-  DASHBOARD: {
-    account: {
-      index: {
-        rel: "/dashboard/account",
-      },
-    },
-  },
-};
 
 export const DashboardHeader3 = ({
   user = { name: "ADEREMI IBRAHIM TUNDE", avatar: DefaultAvatarImage },
@@ -28,7 +19,7 @@ export const DashboardHeader3 = ({
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-8 pb-3">
       {/* Left Section */}
       <div className="flex items-start gap-8 w-full">
-        <Link to={""}>
+        <Link to={routes.DASHBOARD.index.abs}>
           <figure className="flex items-center justify-center max-w-32">
             <img src={LogoFullDarkVariant} alt="" />
           </figure>
@@ -108,13 +99,11 @@ export const DashboardHeader5 = ({
       {/* Left Section - Logo and Navigation */}
       <div className="flex items-center gap-8 w-full">
         {/* Logo */}
-        <figure className="flex items-center justify-center max-w-32">
-          <img
-            src={LogoFullDarkVariant}
-            alt="Company Logo"
-            className="max-w-full h-auto"
-          />
-        </figure>
+        <Link to={routes.DASHBOARD.index.abs}>
+          <figure className="flex items-center justify-center max-w-32">
+            <img src={LogoFullDarkVariant} alt="" />
+          </figure>
+        </Link>
 
         {/* Navigation - Hidden on mobile */}
         <nav className="hidden sm:flex items-center flex-1">

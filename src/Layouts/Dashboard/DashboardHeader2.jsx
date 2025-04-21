@@ -9,7 +9,7 @@ export const DashboardHeader4 = () => {
   const navigate = useNavigate();
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-4 pb-3">
-      <Link to={""}>
+      <Link to={routes.DASHBOARD.index.abs}>
         <figure className="flex items-center justify-center max-w-32">
           <img src={LogoFullDarkVariant} alt="" />
         </figure>
@@ -40,7 +40,11 @@ export const DashboardHeader2 = () => {
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-6 pb-3">
       <div className="flex items-start gap-8 w-full">
-        <img src={LogoFullDarkVariant} alt="Naira4Yuan" className="w-28 sm:w-32 object-contain" />
+        <Link to={routes.DASHBOARD.index.abs}>
+          <figure className="flex items-center justify-center max-w-32">
+            <img src={LogoFullDarkVariant} alt="" />
+          </figure>
+        </Link>
 
         <nav className="hidden sm:flex items-start flex-1 mt-2">
           <div className="flex items-center justify-center w-full relative">
