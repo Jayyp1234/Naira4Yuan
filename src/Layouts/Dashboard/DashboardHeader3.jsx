@@ -25,24 +25,11 @@ export const DashboardHeader3 = ({
       ? `${(currentStepIndex / (steps.length - 1)) * 100}%`
       : "0%";
 
-  function toggleSidebar() {
-    const newState = structuredClone(stateData);
-    newState.dashboard.sidebar = !stateData.dashboard.sidebar;
-    setStateData(newState);
-  }
-
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-8 pb-3">
       {/* Left Section */}
       <div className="flex items-start gap-4 w-full">
-        {/* Hamburger for small screens */}
-        <button onClick={toggleSidebar} className="md:hidden mt-0.5 rounded-full hover:bg-slate-200 transition-all duration-300">
-          <IconWrapper>
-            <Menu className="w-6 h-6" />
-          </IconWrapper>
-        </button>
-
-        <Link to={routes.DASHBOARD.index.abs}>
+        <Link to={routes.DASHBOARD.abs}>
           <figure className="flex items-center justify-center max-w-32">
             <img src={LogoFullDarkVariant} alt="Logo" />
           </figure>
@@ -120,16 +107,13 @@ export const DashboardHeader5 = ({
 
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-center justify-between pt-6 pb-3">
-      {/* Left Section - Logo and Navigation */}
       <div className="flex items-center gap-8 w-full">
-        {/* Logo */}
-        <Link to={routes.DASHBOARD.index.abs}>
+        <Link to={routes.DASHBOARD.abs}>
           <figure className="flex items-center justify-center max-w-32">
             <img src={LogoFullDarkVariant} alt="" />
           </figure>
         </Link>
 
-        {/* Navigation - Hidden on mobile */}
         <nav className="hidden sm:flex items-center flex-1">
           <button
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -141,7 +125,6 @@ export const DashboardHeader5 = ({
         </nav>
       </div>
 
-      {/* Right Section - User Profile */}
       <div>
         <button
           type="button"

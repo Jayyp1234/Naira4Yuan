@@ -40,7 +40,7 @@ export const DashboardHeader2 = () => {
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-6 pb-3">
       <div className="flex items-start gap-8 w-full">
-        <Link to={routes.DASHBOARD.index.abs}>
+        <Link to={routes.DASHBOARD.abs}>
           <figure className="flex items-center justify-center max-w-32">
             <img src={LogoFullDarkVariant} alt="" />
           </figure>

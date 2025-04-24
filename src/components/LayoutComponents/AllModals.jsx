@@ -10,7 +10,7 @@ import Iframe from "../BaseComponents/Iframe";
 import { routes } from "../../data/routes";
 import { ArrowDownToLine, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react';
 import { Link, useNavigate } from "react-router";
-import { Xchange } from "./Xchange";
+import { Xchange, XchangeCard } from "./Xchange";
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
@@ -22,8 +22,8 @@ export const BasicVerificationModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_ID", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "border-b", textStyle: "text-main" }}>
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+      <div className="py-6 px-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col flex-grow gap-y-3 min-h-40">
           <FormControl
             type="tel"
             inputMode="numeric"
@@ -49,7 +49,7 @@ export const SelectIdTypeModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_ID_TYPE", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="py-6 px-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
         <div className="flex flex-col flex-grow gap-y-4 min-h-72">
           <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b pb-3">
             <div className="flex items-center gap-2">
@@ -2223,7 +2223,7 @@ export const CalculatorModal = ({ open, modalData, action }) => {
                 </h1>
               </div>
               <div className="mt-2">
-                <Xchange />
+                <XchangeCard />
               </div>
               <div className="flex items-center gap-x-3 mt-4">
                 <button

@@ -15,7 +15,7 @@ export const AlertNotification = ({ message, subMessage, onClose }) => {
 			</div>
 			<button
 				onClick={onClose}
-				className="absolute top-0 right-2 text-3xl text-gray-700 hover:text-black transition-colors"
+        className="absolute top-0 right-2 text-5xl text-gray-700 hover:text-black transition-colors"
 			>
 				&times;
 			</button>
