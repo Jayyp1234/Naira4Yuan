@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Items";
-import { ChevronDownIcon, GalleryImageIcon, IconWrapper, WalletVariantIcon } from "@/data/Icons";
+import { ChevronDownIcon, GalleryImageIcon, IconWrapper, RefreshIcon, WalletVariantIcon } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { StateDataContext } from "../../../App";
 import { useModalTrigger } from "../../../hooks/useModalTrigger";
@@ -13,6 +13,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 import { Beneficiary } from "../../../components/PageComponents/Dashboard/Beneficiary";
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
 import { Check } from "lucide-react";
+import { AlertNotification } from "@/components/BaseComponents/Error";
 
 export const Send = () => {
   const {
@@ -100,11 +101,11 @@ export const SendStep1 = () => {
               </IconWrapper>
             </AccordionTrigger>
 
-            <AccordionContent className="p-4 space-y-4">
+            <AccordionContent className="p-4 space-y-6">
               {/* Payment Method Selection */}
               <div>
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Payment method</h3>
-                <div className="flex flex-wrap gap-2 rounded-lg">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Payment Method</h3>
+                <div className="flex flex-wrap gap-2">
                   {[
                     { name: "Alipay", logo: Alipay },
                     { name: "Wechat", logo: WeChat },
@@ -118,7 +119,7 @@ export const SendStep1 = () => {
                         }`}
                     >
                       <div className="flex items-center gap-1">
-                        <img src={method.logo} alt={method.name} className="w-14 h-auto sm:w-6" />
+                        <img src={method.logo} alt={method.name} className="w-14 sm:w-6 h-auto" />
                         <span className="font-medium">{method.name}</span>
                       </div>
                       <input
@@ -134,10 +135,13 @@ export const SendStep1 = () => {
                 </div>
               </div>
 
+              {/* ID Field or Coming Soon Message */}
               <div>
                 {!isComingSoon ? (
                   <>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{selectedMethod} ID</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {selectedMethod} ID
+                    </label>
                     <input
                       type="text"
                       placeholder={`Enter ${selectedMethod} ID`}
@@ -146,37 +150,47 @@ export const SendStep1 = () => {
                   </>
                 ) : (
                   <div className="w-full p-4 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded-lg">
-                    <p className="text-sm font-medium">{selectedMethod} support is coming soon!</p>
+                      <p className="text-sm font-medium">
+                        {selectedMethod} support is coming soon!
+                      </p>
                   </div>
                 )}
               </div>
 
-              {/* OR Divider */}
-              <div className="flex items-center gap-2">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <span className="text-gray-500 text-xs sm:text-sm">OR</span>
-                <div className="flex-grow border-t border-gray-300"></div>
-              </div>
+              {/* OR Divider and QR Upload (only if not coming soon) */}
+              {!isComingSoon && (
+                <>
+                  {/* OR Divider */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex-grow border-t border-gray-300"></div>
+                    <span className="text-gray-500 text-xs sm:text-sm">OR</span>
+                    <div className="flex-grow border-t border-gray-300"></div>
+                  </div>
 
-              {/* Upload QR Code */}
-              <div className="border border-dashed border-gray-400 p-4 rounded-lg bg-gray-100">
-                <label htmlFor="qrUpload" className="cursor-pointer flex items-center gap-2">
-                  <DownloadIcon className="w-5 h-5" />
-                  <span className="text-gray-700 font-medium">Upload Alipay QR code</span>
-                </label>
-                <input
-                  type="file"
-                  id="qrUpload"
-                  className="hidden"
-                  accept="image/png,application/pdf"
-                />
-                <p className="text-xs text-gray-500 mt-1">File size should be a minimum of 2MB and in PNG or PDF format.</p>
-              </div>
+                  {/* Upload QR Code */}
+                  <div className="border border-dashed border-gray-400 p-4 rounded-lg bg-gray-100">
+                    <label htmlFor="qrUpload" className="cursor-pointer flex items-center gap-2">
+                      <DownloadIcon className="w-5 h-5" />
+                      <span className="text-gray-700 font-medium">
+                        Upload {selectedMethod} QR Code
+                      </span>
+                    </label>
+                    <input
+                      type="file"
+                      id="qrUpload"
+                      className="hidden"
+                      accept="image/png,application/pdf"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      File size should be a minimum of 2MB and in PNG or PDF format.
+                    </p>
+                  </div>
+                </>
+              )}
 
               {/* Save as Beneficiary */}
-              <div className="flex justify-between mb-3">
+              <div className="flex justify-between items-center">
                 <label className="flex items-center gap-2 cursor-pointer" htmlFor="saveBeneficiary">
-                  {/* Hidden native checkbox for accessibility */}
                   <input
                     id="saveBeneficiary"
                     type="checkbox"
@@ -184,21 +198,23 @@ export const SendStep1 = () => {
                     onChange={(e) => setIsChecked(e.target.checked)}
                     className="sr-only"
                   />
-
-                  {/* Custom checkbox UI */}
                   <span
-                    className={`w-4 h-4 flex items-center justify-center rounded border-2 border-[#013930] transition-all duration-200 ${isChecked ? "bg-white" : "bg-transparent"
+                    className={`w-4 h-4 flex items-center justify-center rounded border-2 border-[#013930] transition-all ${isChecked ? "bg-white" : "bg-transparent"
                       }`}
                   >
                     {isChecked && <Check className="text-[#013930] w-3 h-3" />}
                   </span>
-
-                  <span className="text-base text-black font-medium select-none" id="saveBeneficiaryLabel">
+                  <span className="text-base text-black font-medium select-none">
                     Save as beneficiary
                   </span>
                 </label>
 
-                <button onClick={() => toggleModal("HOW_TO_GETALIPAYQR", true)} href="#" className=" text-sm font-regular underline">How to get QR Code</button>
+                <button
+                  onClick={() => toggleModal("HOW_TO_GETALIPAYQR", true)}
+                  className="text-sm font-regular underline"
+                >
+                  How to get QR Code
+                </button>
               </div>
 
               {/* Add a Nickname */}
@@ -211,6 +227,7 @@ export const SendStep1 = () => {
                 </button>
               </div>
             </AccordionContent>
+
           </AccordionItem>
           {/* Beneficiary Selection */}
           <AccordionItem value="item-2" className="border border-solid border-slate-300 rounded-lg">
@@ -268,6 +285,10 @@ export const SendStep1 = () => {
 
 export const SendStep2 = () => {
   const { stateData, setStateData } = React.useContext(StateDataContext);
+  const [selected, setSelected] = React.useState(false);
+  const [showAlert, setShowAlert] = React.useState(true);
+
+  const handleSelect = () => setSelected(prev => !prev);
 
   const {
     data: { modals },
@@ -285,21 +306,55 @@ export const SendStep2 = () => {
     <>
       <div className="flex flex-col gap-y-5 mb-10">
         <section className="flex flex-col gap-y-2">
+          <div className="mb-4">
+            {showAlert && (
+              <AlertNotification
+                message="Payment Method Empty."
+                subMessage="You have to choose a payment method to continue. You can also Fund your wallet if on low balance"
+                onClose={() => setShowAlert(false)}
+              />
+            )}
+          </div>
           <span className="text-lg text-slate-600">Payment Method</span>
-          <BorderWrapper borderColor="border-stone-400" cn="py-2 px-4 flex items-center gap-x-3" radiusSize="2xl" noBorderAt="rounded-tl-sm">
-            <IconWrapper className="rounded-full bg-gray-100 p-2">
-              <WalletVariantIcon className="w-6 h-6" />
-            </IconWrapper>
-            <div className="flex-grow flex flex-col text-start ">
-              <span className="text-lg">Wallet</span>
-              <small className="text-slate-500">201,540.98 NGN</small>
-            </div>
-            <button
-              type="button"
-              className="bg-gray-200 flex items-center px-3.5 animate-active hover:bg-main rounded-md hover:text-white text-[.95rem] leading-tight py-2">
-              Fund
-            </button>
-          </BorderWrapper>
+          <div onClick={handleSelect}>
+            <BorderWrapper
+              borderColor="border-stone-400"
+              borderWidth="border-2"
+              borderStyle="border-dashed"
+              cn={`py-2 px-3 flex flex-col sm:flex-row sm:items-start gap-y-3 sm:gap-x-4 cursor-pointer bg-[#F8F9FD]`}
+              radiusSize="2xl"
+              noBorderAt="rounded-tl-none"
+            >
+              <div className="flex sm:items-start">
+                <input
+                  type="radio"
+                  checked={selected}
+                  onChange={handleSelect}
+                  className="w-4 h-4 accent-green-900 cursor-pointer mt-1 sm:mt-1.5"
+                />
+              </div>
+
+              <div className="flex-grow flex flex-col sm:flex-row sm:items-center justify-between gap-y-2 sm:gap-y-0">
+                <div className="flex-grow flex flex-col text-start">
+                  <span className="text-base sm:text-lg text-[#3D4F60]">Pay with Wallet</span>
+                  <span className="text-sm sm:text-base text-[#3D4F60]">
+                    Balance: NGN 100,000.<span className="text-[.6rem] sm:text-xs">00</span>
+                  </span>
+                  <Link className="flex items-center gap-x-1 mt-1">
+                    <RefreshIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm text-[#3D4F60]">Refresh</span>
+                  </Link>
+                </div>
+
+                <button
+                  type="button"
+                  className="flex items-center animate-active text-sm sm:text-[.95rem] leading-tight py-2 sm:py-2.5"
+                >
+                  + Fund Wallet
+                </button>
+              </div>
+            </BorderWrapper>
+          </div>
         </section>
         <section className="my-2">
           <header className="flex items-center justify-between">

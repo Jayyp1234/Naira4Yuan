@@ -7,13 +7,15 @@ import { GoogleIcon } from "@/data";
 import { StateDataContext } from "@/App";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { ResetPasswordModal } from "../../components/LayoutComponents/AllModals";
+import { AlertNotification } from "@/components/BaseComponents/Error";
 
 const postFormBtnTextStyle = "text-[.92rem] text-main font-semibold";
 
 const Login = () => {
 	const passwordInputRef = React.useRef(null);
 	const [isVisible, setIsVisible] = React.useState(false);
-	const { stateData, setStateData } = React.useContext(StateDataContext);
+  const { stateData, setStateData } = React.useContext(StateDataContext);
+  const [showAlert, setShowAlert] = React.useState(true);
 	const {
 		data: { modals },
 		toggleModal,
@@ -32,7 +34,16 @@ const Login = () => {
 					</Link>
 				</span>
 			</header>
-			<main className="mt-14">
+      <main className="mt-14">
+        <div className="mb-4">
+          {showAlert && (
+            <AlertNotification
+              message="Account logged out."
+              subMessage="We logged you out because you were inactive for 5 minutes — it’s to help keep your account secure."
+              onClose={() => setShowAlert(false)}
+            />
+          )}
+        </div>
 				<form action="" className="flex flex-col gap-y-5">
 					<FormControl
 						type={"text"}
@@ -64,7 +75,7 @@ const Login = () => {
 						</div>
 					</div>
 				</form>
-				<footer className="flex flex-col items-center text-center gap-y-4 mt-3.5">
+        <footer className="flex flex-col items-center text-center gap-y-4 mt-3.5 mb-5">
 					<span>Or log in with</span>
 					<button
 						type="button"

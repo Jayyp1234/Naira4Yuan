@@ -69,11 +69,11 @@ export const Inbox = () => {
           <h6 className="text-lg">Notifications</h6>
         </header>
         <div>
-          <ul className="py-4 w-full flex flex-col gap-y-4">
+          <ul className="py-4 w-full flex flex-col gap-y-1">
             {links.map((link, index) => (
               <li key={index}>
                 <Link
-                  className="flex items-center justify-between flex-grow gap-3"
+                  className="flex items-center justify-between flex-grow gap-3 hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
                   onClick={() => handleLinkClick(link)} // Handle link click
                 >
                   <aside className="text-start flex flex-col gap-y-1">

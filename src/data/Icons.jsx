@@ -1524,4 +1524,95 @@ export const tickCircle = ({ className = svgDefaultSize }) => (
     <path d="M8.46339 11.8289L8.81694 12.1824L9.1705 11.8289L13.4538 7.54555C13.4754 7.52402 13.5061 7.51074 13.5419 7.51074C13.5778 7.51074 13.6085 7.52402 13.6301 7.54555C13.6516 7.56707 13.6649 7.59781 13.6649 7.63366C13.6649 7.66951 13.6516 7.70024 13.6301 7.72177L8.90506 12.4468C8.88109 12.4707 8.8495 12.4837 8.81694 12.4837C8.78439 12.4837 8.7528 12.4707 8.72883 12.4468L6.3705 10.0884C6.34897 10.0669 6.33569 10.0362 6.33569 10.0003C6.33569 9.96447 6.34897 9.93374 6.3705 9.91221C6.39202 9.89069 6.42276 9.87741 6.45861 9.87741C6.49446 9.87741 6.5252 9.89069 6.54672 9.91221L8.46339 11.8289Z" fill="#4ECC4E" stroke="#4ECC4E" />
   </svg>
 );
+
+export const Chart = ({ className = svgDefaultSize }) => (
+  <svg
+    className={className}
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M1.66663 18.3359H18.3333"
+      stroke="#3D4F60"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8.125 3.33073V18.3307H11.875V3.33073C11.875 2.41406 11.5 1.66406 10.375 1.66406H9.625C8.5 1.66406 8.125 2.41406 8.125 3.33073Z"
+      stroke="#3D4F60"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M2.5 8.33073V18.3307H5.83333V8.33073C5.83333 7.41406 5.5 6.66406 4.5 6.66406H3.83333C2.83333 6.66406 2.5 7.41406 2.5 8.33073Z"
+      stroke="#3D4F60"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14.1666 12.5026V18.3359H17.5V12.5026C17.5 11.5859 17.1666 10.8359 16.1666 10.8359H15.5C14.5 10.8359 14.1666 11.5859 14.1666 12.5026Z"
+      stroke="#3D4F60"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const RefreshIcon = ({ className = "w-5 h-5", stroke = "#262329" }) => (
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path
+      opacity="0.4"
+      d="M6.20412 2.11667C5.84162 2.00833 5.44162 1.9375 4.99995 1.9375C3.00412 1.9375 1.38745 3.55417 1.38745 5.55C1.38745 7.55 3.00412 9.16667 4.99995 9.16667C6.99578 9.16667 8.61245 7.55 8.61245 5.55417C8.61245 4.8125 8.38745 4.12083 8.00412 3.54583"
+      stroke={stroke}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M6.72089 2.21927L5.51672 0.835938" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6.72082 2.21875L5.31665 3.24375" stroke={stroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const CustomImageIcon = ({ className = "w-5 h-5" }) => (
+  <svg
+    width="128"
+    height="129"
+    viewBox="0 0 128 129"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <rect
+      width="128"
+      height="128"
+      transform="translate(0 0.9375)"
+      fill="url(#pattern0_1917_12992)"
+    />
+    <defs>
+      <pattern
+        id="pattern0_1917_12992"
+        patternContentUnits="objectBoundingBox"
+        width="1"
+        height="1"
+      >
+        <use
+          xlinkHref="#image0_1917_12992"
+          transform="scale(0.0078125)"
+        />
+      </pattern>
+      <image
+        id="image0_1917_12992"
+        width="128"
+        height="128"
+        preserveAspectRatio="none"
+        xlinkHref="data:image/png;base64,iVBORw0K..."
+      />
+    </defs>
+  </svg>
+);
+
+
+
 // className={className}

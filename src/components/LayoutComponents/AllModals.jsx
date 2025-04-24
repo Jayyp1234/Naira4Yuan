@@ -4,12 +4,13 @@ import { FormControl, RadioInput } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { CHN, CompletedIcon, FRA, NGN, Step1, Step2, Step3, Step4 } from "@/data";
 import { FooterButton } from "../BaseComponents/FooterButton";
-import { CopyIcon2, IconWrapper, WarningIcon, tickCircle } from "../../data/Icons";
+import { CopyIcon2, IconWrapper, WarningIcon, tickCircle, ShareIcon } from "../../data/Icons";
 import { BorderWrapper } from "../PageComponents/Dashboard/Items";
 import Iframe from "../BaseComponents/Iframe";
 import { routes } from "../../data/routes";
-import { ArrowDownToLine, ChevronLeft, ChevronRight, Download } from 'lucide-react';
-import { Link } from "react-router";
+import { ArrowDownToLine, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react';
+import { Link, useNavigate } from "react-router";
+import { Xchange } from "./Xchange";
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
@@ -2190,6 +2191,95 @@ export const CloseAccountModal = ({ open, modalData, action }) => {
               </button>
             </div>
           </section>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const CalculatorModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const navigate = useNavigate();
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("CALCULATOR", false)}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Quick Calculator",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
+      <div className="p-3">
+        <div className="flex flex-col gap-y-4 w-full sm:w-10/12 mx-auto mb-5">
+          <div className="flex flex-col flex-grow gap-y-3 min-h-60">
+            <section className="mt-4">
+              <div className="">
+                <p className="text-xs font-semibold text-[#013930]">1 Chinese Yuan equals</p>
+                <h1 className="text-2xl mt-1 text-gray-700">
+                  202.58 Nigerian Naira
+                </h1>
+              </div>
+              <div className="mt-2">
+                <Xchange />
+              </div>
+              <div className="flex items-center gap-x-3 mt-4">
+                <button
+                  onClick={() => navigate(routes.DASHBOARD.fundwallet.abs)}
+                  type="button"
+                  className="animate-active rounded-no-tl font-medium flex items-center justify-center py-2.5 px-5 text-sm rounded-xl text-black bg-gray-200">
+                  Fund Wallet
+                </button>
+                <button
+                  onClick={() => navigate(routes.DASHBOARD.send.abs)}
+                  type="button"
+                  className="animate-active rounded-no-tl font-medium flex items-center justify-center py-2.5 px-5 text-sm rounded-xl text-black bg-[#F1C34E]">
+                  Send
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div className="flex gap-2 justify-end">
+          <IconWrapper >
+            <ShareIcon className="w-4 h-4" />
+          </IconWrapper>
+          <button
+            onClick={action}
+            type="button"
+            className="animate-active rounded-no-tl font-medium flex items-center justify-center py-1.5 px-3 text-xs rounded-xl text-black bg-[#F1C34E]">
+            Follow
+            <Plus className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export const FollowModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <Modal
+      isOpen={open}
+      onRequestClose={() => toggleModal("FOLLOW", false)}
+      modalHeader={{ hasHeader: true, modalTitle: "Enter Email Address to Follow", style: "border-b", textStyle: "text-main" }}>
+      <div className="p-6 flex flex-col gap-y-4 w-full mx-auto">
+        <div className="flex flex-col flex-grow gap-y-10">
+          <FormControl
+            type="text"
+            label={{
+              exist: true,
+              text: "Email Address",
+            }}
+            placeholder="Enter your email address or phone number"
+          />
+          <div>
+            <FooterButton onClick={action} text="Subscribe to rate updates" className="!text-sm !text-black !bg-[#F1C34E]" />
+          </div>
         </div>
       </div>
     </Modal>

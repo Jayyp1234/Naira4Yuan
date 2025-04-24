@@ -1,12 +1,9 @@
 
-import { useState } from "react";
 import { ArrowUp, ArrowDown, ArrowRight } from 'lucide-react';
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { routes } from "@/data/routes";
-import { ChevronLeftIcon } from "@/data/Icons";
 
 export const HelpTransaction = () => {
-  const navigate = useNavigate();
 
   const transactions = [
     {

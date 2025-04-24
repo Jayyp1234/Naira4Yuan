@@ -1,15 +1,17 @@
 
-import { useState } from "react";
-import { ArrowUp, ArrowDown, ArrowRight, User, BarChart3, Play, PlayCircle, Book, Calendar, Captions, Tv, GraduationCap, CalendarDays, ScanFace, RadioReceiver } from 'lucide-react';
-import { Link, useNavigate } from "react-router";
-import { useLocation } from "react-router";
-import { StateDataContext } from "../../../App";
+import { ArrowUp, ArrowDown, ArrowRight, Play, Book, GraduationCap, CalendarDays, RadioReceiver } from 'lucide-react';
+import { Link } from "react-router";
 import { routes } from "@/data/routes";
 import { WhatsApp } from "@mui/icons-material";
 import { UserVerificationIcon } from "@/data/Icons";
+import { useEffect } from 'react';
 
 export const Help = () => {
-  const { pathname } = useLocation();
+
+  useEffect(() => {
+    console.log("Help component mounted");
+  }, []);
+
 
   const transactions = [
     {
@@ -160,18 +162,9 @@ export const Help = () => {
           <div className="space-y-2 sm:space-y-4">
             <div className="space-y-1 mt-3">
               {transactions.slice(0, 3).map((transaction) => {
-                let route;
-                if (transaction.subtitle === "Sent Out") {
-                  route = routes.DASHBOARD.transaction.index.abs;
-                } else if (transaction.subtitle === "Sent In") {
-                  route = routes.DASHBOARD.transaction.send.abs;
-                } else if (transaction.subtitle === "Reward") {
-                  route = routes.DASHBOARD.transaction.cashback.abs;
-                }
-
                 return (
                   <Link
-                    to={route}
+                    to={routes.DASHBOARD.help.contact.abs}
                     key={transaction.id}
                     className="flex justify-between items-center hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-stone-100"
                   >

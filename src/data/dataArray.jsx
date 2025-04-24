@@ -237,7 +237,7 @@ export const SideBarArray = [
 	{
 		icon: HomeIcon,
 		text: "Home",
-		goto: routes.DASHBOARD.index.abs,
+    goto: routes.DASHBOARD.abs,
 	},
 	{
 		icon: UsersIcon,

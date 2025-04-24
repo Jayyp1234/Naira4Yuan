@@ -53,11 +53,10 @@ export const routes = {
   },
 
   DASHBOARD: {
+    abs: "/dashboard",
     index: {
-      abs: "/dashboard/index" || "/dashboard",
-      rel: "index",
+      abs: "/dashboard", 
     },
-
     recipients: {
       index: {
         abs: "/dashboard/recipients",

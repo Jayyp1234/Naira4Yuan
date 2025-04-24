@@ -1,8 +1,16 @@
+// import React from "react";
+// import { Link, useNavigate } from "react-router";
+// import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
+// import { routes } from "../../data/routes";
+// import { ChevronLeftIcon, ChevronRightIcon, IconWrapper } from "@/data/Icons";
+
 import React from "react";
 import { Link, useNavigate } from "react-router";
 import { DefaultAvatarImage, LogoFullDarkVariant } from "@/data";
+import { ChevronRightIcon, IconWrapper } from "@/data/Icons";
 import { routes } from "../../data/routes";
-import { ChevronLeftIcon, ChevronRightIcon, IconWrapper } from "@/data/Icons";
+import { ChevronLeftIcon, Menu } from "lucide-react";
+import { StateDataContext } from "../../App";
 
 export const DashboardHeader3 = ({
   user = { name: "ADEREMI IBRAHIM TUNDE", avatar: DefaultAvatarImage },
@@ -10,18 +18,33 @@ export const DashboardHeader3 = ({
   currentStepIndex = 0,
 }) => {
   const navigate = useNavigate();
+  const { stateData, setStateData } = React.useContext(StateDataContext);
+
   const progressWidth =
     steps.length > 1
       ? `${(currentStepIndex / (steps.length - 1)) * 100}%`
       : "0%";
 
+  function toggleSidebar() {
+    const newState = structuredClone(stateData);
+    newState.dashboard.sidebar = !stateData.dashboard.sidebar;
+    setStateData(newState);
+  }
+
   return (
     <header className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 mx-auto flex items-start justify-between pt-8 pb-3">
       {/* Left Section */}
-      <div className="flex items-start gap-8 w-full">
+      <div className="flex items-start gap-4 w-full">
+        {/* Hamburger for small screens */}
+        <button onClick={toggleSidebar} className="md:hidden mt-0.5 rounded-full hover:bg-slate-200 transition-all duration-300">
+          <IconWrapper>
+            <Menu className="w-6 h-6" />
+          </IconWrapper>
+        </button>
+
         <Link to={routes.DASHBOARD.index.abs}>
           <figure className="flex items-center justify-center max-w-32">
-            <img src={LogoFullDarkVariant} alt="" />
+            <img src={LogoFullDarkVariant} alt="Logo" />
           </figure>
         </Link>
 
@@ -64,7 +87,7 @@ export const DashboardHeader3 = ({
       <div>
         <button
           type="button"
-          onClick={() => navigate(routes.DASHBOARD.account.index.rel)}
+          onClick={() => navigate(routes.DASHBOARD.account.index.abs)}
           className="flex items-center gap-x-2 whitespace-nowrap"
         >
           <figure className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center">
@@ -88,6 +111,7 @@ export const DashboardHeader3 = ({
     </header>
   );
 };
+
 
 export const DashboardHeader5 = ({
   user = { name: "ADEREMI IBRAHIM TUNDE", avatar: DefaultAvatarImage },
@@ -121,7 +145,7 @@ export const DashboardHeader5 = ({
       <div>
         <button
           type="button"
-          onClick={() => navigate(routes.DASHBOARD.account.index.rel)}
+          onClick={() => navigate(routes.DASHBOARD.account.index.abs)}
           className="flex items-center gap-x-2 whitespace-nowrap hover:opacity-80 transition-opacity"
           aria-label="User account"
         >
@@ -139,7 +163,7 @@ export const DashboardHeader5 = ({
 
           {/* User Name and Chevron */}
           <div className="flex items-center gap-x-1.5 flex-nowrap">
-            <span className="hidden sm:block uppercase font-semibold text-sm truncate max-w-[120px]">
+            <span className="hidden sm:block uppercase font-semibold text-sm">
               {user.name}
             </span>
             <IconWrapper className="text-gray-500">

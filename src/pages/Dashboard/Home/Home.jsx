@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ArrowDownIcon, BankIcon, BellIcon, CautionIcon, ChatIcon, ChevronRightIcon, IconWrapper, MedalIcon, OpenEyeIconVar } from "@/data/Icons";
+import { ArrowDownIcon, BankIcon, BellIcon, CautionIcon, Chart, ChartIcon, ChatIcon, ChevronRightIcon, IconWrapper, MedalIcon, OpenEyeIconVar } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { Xchange } from "../../../components/LayoutComponents/Xchange";
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
 import { ProfileImage } from "../../../components/PageComponents/Dashboard/ProfileImage";
 import { avatar1, Graph } from "@/data";
 import { routes } from "@/data/routes";
-import { BankTransferModal, IndividualAccModal } from "@/components/LayoutComponents/AllModals";
+import { BankTransferModal, CalculatorModal, FollowModal, IndividualAccModal } from "@/components/LayoutComponents/AllModals";
 
 const commonLinkStyle = `hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-4 px-3 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-[#D9D9D966]`;
 const balanceBoardTriggerBtnStyle =
@@ -17,6 +17,9 @@ export const Home = () => {
 
   const [isBankModalOpen, setIsBankModalOpen] = useState(false);
   const [isIndividualAccModalOpen, setIsIndividualAccModalOpen] = useState(false);
+  const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
+  const [isFollowOpen, setIsFollowOpen] = useState(false);
+
 
   const toggleModal = (modalKey, state) => {
     switch (modalKey) {
@@ -25,6 +28,12 @@ export const Home = () => {
         break;
       case "INDIVIDUAL_ACC":
         setIsIndividualAccModalOpen(state);
+        break;
+      case "CALCULATOR":
+        setIsCalculatorOpen(state);
+        break;
+      case "FOLLOW":
+        setIsFollowOpen(state);
         break;
       default:
         break;
@@ -36,7 +45,12 @@ export const Home = () => {
     <div>
       <header className="flex flex-col gap-y-1">
         <span className="font-bold text-slate-500">Total balance</span>
-        <h2 className="text-3xl tracking-tight font-bold">00.00 NGN</h2>
+        <div className="flex items-center gap-x-4">
+          <h2 className="text-3xl tracking-tight font-bold">59.43 CN¥</h2>
+          <IconWrapper onClick={() => toggleModal("CALCULATOR", true)} className="bg-[#F8F9FD] p-1.5 rounded-full">
+            <Chart className="w-4 h-4" />
+          </IconWrapper>
+        </div>
         <div className="flex items-center gap-x-3 mt-2">
           <button
             onClick={() => navigate(routes.DASHBOARD.fundwallet.abs)}
@@ -198,7 +212,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="mt-4 flex flex-col gap-y-3.5">
-              <button onClick={() => navigate(routes.DASHBOARD.account.notification.exchange.abs)} type="button" className={`flex items-center justify-between w-full ${commonLinkStyle}`}>
+              <Link to={routes.DASHBOARD.account.notification.exchange.abs} type="button" className={`flex items-center justify-between w-full ${commonLinkStyle}`}>
                 <div className="flex items-center gap-3 flex-grow">
                   <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
                     <BellIcon />
@@ -210,8 +224,8 @@ export const Home = () => {
                 <IconWrapper>
                   <ChevronRightIcon />
                 </IconWrapper>
-              </button>
-              <button onClick={() => navigate(routes.DASHBOARD.help.index.abs)} type="button" className={`flex items-center justify-between w-full ${commonLinkStyle}`}>
+              </Link>
+              <Link to={routes.DASHBOARD.help.index.abs} type="button" className={`flex items-center justify-between w-full ${commonLinkStyle}`}>
                 <div className="flex items-center gap-3 flex-grow">
                   <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
                     <ChatIcon />
@@ -223,7 +237,7 @@ export const Home = () => {
                 <IconWrapper>
                   <ChevronRightIcon />
                 </IconWrapper>
-              </button>
+              </Link>
             </div>
           </main>
         </section>
@@ -249,7 +263,6 @@ export const Home = () => {
           open={isBankModalOpen}
           modalData={{ toggleModal }}
           action={() => {
-            // Handle post-transfer action (maybe show a toast or proceed to next step)
             console.log("User confirmed transfer");
             toggleModal("DASHBOARD_BANK_TRANSFER", false);
           }}
@@ -260,6 +273,21 @@ export const Home = () => {
           action={() => {
             console.log("Transfer confirmed");
             toggleModal("INDIVIDUAL_ACC", false);
+          }}
+        />
+        <CalculatorModal
+          open={isCalculatorOpen}
+          modalData={{ toggleModal }}
+          action={() => {
+            toggleModal("CALCULATOR", false);
+            toggleModal("FOLLOW", true);
+          }}
+        />
+        <FollowModal
+          open={isFollowOpen}
+          modalData={{ toggleModal }}
+          action={() => {
+            toggleModal("FOLLOW", false);
           }}
         />
       </main >

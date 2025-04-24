@@ -84,11 +84,11 @@ export const Wallet = () => {
 
   return (
     <div>
-      <div className="flex justify-end mb-10">
+      {/* <div className="flex justify-end mb-10">
         <button onClick={() => toggleModal("Wallet", true)}>
           <MoreVertical />
         </button>
-      </div>
+      </div> */}
       <header className="flex flex-col items-center sm:flex-row gap-8 justify-between pb-5 border-b">
         <div className="flex flex-col gap-y-1">
           <span className="font-normal text-sm text-slate-500">NGN balance</span>

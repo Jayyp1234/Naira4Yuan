@@ -58,6 +58,8 @@ import whiteCircle from "@/assets/media/svgs/Mfur6LVh1A1lVv5s9OYSbdNovEcplw358a3
 import EarnGift from "@/assets/media/svgs/earn-gift.svg";
 import EmptyImage from "@/assets/media/svgs/empty.svg";
 import EmptyImageVar2 from "@/assets/media/svgs/empty-image-var-2.svg";
+import EmptyImageVar3 from "@/assets/media/svgs/Picture → Megaphone.svg";
+import Dollar from "@/assets/media/svgs/monetary illustration.svg";
 
 // flags
 import NigeriaIcon from "@/assets/media/flags/nigeria.png";
@@ -127,4 +129,6 @@ export {
   Step3,
   Step4,
   Graph,
+  Dollar,
+  EmptyImageVar3,
 };

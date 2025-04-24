@@ -24,7 +24,7 @@ import DashboardError from "./pages/Errors/DashboardError";
 // transaction
 import { TransactionIndex } from "./pages/Dashboard/Transaction";
 import { TransactionDetails } from "./pages/Dashboard/Transaction/TransactionDetails";
-import { CashBack, SentIn, TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
+import { SentIn, TransactionMain } from "./pages/Dashboard/Transaction/TransactionMain";
 import { TransactionInput } from "./pages/Dashboard/Transaction/TransactionInput";
 // import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
 // import { TransactionHelpDetails } from "./pages/Dashboard/Transaction/TransactionHelpDetails";
@@ -64,15 +64,16 @@ import { SocialLogin } from "./pages/Dashboard/Account/Settings/SocialLogin";
 import { TextMessage } from "./pages/Dashboard/Account/Settings/TextMessage";
 import { AuthenticatorApp } from "./pages/Dashboard/Account/AuthenticatorApp";
 // help
-import { HelpIndex } from "./pages/Dashboard/Help/Index";
-import { Help } from "./pages/Dashboard/Help/Help";
-import { HelpTransaction } from "./pages/Dashboard/Help/HelpTransaction";
-import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
-import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
 import { LimitUpgrade, Upgrade } from "./pages/Dashboard/Account/LimitUpgrade";
 import Individual from "./pages/Dashboard/Account/Individual";
 import { Transactions } from "./pages/Dashboard/Transaction/Transactions";
 import { WalletTransaction } from "./pages/Dashboard/Wallet/WalletTransaction";
+import { CashBack } from "./pages/Dashboard/Transaction/Cashback";
+import { HelpIndex } from "./pages/Dashboard/Help/Index";
+import { HelpTransaction } from "./pages/Dashboard/Help/HelpTransaction";
+import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
+import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
+import { Help } from "./pages/Dashboard/Help/Help";
 
 // recipients and transaction
 
@@ -100,7 +101,7 @@ const App = () => {
 
         {/* Dashboard Routes */}
         <Route path="/dashboard" element={<DashboardIndex />}>
-          <Route index path={routes.DASHBOARD.index.abs} element={<Home />} />
+          <Route index element={<Home />} />
 
           <Route path={routes.DASHBOARD.wallets.index.rel} element={<Wallet />}>
             <Route path={routes.DASHBOARD.wallets.transactions.rel} element={<WalletTransaction />} />
@@ -181,12 +182,13 @@ const App = () => {
           <Route path={routes.DASHBOARD.send.abs} index element={<Send />} />
         </Route>
 
-        <Route path={routes.DASHBOARD.help.index.abs} element={<HelpIndex />}>
+        <Route path="/dashboard/help" element={<HelpIndex />}>
           <Route index element={<Help />} />
-          <Route path={routes.DASHBOARD.help.transactions.rel} element={<HelpTransaction />} />
-          <Route path={routes.DASHBOARD.help.contact.rel} element={<HelpContact />} />
-          <Route path={`${routes.DASHBOARD.help.contact.rel}/:helpId`} element={<HelpDetails />} />
+          <Route path={routes.DASHBOARD.help.transactions.abs} element={<HelpTransaction />} />
+          <Route path={routes.DASHBOARD.help.contact.abs} element={<HelpContact />} />
+          <Route path={`${routes.DASHBOARD.help.contact.abs}/:helpId`} element={<HelpDetails />} />
         </Route>
+
 
 
         {/* 404 Not Found Route */}
