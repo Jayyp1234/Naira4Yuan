@@ -52,7 +52,7 @@ export const DashboardIndex = () => {
 		<div className="min-h-screen flex flex-col">
 			<DashboardHeader />
 
-      <main className="flex-1 flex flex-col md:flex-row relative w-full px-5 sm:px-0 sm:w-11/12 lg:w-10/12 xl:px-10 mx-auto pt-10 mb-32">
+      <main className="flex-1 flex flex-col md:flex-row relative w-full px-5 sm:px-0 sm:w-11/12 lg:w-10/12 xl:px-10 mx-auto pt-10 mb-24">
 
         {/* Sidebar for md and up */}
         {!shouldHideSidebar && (
