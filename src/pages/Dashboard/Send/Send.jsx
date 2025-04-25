@@ -105,7 +105,7 @@ export const SendStep1 = () => {
               {/* Payment Method Selection */}
               <div>
                 <h3 className="text-sm font-medium text-gray-700 mb-2">Payment Method</h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3 sm:gap-2">
                   {[
                     { name: "Alipay", logo: Alipay },
                     { name: "Wechat", logo: WeChat },
@@ -113,12 +113,13 @@ export const SendStep1 = () => {
                   ].map((method, index) => (
                     <label
                       key={index}
-                      className={`flex items-center gap-2 justify-between px-3 py-2 rounded-md flex-1 md:px-3 border cursor-pointer text-xs sm:text-[.8rem] transition-all ${selectedMethod === method.name
-                        ? "bg-[#013930] text-white"
-                        : "bg-[#F8F9FD] text-[#94A3B8]"
+                      className={`flex items-center justify-between gap-2 w-[48%] last:w-full sm:w-[48%] sm:last:w-[48%] md:w-[32%] md:last:w-[32%] px-4 py-3 rounded-md border cursor-pointer text-sm transition-all
+                        ${selectedMethod === method.name
+                          ? "bg-[#013930] text-white"
+                          : "bg-[#F8F9FD] text-[#94A3B8]"
                         }`}
                     >
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-2">
                         <img src={method.logo} alt={method.name} className="w-14 sm:w-6 h-auto" />
                         <span className="font-medium whitespace-nowrap">{method.name}</span>
                       </div>
@@ -133,6 +134,7 @@ export const SendStep1 = () => {
                     </label>
                   ))}
                 </div>
+
               </div>
 
               {/* ID Field or Coming Soon Message */}
