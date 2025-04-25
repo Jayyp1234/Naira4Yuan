@@ -12,7 +12,7 @@ import { routes } from "@/data/routes";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../../../components/ui/accordion";
 import { Beneficiary } from "../../../components/PageComponents/Dashboard/Beneficiary";
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
-import { Check } from "lucide-react";
+import { Check, Plus } from "lucide-react";
 import { AlertNotification } from "@/components/BaseComponents/Error";
 
 export const Send = () => {
@@ -113,14 +113,14 @@ export const SendStep1 = () => {
                   ].map((method, index) => (
                     <label
                       key={index}
-                      className={`flex items-center gap-2 justify-between px-3 py-2 rounded-md flex-1 min-w-[100px] sm:min-w-[120px] md:px-4 border cursor-pointer text-xs sm:text-[.8rem] transition-all ${selectedMethod === method.name
+                      className={`flex items-center gap-2 justify-between px-3 py-2 rounded-md flex-1 md:px-3 border cursor-pointer text-xs sm:text-[.8rem] transition-all ${selectedMethod === method.name
                         ? "bg-[#013930] text-white"
                         : "bg-[#F8F9FD] text-[#94A3B8]"
                         }`}
                     >
                       <div className="flex items-center gap-1">
                         <img src={method.logo} alt={method.name} className="w-14 sm:w-6 h-auto" />
-                        <span className="font-medium">{method.name}</span>
+                        <span className="font-medium whitespace-nowrap">{method.name}</span>
                       </div>
                       <input
                         type="radio"
@@ -291,6 +291,7 @@ export const SendStep2 = () => {
   const { stateData, setStateData } = React.useContext(StateDataContext);
   const [selected, setSelected] = React.useState(false);
   const [showAlert, setShowAlert] = React.useState(true);
+  const navigate = useNavigate();
 
   const handleSelect = () => setSelected(prev => !prev);
 
@@ -338,23 +339,25 @@ export const SendStep2 = () => {
                 />
               </div>
 
-              <div className="flex-grow flex flex-col sm:flex-row sm:items-center justify-between gap-y-2 sm:gap-y-0">
+              <div className="flex-grow flex flex-col sm:flex-row sm:items-center justify-between gap-y-1 sm:gap-y-0">
                 <div className="flex-grow flex flex-col text-start">
                   <span className="text-base sm:text-lg text-[#3D4F60]">Pay with Wallet</span>
                   <span className="text-sm sm:text-base text-[#3D4F60]">
                     Balance: NGN 100,000.<span className="text-[.6rem] sm:text-xs">00</span>
                   </span>
                   <Link className="flex items-center gap-x-1 mt-1">
-                    <RefreshIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span className="text-xs sm:text-sm text-[#3D4F60]">Refresh</span>
+                    <RefreshIcon className="w-4 h-4 sm:w-4 sm:h-4" />
+                    <span className="text-sm text-[#3D4F60]">Refresh</span>
                   </Link>
                 </div>
 
                 <button
                   type="button"
-                  className="flex items-center animate-active text-sm sm:text-[.95rem] leading-tight py-2 sm:py-2.5"
+                  // onClick={navigate(routes.DASHBOARD.index.abs)}
+                  className="flex items-center gap-x-1 animate-active"
                 >
-                  + Fund Wallet
+                  <Plus className="w-4 h-4" />
+                  <span className="text-sm sm:text-[.95rem]">Fund Wallet</span>
                 </button>
               </div>
             </BorderWrapper>
