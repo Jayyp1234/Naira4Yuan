@@ -19,7 +19,7 @@ export const CashBack = () => {
         {cashbackItems.map((item) => (
           <div
             key={item.id}
-            className="border-b border-gray-200 py-3 hover:bg-gray-50 transition-colors duration-200 rounded-md px-2"
+            className="border-b border-gray-200 py-3 px-2.5 hover:bg-gray-50 transition-colors duration-200 rounded-md"
           >
             <div className="flex flex-col sm:flex-row justify-between">
               <div className="mb-2 sm:mb-0">
@@ -33,7 +33,7 @@ export const CashBack = () => {
                 </div>
               </div>
 
-              <div className="text-right">
+              <div className="text-left sm:text-right">
                 <p className="text-xl font-medium text-gray-900">{item.amount}</p>
                 <p className="text-base text-gray-500">{item.amount}</p>
               </div>

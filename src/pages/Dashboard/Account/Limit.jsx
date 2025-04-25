@@ -99,11 +99,11 @@ export const Limit = () => {
             </div>
           </div>
         </div>
-        <button onClick={() => toggleModal("SWITCH_BUSINESS_ACCOUNT", true)} className="bg-[#F8F9FD] w-full border border-dashed border-gray-300 rounded-xl rounded-no-tl p-4 flex items-center">
-          <div className="bg-white p-4 rounded-full mr-4">
-            <Bell className="w-5 h-5 text-gray-800" />
+        <button onClick={() => toggleModal("SWITCH_BUSINESS_ACCOUNT", true)} className="bg-[#F8F9FD] w-full border border-dashed border-gray-300 rounded-xl rounded-no-tl p-2 py-4 flex items-center gap-x-2">
+          <div className="bg-white p-3 rounded-full">
+            <Bell className="w-4 h-4 text-gray-800" />
           </div>
-          <p className="text-lg font-medium text-gray-800">
+          <p className="text-sm font-medium text-start text-gray-800">
             Want more limit? Open a business account
           </p>
         </button>

@@ -24,8 +24,10 @@ import {
 	VideoIcon,
 	WalletIcon,
 	YenIcon,
-	YoutubeIcon,
+  YoutubeIcon,
+  UserIcon,
 } from "./Icons";
+import { PiggyBank, BadgeDollarSign, TrendingUp, Wallet, Users, Home } from "lucide-react";
 
 import { routes } from "./routes";
 
@@ -235,22 +237,22 @@ export const faqsArray = [
 
 export const SideBarArray = [
 	{
-		icon: HomeIcon,
+    icon: Home,
 		text: "Home",
     goto: routes.DASHBOARD.abs,
 	},
 	{
-		icon: UsersIcon,
+    icon: Users,
 		text: "Recipients",
 		goto: routes.DASHBOARD.recipients.index.abs,
 	},
 	{
-		icon: WalletIcon,
+    icon: Wallet,
 		text: "Wallets",
     goto: routes.DASHBOARD.wallets.index.abs,
 	},
 	{
-		icon: YenIcon,
+    icon: TrendingUp,
 		text: "Earn",
 		goto: routes.DASHBOARD.earn.abs,
 	},

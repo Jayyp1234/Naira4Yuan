@@ -77,7 +77,7 @@ export const SendStep1 = () => {
 
 
   return (
-    <div className="flex flex-col gap-y-5 mb-10 px-4 md:px-6 lg:px-8">
+    <div className="flex flex-col gap-y-5 mb-10 lg:px-8">
       <header>
         <h2 className="text-xl md:text-2xl font-semibold">How much are you sending?</h2>
       </header>
@@ -97,7 +97,7 @@ export const SendStep1 = () => {
             <AccordionTrigger onClick={() => toggleAccordion("item-1")} className="hover:no-underline px-4 [&>svg]:hidden">
               <span className="text-base md:text-lg font-medium">Add a new recipient</span>
               <IconWrapper>
-                <ChevronDownIcon className={`w-7 h-7 ${openItem == `item-2` ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDownIcon className={`w57 h-5 ${openItem == `item-2` ? "rotate-180" : "rotate-0"}`} />
               </IconWrapper>
             </AccordionTrigger>
 
@@ -237,14 +237,18 @@ export const SendStep1 = () => {
             >
               <span className="text-base md:text-lg font-medium">Select recipient from beneficiary</span>
               <IconWrapper>
-                <ChevronDownIcon className={`w-6 h-6 transition-transform ${openItem === "item-2" ? "rotate-180" : "rotate-0"}`} />
+                <ChevronDownIcon className={`w-5 h-5 transition-transform ${openItem === "item-2" ? "rotate-180" : "rotate-0"}`} />
               </IconWrapper>
             </AccordionTrigger>
             <AccordionContent>
               <div className="px-4">
-                <ul className="flex flex-col gap-y-2.5">
+                <ul className="flex flex-col gap-y-3.5">
                   {Array.from({ length: 4 }).map((_, index) => (
-                    <Beneficiary key={index} itemAs="button" onClick={() => console.log("Selected")} />
+                    <li key={index}>
+                      <Link to={`${routes.DASHBOARD.recipients.recep.abs}/123`}>
+                        <Beneficiary itemAs="a" />
+                      </Link>
+                    </li>
                   ))}
                 </ul>
                 <div className="text-end pe-3 mt-3">
@@ -257,7 +261,7 @@ export const SendStep1 = () => {
         </Accordion>
       </section>
 
-      <div className="mt-4">
+      <div className="">
         <FooterButton text="Continue" onClick={() => {
           setStateData(prevState => ({
             ...prevState,
@@ -304,7 +308,7 @@ export const SendStep2 = () => {
   }
   return (
     <>
-      <div className="flex flex-col gap-y-5 mb-10">
+      <div className="flex flex-col gap-y-5 mb-12">
         <section className="flex flex-col gap-y-2">
           <div className="mb-4">
             {showAlert && (
@@ -440,7 +444,7 @@ export const SendStep2 = () => {
             <span>Tunde</span>
           </BorderWrapper>
         </section>
-        <div className="mt-4">
+        <div className="">
           <button
             onClick={() => toggleModal("DASHBOARD_BANK_TRANSFER", true)}
             className="w-full bg-main rounded-no-tl py-3.5 font-semibold text-white rounded-lg animate-active"
@@ -505,7 +509,7 @@ export const SendStep3 = () => {
           page
         </span>
       </div>
-      <div className="flex flex-col gap-y-2 w-full mt-4">
+      <div className="flex flex-col gap-y-2 w-full mt-4 mb-16">
         <button
           type="button"
           onClick={handleGoBackHome}

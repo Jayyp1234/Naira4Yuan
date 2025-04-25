@@ -23,9 +23,9 @@ export default function Individual() {
       </nav>
       {!isVerified && (
         <header className="flex justify-between items-center gap-x-3">
-          <h2 className="text-3xl font-bold">Individual Verification</h2>
+          <h2 className="text-xl font-bold">Individual Verification</h2>
           <div className="flex flex-col gap-y-1.5 text-end">
-            <span className="bg-slate-200 flex items-center justify-center select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
+            <span className="bg-slate-200 flex items-center justify-center text-break select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
               Step 2 of 2
             </span>
           </div>
@@ -78,7 +78,11 @@ const IndividualStepper = ({ onComplete }) => {
         </button>
       </div>
 
-      <SelectIdTypeModal modalData={{ toggleModal }} open={modals.SELECT_ID} />
+      <SelectIdTypeModal modalData={{ toggleModal }} open={modals.SELECT_ID}
+        action={(selectedIdType) => {
+          console.log("Selected ID Type:", selectedIdType);
+          toggleModal("SELECT_ID");
+        }} />
     </div>
   );
 };

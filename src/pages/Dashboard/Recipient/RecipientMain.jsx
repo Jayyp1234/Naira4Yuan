@@ -86,19 +86,27 @@ export const RecipientMain = () => {
 				{activeTab === "all" && (
 					<div>
 						<ul className="flex flex-col gap-y-3.5">
-							{Array.from({ length: 4 }).map((_, index) => {
-								return <Beneficiary key={index} itemAs="button" onClick={() => console.log("love")} />;
-							})}
-						</ul>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <li key={index}>
+                  <Link to={`${routes.DASHBOARD.recipients.recep.abs}/123`}>
+                    <Beneficiary itemAs="a" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
 					</div>
 				)}
 				{activeTab === "my-accounts" && (
 					<div>
 						<ul className="flex flex-col gap-y-3.5">
-							{Array.from({ length: 3 }).map((_, index) => {
-								return <Beneficiary subImage={NigeriaIcon} key={index} itemAs="button" onClick={() => console.log("love")} />;
-							})}
-						</ul>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <li key={index}>
+                  <Link to={`${routes.DASHBOARD.recipients.recep.abs}/123`}>
+                    <Beneficiary subImage={NigeriaIcon} itemAs="a" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
 					</div>
 				)}
 			</section>

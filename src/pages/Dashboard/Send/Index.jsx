@@ -21,7 +21,7 @@ export const SendIndex = () => {
       />
 
 
-      <main className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 pt-10 mx-auto relative flex">
+      <main className="px-5 sm:px-0 w-full sm:w-11/12 lg:w-10/12 xl:pr-10 xl:pl-10 pt-10 mx-auto relative flex mb-12">
         {!shouldHideSidebar && (
           <aside className="hidden md:block md:w-1/3 lg:w-1/5 xl:w-1/6">
             <DashboardSidebar />

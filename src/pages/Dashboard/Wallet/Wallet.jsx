@@ -89,7 +89,7 @@ export const Wallet = () => {
           <MoreVertical />
         </button>
       </div> */}
-      <header className="flex flex-col items-center sm:flex-row gap-8 justify-between pb-5 border-b">
+      {/* <header className="flex flex-col items-center sm:flex-row gap-5 justify-between pb-5 border-b">
         <div className="flex flex-col gap-y-1">
           <span className="font-normal text-sm text-slate-500">NGN balance</span>
           <h2 className="text-3xl tracking-tight font-medium">00.00 NGN</h2>
@@ -107,7 +107,6 @@ export const Wallet = () => {
                 <ChevronRightIcon className="w-4 h-4" />
               </IconWrapper>
             </button>
-
           </div>
         </div>
         <div className="flex items-center gap-x-3">
@@ -124,28 +123,76 @@ export const Wallet = () => {
             <span className="text-sm">Send</span>
           </button>
         </div>
+      </header> */}
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-5 border-b">
+        {/* Balance and account section */}
+        <div className="flex flex-col gap-y-2">
+          <span className="font-normal text-sm text-slate-500">NGN balance</span>
+          <h2 className="text-3xl tracking-tight font-medium">00.00 NGN</h2>
+
+          <button
+            type="button"
+            onClick={() => toggleModal("DASHBOARD_BANK_TRANSFER", true)}
+            className="flex items-center justify-between gap-x-2 w-fit sm:w-max bg-[#DADADA80] rounded-md py-1.5 px-3"
+          >
+            <IconWrapper>
+              <BankIcon className="w-4 h-4" />
+            </IconWrapper>
+            <span className="uppercase text-base">SUDO 002345678</span>
+            <IconWrapper>
+              <ChevronRightIcon className="w-4 h-4" />
+            </IconWrapper>
+          </button>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-3 flex-row sm:items-center">
+          <button
+            onClick={() => toggleModal("DASHBOARD_BANK_TRANSFER", true)}
+            type="button"
+            className="flex flex-col items-center gap-y-2 justify-center sm:justify-start"
+          >
+            <IconWrapper className={styleButtonInner}>
+              <PlusSlimIcon className="h-6 w-6" />
+            </IconWrapper>
+            <span className="text-sm">Add</span>
+          </button>
+          <button
+            onClick={() => navigate(routes.DASHBOARD.send.abs)}
+            type="button"
+            className="flex flex-col items-center gap-y-2 justify-center sm:justify-start"
+          >
+            <IconWrapper className={styleButtonInner}>
+              <ArrowUpSlimIcon className="h-6 w-6" />
+            </IconWrapper>
+            <span className="text-sm">Send</span>
+          </button>
+        </div>
       </header>
+
       <main className="grid grid-cols-1 md:grid-cols-2 pt-10 gap-x-10 gap-y-12">
         <aside>
           <header className="mb-5">
             <h3 className="text-xl font-normal">Transactions</h3>
           </header>
-          <div className="flex-grow flex flex-wrap gap-3 [&>div]:flex-grow justify-end">
-            <FormControl
-              style="!bg-transparent border border-solid w-full !min-h-[unset] h-10 !rounded-lg border-stone-400"
-              type="Search"
-              floatEle={{
-                exist: true,
-                position: "left",
-                children: (
-                  <IconWrapper>
-                    <SearchIcon />
-                  </IconWrapper>
-                ),
-              }}
-              placeholder="Search"
-            />
-            <div className="flex items-center gap-x-4">
+          <div className="flex gap-2 justify-end">
+            <div className="flex-grow">
+              <FormControl
+                style="!bg-transparent border border-solid w-full flex-grow !min-h-[unset] h-10 !rounded-lg border-stone-400"
+                type="Search"
+                floatEle={{
+                  exist: true,
+                  position: "left",
+                  children: (
+                    <IconWrapper>
+                      <SearchIcon />
+                    </IconWrapper>
+                  ),
+                }}
+                placeholder="Search"
+              />
+            </div>
+            <div className="flex items-center gap-x-1.5">
               <button
                 type="button"
                 onClick={() => { }}

@@ -72,7 +72,7 @@ export const DashboardSidebar = () => {
 				})}
       </ul>
       {/* Mobile Bottom Nav */}
-      <nav className="fixed bottom-0 bg-white shadow-2xl w-full left-0 right-0 mx-auto py-5 px-6 rounded-2xl rounded-ee-none rounded-es-none transition-all duration-300 md:hidden z-50">
+      <nav className="fixed bottom-0 bg-white shadow-2xl shadow-black w-full left-0 right-0 mx-auto py-2 px-6 rounded-2xl rounded-ee-none rounded-es-none transition-all duration-300 md:hidden z-50">
         <ul className="flex justify-between items-center">
           {SideBarArray.map((link, index) => (
             <li key={index}>
