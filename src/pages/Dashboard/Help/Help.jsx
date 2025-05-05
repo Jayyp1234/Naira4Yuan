@@ -3,7 +3,7 @@ import { ArrowUp, ArrowDown, ArrowRight, Play, Book, GraduationCap, CalendarDays
 import { Link } from "react-router";
 import { routes } from "@/data/routes";
 import { WhatsApp } from "@mui/icons-material";
-import { UserVerificationIcon } from "@/data/Icons";
+import { AdDisplayIcon, BooIcon, CalendarIcon, PlayIcon, UserVerificationIcon } from "@/data/Icons";
 import { useEffect } from 'react';
 
 export const Help = () => {
@@ -102,19 +102,19 @@ export const Help = () => {
       id: 1,
       title: "How To Videos",
       description: "Step-by-step video guides on how to use all Naira4Yuan features.",
-      icon: <Play className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <PlayIcon className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 2,
       title: "Naira4yuan Articles",
       description: "Curated articles just for you — guides & insights from Naira4Yuan.",
-      icon: <Book className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <BooIcon className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 3,
       title: "Naira4yuan Blog",
       description: "Regular insights into our users' stories and experiences with Yuan.",
-      icon: <CalendarDays className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <CalendarIcon className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 4,
@@ -126,7 +126,7 @@ export const Help = () => {
       id: 5,
       title: "Naira4yuan Webinars",
       description: "Naira4yuan webinars just for you — guides & insights from Naira4Yuan.",
-      icon: <RadioReceiver className="w-5 h-5 sm:w-6 sm:h-6" />
+      icon: <AdDisplayIcon className="w-5 h-5 sm:w-6 sm:h-6" />
     },
     {
       id: 6,
