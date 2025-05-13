@@ -29,7 +29,7 @@ import { TransactionInput } from "./pages/Dashboard/Transaction/TransactionInput
 // import { TransactionHelp } from "./pages/Dashboard/Transaction/TransactionHelp";
 // import { TransactionHelpDetails } from "./pages/Dashboard/Transaction/TransactionHelpDetails";
 // earn
-import { EarnIndex } from "./pages/Dashboard/Earn/EarnIndex";
+import { CashbackIndex, EarnIndex } from "./pages/Dashboard/Earn/EarnIndex";
 // fund wallet
 import { FundWalletIndex } from "./pages/Dashboard/FundWallet/Index";
 import { FundWallet } from "./pages/Dashboard/FundWallet/FundWallet";
@@ -116,6 +116,8 @@ const App = () => {
             <Route path={routes.DASHBOARD.transaction.cashback.rel} element={<CashBack />} />
           </Route>
           <Route path={routes.DASHBOARD.earn.rel} element={<EarnIndex />} />
+
+          <Route path={routes.DASHBOARD.cashback.rel} element={<CashbackIndex />} />
 
           <Route path={routes.DASHBOARD.recipients.index.rel} element={<RecipientIndex />}>
             <Route index element={<RecipientMain />} />

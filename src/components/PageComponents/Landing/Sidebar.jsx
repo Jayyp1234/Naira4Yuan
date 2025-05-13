@@ -76,14 +76,14 @@ const LandingSidebar = () => {
 									dropdown.howitworks ? "grid-rows-1" : "grid-rows-[0fr]"
 								}`}>
 								<div className="flex flex-col gap-y-1 overflow-hidden">
-									{/* {howItWorksArray.map((item, index) => (
+                  {/* {howItWorksArray.map((item, index) => (
 										<div key={index} className="flex items-center gap-x-4">
 											<IconWrapper className="rounded-sm p-2 text-slate-800" style={{ backgroundColor: item.iconBg }}>
 												{item.icon}
 											</IconWrapper>
 											<span className="text-[.85rem]">{item.text}</span>
 										</div>
-									))} */}
+                  ))} */}
 								</div>
 							</div>
 						</li>

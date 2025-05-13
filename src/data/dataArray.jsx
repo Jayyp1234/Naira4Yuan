@@ -27,7 +27,7 @@ import {
   YoutubeIcon,
   UserIcon,
 } from "./Icons";
-import { PiggyBank, BadgeDollarSign, TrendingUp, Wallet, Users, Home } from "lucide-react";
+import { PiggyBank, BadgeDollarSign, TrendingUp, Wallet, Users, Home, HandCoinsIcon } from "lucide-react";
 
 import { routes } from "./routes";
 
@@ -253,7 +253,7 @@ export const SideBarArray = [
 	},
 	{
     icon: TrendingUp,
-		text: "Earn",
+    text: "Earn ¥10",
 		goto: routes.DASHBOARD.earn.abs,
 	},
   // {
@@ -326,6 +326,11 @@ export const accountArray = [
         to: routes.DASHBOARD.help.index.abs,
 			},
 			{
+        title: "Cashback",
+        icon: HandCoinsIcon,
+        to: routes.DASHBOARD.cashback.abs,
+      },
+      {
 				title: "Statements and reports",
 				icon: StatementAndReportIcon,
 				to: routes.DASHBOARD.account.statementReport.index.rel,

@@ -257,6 +257,10 @@ export const routes = {
       abs: "/dashboard/earn",
       rel: "earn",
     },
+    cashback: {
+      abs: "/dashboard/cashback",
+      rel: "cashback",
+    },
     send: {
       abs: "/dashboard/send",
       rel: "send",
