@@ -6,6 +6,7 @@ import { BorderWrapper } from "../../../components/PageComponents/Dashboard/Item
 import { avatar2 } from "@/data";
 import { CloseAccountModal, SwitchBusinessAccountModal } from "@/components/LayoutComponents/AllModals";
 import { routes } from "@/data/routes";
+import { AccountOverviewSkeleton, ReferralPageSkeleton } from "@/components/Skeleton/Skeleton";
 
 const commonLinkStyle =
   "rounded-lg transition-all ease-in-out duration-300 border border-solid border-transparent bg-transparent active:border-slate-400 active:bg-stone-100";
@@ -31,6 +32,20 @@ export const AccountIndex = () => {
   };
 
   const modalData = { toggleModal };
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <AccountOverviewSkeleton />;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-6 mb-10">

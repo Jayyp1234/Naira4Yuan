@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconWrapper, ShieldCheckIcon } from "@/data/Icons";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { StateDataContext } from "@/App";
+import { AuthenticatorSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const AuthenticatorApp = () => {
 	const { stateData, setStateData } = React.useContext(StateDataContext);
@@ -9,7 +10,21 @@ export const AuthenticatorApp = () => {
 		data: { modals },
 		toggleModal,
 		switchModal,
-	} = useModalTrigger(stateData);
+  } = useModalTrigger(stateData);
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <AuthenticatorSkeleton />;
+  }
 
 	return (
 		<>

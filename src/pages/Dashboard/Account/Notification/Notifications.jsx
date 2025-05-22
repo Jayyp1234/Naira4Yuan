@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { BellIconVar, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { SwitchInput } from "@/components/BaseComponents/FormInputs";
 import { NotificationAlertComponent } from "./NotificationAlertComponent";
 import { useNavigate } from "react-router";
+import { NotificationSettingsSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Notifications = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <NotificationSettingsSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-5 mb-10 max-w-4xl mx-auto">

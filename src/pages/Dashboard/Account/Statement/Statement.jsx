@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   AccountOwnershipSelectBalanceModal,
   DatePickerModal,
@@ -8,6 +8,7 @@ import {
 import { SwitchInput } from "../../../../components/BaseComponents/FormInputs";
 import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "../../../../data/Icons";
 import { useNavigate } from "react-router";
+import { StatementSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Statement = () => {
   const navigate = useNavigate();
@@ -42,6 +43,20 @@ export const Statement = () => {
 
   // Check if all required fields are selected
   const isDownloadEnabled = selectedDates.from && selectedDates.to && selectedBalance;
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <StatementSkeleton />;
+  }
 
   return (
     <div className="mb-10">
@@ -230,3 +245,4 @@ export const Statement = () => {
     </div>
   );
 };
+

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { DatePickerModal } from "@/components/LayoutComponents/AllModals";
 import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "../../../../data/Icons";
 import { useNavigate } from "react-router";
+import { StatementOfFeesSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const StatementFees = () => {
   const navigate = useNavigate();
@@ -22,6 +23,20 @@ export const StatementFees = () => {
 
   // Check if both dates are selected to enable the Download button
   const isDownloadEnabled = selectedDates.from && selectedDates.to;
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <StatementOfFeesSkeleton />;
+  }
 
   return (
     <div>

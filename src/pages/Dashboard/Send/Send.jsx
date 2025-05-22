@@ -14,6 +14,7 @@ import { Beneficiary } from "../../../components/PageComponents/Dashboard/Benefi
 import { FooterButton } from "../../../components/BaseComponents/FooterButton";
 import { Check, Plus } from "lucide-react";
 import { AlertNotification } from "@/components/BaseComponents/Error";
+import { ConfirmTransferSkeleton, PaymentSuccessSkeleton, SendAmountSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Send = () => {
   const {
@@ -74,6 +75,20 @@ export const SendStep1 = () => {
   const isComingSoon = selectedMethod === "Wechat" || selectedMethod === "Bank Transfer";
 
   const [isChecked, setIsChecked] = useState(false);
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <SendAmountSkeleton />;
+  }
 
 
   return (
@@ -309,6 +324,21 @@ export const SendStep2 = () => {
 
     setStateData(newStates);
   }
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <ConfirmTransferSkeleton />;
+  }
+
   return (
     <>
       <div className="flex flex-col gap-y-5 mb-12">
@@ -496,6 +526,20 @@ export const SendStep3 = () => {
       resetStepperToFirstStep();
     }, 500); // Adjust the timeout duration if needed
   };
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <PaymentSuccessSkeleton />;
+  }
 
   return (
     <section className="flex flex-col items-center text-center">

@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { SwitchInput } from "../../../../components/BaseComponents/FormInputs";
 import { ChevronLeftIcon, GlobeUserIcon, IconWrapper, PhoneIconVar, ShieldIcon } from "../../../../data/Icons";
 import { useNavigate } from "react-router";
+import { FindMeBySkeleton } from "@/components/Skeleton/Skeleton";
 
 export const FindMeBy = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <FindMeBySkeleton />;
+  }
 
   return (
     <div>

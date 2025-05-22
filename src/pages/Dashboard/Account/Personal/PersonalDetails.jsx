@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, IconWrapper, MessageIcon, PhoneIconVar, UserIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { Link, useNavigate } from "react-router";
+import { PersonalDetailsSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const PersonalDetails = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <PersonalDetailsSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-7">

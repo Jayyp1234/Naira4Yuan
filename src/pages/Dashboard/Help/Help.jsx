@@ -4,7 +4,8 @@ import { Link } from "react-router";
 import { routes } from "@/data/routes";
 import { WhatsApp } from "@mui/icons-material";
 import { AdDisplayIcon, BooIcon, CalendarIcon, PlayIcon, UserVerificationIcon } from "@/data/Icons";
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { HelpCenterSkeleton, InboxSkeleton } from '@/components/Skeleton/Skeleton';
 
 export const Help = () => {
 
@@ -136,6 +137,19 @@ export const Help = () => {
     },
   ];
 
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <HelpCenterSkeleton />;
+  }
 
   return (
     <>

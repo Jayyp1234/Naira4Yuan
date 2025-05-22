@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormControl } from "../../../../components/BaseComponents/FormInputs";
 import { BorderWrapper } from "../../../../components/PageComponents/Dashboard/Items";
 import { ChevronLeftIcon, ExclamationIcon, IconWrapper, LinkoutIcon, PlusSlimIcon } from "../../../../data/Icons";
 import { Link, useNavigate } from "react-router";
+import { ChangePasswordSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Password = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <ChangePasswordSkeleton />;
+  }
 
   return (
     <div className="max-w-xl">

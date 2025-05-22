@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { CautionIcon, ChevronLeftIcon, ChevronRightIcon, IconWrapper, LogoutIcon, SearchIcon, ShieldIcon, SocialLoginIcon, ThumbPrintIcon } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { routes } from "@/data/routes";
+import { SecurityAndPrivacySkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Settings = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <SecurityAndPrivacySkeleton />;
+  }
 
   return (
     <div>

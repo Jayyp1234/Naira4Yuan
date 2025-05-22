@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { routes } from "@/data/routes";
 import {
   ArrowDownIcon,
@@ -17,6 +17,7 @@ import { Link, useNavigate } from "react-router";
 import { MoreVertical } from 'lucide-react';
 import { WalletOptionModal } from "/src/components/LayoutComponents/AllModals";
 import { BankTransferModal } from "@/components/LayoutComponents/AllModals";
+import { RecipientsSkeleton, WalletPageSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Wallet = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export const Wallet = () => {
   const toggleModal = (type, status) => {
     switch (type) {
       case "Wallet":
-      setWalletModalOpen(status);
+        setWalletModalOpen(status);
         break;
       case "DASHBOARD_BANK_TRANSFER":
         setShowBankTransferModal(status);
@@ -81,6 +82,20 @@ export const Wallet = () => {
       iconClass: "-rotate-90",
     },
   ];
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <WalletPageSkeleton />;
+  }
 
   return (
     <div>

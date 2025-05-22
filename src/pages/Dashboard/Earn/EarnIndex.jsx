@@ -8,6 +8,7 @@ import { BarChart3, Check, Copy } from "lucide-react";
 import { ProofModal, ProofVerificationModal, WithdrawalModal } from "@/components/LayoutComponents/AllModals";
 import { Link, useNavigate } from "react-router";
 import { routes } from "@/data/routes";
+import { CashbackReferralSkeleton, ReferralPageSkeleton, WalletPageSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const CashbackIndex = () => {
   const navigate = useNavigate();
@@ -254,6 +255,20 @@ export const CashbackIndex = () => {
     activeFilter === "All"
       ? cashbackData
       : cashbackData.filter((item) => item.status === activeFilter);
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <CashbackReferralSkeleton />;
+  }
 
   return (
     <main className="flex flex-col gap-y-7">
@@ -600,6 +615,20 @@ export const EarnIndex = () => {
     activeFilter === "All"
       ? cashbackData
       : cashbackData.filter((item) => item.status === activeFilter);
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <ReferralPageSkeleton />;
+  }
 
   return (
     <main className="w-full xl:w-11/12 flex flex-col space-y-6 mx-auto">

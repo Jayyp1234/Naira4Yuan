@@ -7,6 +7,7 @@ import { ProfileImage } from "../../../components/PageComponents/Dashboard/Profi
 import { avatar1, Graph } from "@/data";
 import { routes } from "@/data/routes";
 import { BankTransferModal, CalculatorModal, FollowModal, IndividualAccModal } from "@/components/LayoutComponents/AllModals";
+import { DashboardSkeleton } from "@/components/Skeleton/Skeleton";
 
 const commonLinkStyle = `hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-4 px-3 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-[#D9D9D966]`;
 const balanceBoardTriggerBtnStyle =
@@ -39,6 +40,21 @@ export const Home = () => {
         break;
     }
   };
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <DashboardSkeleton />;
+  }
+
 
 
   return (

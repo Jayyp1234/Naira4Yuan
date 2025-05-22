@@ -3,6 +3,7 @@ import { Bell } from "lucide-react";
 import { SwitchBusinessAccountModal } from "@/components/LayoutComponents/AllModals";
 import { useNavigate } from "react-router";
 import { ChevronLeftIcon } from "@/data/Icons";
+import { LimitsSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Limit = () => {
   const navigate = useNavigate();
@@ -14,6 +15,21 @@ export const Limit = () => {
       setIsSwitchModalOpen(value);
     }
   };
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <LimitsSkeleton />;
+  }
+
 
   return (
     <div className="mb-14 max-w-3xl">

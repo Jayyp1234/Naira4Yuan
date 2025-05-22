@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { NigeriaIcon } from "@/data";
 import { useNavigate } from "react-router";
+import { PersonalDetailsFormSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Update = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <PersonalDetailsFormSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-7 mb-14">

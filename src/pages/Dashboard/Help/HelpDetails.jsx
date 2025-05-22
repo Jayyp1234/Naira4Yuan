@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
 import { Link, useNavigate, useParams } from "react-router";
+import { TransferHelpSkeleton } from "@/components/Skeleton/Skeleton";
 
 
 export const HelpDetails = () => {
   const navigate = useNavigate();
   const { helpId } = useParams();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <TransferHelpSkeleton />;
+  }
 
   return (
     <div className="">

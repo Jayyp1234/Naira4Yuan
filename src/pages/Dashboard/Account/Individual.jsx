@@ -5,9 +5,10 @@ import { StateDataContext } from "@/App";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { SelectIdTypeModal } from "@/components/LayoutComponents/AllModals";
 import { useNavigate } from "react-router";
+import { IndividualVerificationSkeleton, LimitsSkeleton, SelectIdTypeSkeleton } from "@/components/Skeleton/Skeleton";
 
 export default function Individual() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isVerified, setIsVerified] = useState(false);
 
   return (
@@ -52,6 +53,20 @@ const IndividualStepper = ({ onComplete }) => {
     switchModal,
   } = useModalTrigger(stateData);
 
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <SelectIdTypeSkeleton />;
+  }
+
   return (
     <div>
       <div className="flex flex-col gap-y-1">
@@ -89,6 +104,19 @@ const IndividualStepper = ({ onComplete }) => {
 
 const Verified = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <IndividualVerificationSkeleton />;
+  }
 
   return (
     <section className="flex flex-col items-center text-center">

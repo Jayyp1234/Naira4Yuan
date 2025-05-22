@@ -3,6 +3,7 @@ import Badge from "../../../components/BaseComponents/Badge";
 import { ChevronLeftIcon } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { InboxModal } from "@/components/LayoutComponents/AllModals";
+import { CashbackReferralSkeleton, InboxSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Inbox = () => {
   const navigate = useNavigate();
@@ -49,6 +50,20 @@ export const Inbox = () => {
       status: "success",
     },
   ];
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <InboxSkeleton />;
+  }
 
   return (
     <div>

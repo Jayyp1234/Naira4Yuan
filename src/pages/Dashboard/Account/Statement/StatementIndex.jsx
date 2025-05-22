@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, IconWrapper, StatementAndReportIcon, StatementFeesIcon, UserIcon } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
 import { routes } from "@/data/routes";
+import { StatementAndReportsSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const StatementReportIndex = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <StatementAndReportsSkeleton />;
+  }
 
   return (
     <div>

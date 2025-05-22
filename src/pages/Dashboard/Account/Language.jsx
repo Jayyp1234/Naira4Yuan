@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { useNavigate } from "react-router";
+import { LanguageSettingSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const Language = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <LanguageSettingSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-5 max-w-2xl">

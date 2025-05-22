@@ -1,6 +1,8 @@
 
+import { HelpCenterSkeleton, TransactionHelpSkeleton } from "@/components/Skeleton/Skeleton";
 import { ArrowDownIcon, IconWrapper, ChevronRightIcon, ChevronLeftIcon } from "@/data/Icons";
 import { routes } from "@/data/routes";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 // Function to convert string to URL-friendly slug
@@ -9,6 +11,20 @@ const slugify = (str) =>
 
 export const HelpContact = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <TransactionHelpSkeleton />;
+  }
 
   return (
     <div className="">

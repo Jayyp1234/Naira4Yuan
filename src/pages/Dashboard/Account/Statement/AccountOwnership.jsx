@@ -4,6 +4,7 @@ import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { AccountOwnershipSelectBalanceModal } from "@/components/LayoutComponents/AllModals";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { ProofOfAccountOwnershipSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const AccountOwnership = () => {
   const navigate = useNavigate();
@@ -30,6 +31,20 @@ export const AccountOwnership = () => {
 
   // Check if the Download button should be enabled
   const isDownloadEnabled = selectedAccount !== null;
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <ProofOfAccountOwnershipSkeleton />;
+  }
 
   return (
     <>

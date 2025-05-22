@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChatIcon, ChevronDownIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { StateDataContext } from "@/App";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { TwoFAMessageAlertPreferenceModal } from "../../../../components/LayoutComponents/AllModals";
 import { useNavigate } from "react-router";
+import { TwoFATextMessageSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const TextMessage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,20 @@ export const TextMessage = () => {
     toggleModal,
     switchModal,
   } = useModalTrigger(stateData);
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <TwoFATextMessageSkeleton />;
+  }
 
   return (
     <>

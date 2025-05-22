@@ -1,9 +1,23 @@
+import { LogoutEverywhereSkeleton } from "@/components/Skeleton/Skeleton";
 import { ChevronLeftIcon } from "@/data/Icons";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 export const LogoutEverywhere = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <LogoutEverywhereSkeleton />;
+  }
 
   return (
     <div className="max-w-2xl">

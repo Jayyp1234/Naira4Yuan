@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { ArrowRightIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { NotificationAlertComponent } from "./NotificationAlertComponent";
 import { Link, useNavigate } from "react-router";
 import { ArrowDownIcon } from "lucide-react";
 import { Graph } from "@/data";
+import { MarketAlertDetailsSkeleton } from "@/components/Skeleton/Skeleton";
 
 const commonLinkStyle = `hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-[#D9D9D966]`;
 
 export const MarketAlerts = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <MarketAlertDetailsSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-5 mb-10 max-w-4xl mx-auto">

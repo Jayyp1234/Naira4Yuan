@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { notificationsArray } from "@/data/dataArray";
 import { ChevronLeftIcon, ChevronRightIcon, IconWrapper } from "@/data/Icons";
 import { Link, useNavigate } from "react-router";
+import { NotificationListSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const NotificationIndex = () => {
   const navigate = useNavigate();
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <NotificationListSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-y-5 mb-10 max-w-4xl mx-auto">

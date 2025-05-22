@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { routes } from "@/data/routes";
 import { ChatIcon, ChevronLeftIcon, ChevronRightIcon, IconWrapper, LightningIcon, ShieldCheckIcon } from "@/data/Icons";
 import { SwitchInput } from "@/components/BaseComponents/FormInputs";
+import { TwoFATextMessageSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const TwoFA = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <TwoFATextMessageSkeleton />;
+  }
 
   return (
     <div>

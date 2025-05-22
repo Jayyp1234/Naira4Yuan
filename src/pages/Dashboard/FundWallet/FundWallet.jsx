@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { BankIcon } from "@/data/Icons";
 import { IconWrapper } from "@/data/Icons";
 import { NigeriaIcon, ChinaIcon } from "@/data";
 import { FundWalletVerificationModal } from "/src/components/LayoutComponents/AllModals";
 import { BasicVerificationModal, BvnVerificationModal, FundWalletBankTransferModal, FundWalletManualBVNVerificationModal, SelectIdTypeModal, SimpleVerificationModal } from "@/components/LayoutComponents/AllModals";
+import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 
 // export const FundWallet = () => {
 //   const [amount, setAmount] = useState("10000");
@@ -149,6 +150,20 @@ export const FundWallet = () => {
         break;
     }
   };
+
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <FundWalletSkeleton />;
+  }
 
   return (
     <>

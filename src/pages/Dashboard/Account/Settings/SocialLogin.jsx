@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { GoogleIcon } from "../../../../data";
 import { useNavigate } from "react-router";
 import { ChevronLeftIcon } from "@/data/Icons";
+import { SocialLoginSkeleton } from "@/components/Skeleton/Skeleton";
 
 export const SocialLogin = () => {
   const navigate = useNavigate();
+  const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDashboardLoading(false);
+    }, 2000); // 2000ms = 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isDashboardLoading) {
+    return <SocialLoginSkeleton />;
+  }
 
   return (
     <div>
