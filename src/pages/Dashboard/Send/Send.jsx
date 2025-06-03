@@ -92,9 +92,9 @@ export const SendStep1 = () => {
 
 
   return (
-    <div className="flex flex-col gap-y-5 mb-10 lg:px-8">
+    <div className="flex flex-col mb-10 gap-y-5 lg:px-8">
       <header>
-        <h2 className="text-xl md:text-2xl font-semibold">How much are you sending?</h2>
+        <h2 className="text-xl font-semibold md:text-2xl">How much are you sending?</h2>
       </header>
 
       <section className="flex flex-col gap-y-2">
@@ -106,11 +106,11 @@ export const SendStep1 = () => {
           collapsible
           value={openItem}
           onValueChange={(value) => setOpenItem(value)}
-          className="w-full flex flex-col gap-y-4">
+          className="flex flex-col w-full gap-y-4">
           {/* Add a New Recipient */}
-          <AccordionItem value="item-1" className="border border-solid border-slate-300 rounded-lg">
+          <AccordionItem value="item-1" className="border border-solid rounded-lg border-slate-300">
             <AccordionTrigger onClick={() => toggleAccordion("item-1")} className="hover:no-underline px-4 [&>svg]:hidden">
-              <span className="text-base md:text-lg font-medium">Add a new recipient</span>
+              <span className="text-base font-medium md:text-lg">Add a new recipient</span>
               <IconWrapper>
                 <ChevronDownIcon className={`w57 h-5 ${openItem == `item-2` ? "rotate-180" : "rotate-0"}`} />
               </IconWrapper>
@@ -119,7 +119,7 @@ export const SendStep1 = () => {
             <AccordionContent className="p-4 space-y-6">
               {/* Payment Method Selection */}
               <div>
-                <h3 className="text-sm font-medium text-gray-700 mb-2">Payment Method</h3>
+                <h3 className="mb-2 text-sm font-medium text-gray-700">Payment Method</h3>
                 <div className="flex flex-wrap gap-3 sm:gap-2">
                   {[
                     { name: "Alipay", logo: Alipay },
@@ -135,7 +135,7 @@ export const SendStep1 = () => {
                         }`}
                     >
                       <div className="flex items-center gap-2">
-                        <img src={method.logo} alt={method.name} className="w-14 sm:w-6 h-auto" />
+                        <img src={method.logo} alt={method.name} className="h-auto w-14 sm:w-6" />
                         <span className="font-medium whitespace-nowrap">{method.name}</span>
                       </div>
                       <input
@@ -144,7 +144,7 @@ export const SendStep1 = () => {
                         value={method.name}
                         checked={selectedMethod === method.name}
                         onChange={() => setSelectedMethod(method.name)}
-                        className="w-4 h-4 accent-green-900 cursor-pointer"
+                        className="w-4 h-4 cursor-pointer accent-green-900"
                       />
                     </label>
                   ))}
@@ -156,17 +156,17 @@ export const SendStep1 = () => {
               <div>
                 {!isComingSoon ? (
                   <>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block mb-1 text-sm font-medium text-gray-700">
                       {selectedMethod} ID
                     </label>
                     <input
                       type="text"
                       placeholder={`Enter ${selectedMethod} ID`}
-                      className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+                      className="w-full p-3 text-gray-600 bg-gray-100 border border-gray-300 rounded-lg"
                     />
                   </>
                 ) : (
-                  <div className="w-full p-4 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded-lg">
+                    <div className="w-full p-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50">
                       <p className="text-sm font-medium">
                         {selectedMethod} support is coming soon!
                       </p>
@@ -180,15 +180,15 @@ export const SendStep1 = () => {
                   {/* OR Divider */}
                   <div className="flex items-center gap-2">
                     <div className="flex-grow border-t border-gray-300"></div>
-                    <span className="text-gray-500 text-xs sm:text-sm">OR</span>
+                    <span className="text-xs text-gray-500 sm:text-sm">OR</span>
                     <div className="flex-grow border-t border-gray-300"></div>
                   </div>
 
                   {/* Upload QR Code */}
-                  <div className="border border-dashed border-gray-400 p-4 rounded-lg bg-gray-100">
-                    <label htmlFor="qrUpload" className="cursor-pointer flex items-center gap-2">
+                  <div className="p-4 bg-gray-100 border border-gray-400 border-dashed rounded-lg">
+                    <label htmlFor="qrUpload" className="flex items-center gap-2 cursor-pointer">
                       <DownloadIcon className="w-5 h-5" />
-                      <span className="text-gray-700 font-medium">
+                      <span className="font-medium text-gray-700">
                         Upload {selectedMethod} QR Code
                       </span>
                     </label>
@@ -198,7 +198,7 @@ export const SendStep1 = () => {
                       className="hidden"
                       accept="image/png,application/pdf"
                     />
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="mt-1 text-xs text-gray-500">
                       File size should be a minimum of 2MB and in PNG or PDF format.
                     </p>
                   </div>
@@ -206,7 +206,7 @@ export const SendStep1 = () => {
               )}
 
               {/* Save as Beneficiary */}
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer" htmlFor="saveBeneficiary">
                   <input
                     id="saveBeneficiary"
@@ -221,14 +221,14 @@ export const SendStep1 = () => {
                   >
                     {isChecked && <Check className="text-[#013930] w-3 h-3" />}
                   </span>
-                  <span className="text-base text-black font-medium select-none">
+                  <span className="text-base font-medium text-black select-none">
                     Save as beneficiary
                   </span>
                 </label>
 
                 <button
                   onClick={() => toggleModal("HOW_TO_GETALIPAYQR", true)}
-                  className="text-sm font-regular underline"
+                  className="text-sm underline font-regular"
                 >
                   How to get QR Code
                 </button>
@@ -237,7 +237,7 @@ export const SendStep1 = () => {
               {/* Add a Nickname */}
               <div>
                 <button
-                  className="text-sm font-regular underline"
+                  className="text-sm underline font-regular"
                   onClick={() => toggleModal("ADD_NICKNAME", true)}
                 >
                   Add a nickname
@@ -247,12 +247,12 @@ export const SendStep1 = () => {
 
           </AccordionItem>
           {/* Beneficiary Selection */}
-          <AccordionItem value="item-2" className="border border-solid border-slate-300 rounded-lg">
+          <AccordionItem value="item-2" className="border border-solid rounded-lg border-slate-300">
             <AccordionTrigger
               onClick={() => toggleAccordion("item-2")}
               className="hover:no-underline px-4 [&>svg]:hidden flex justify-between items-center w-full"
             >
-              <span className="text-base md:text-lg font-medium">Select recipient from beneficiary</span>
+              <span className="text-base font-medium md:text-lg">Select recipient from beneficiary</span>
               <IconWrapper>
                 <ChevronDownIcon className={`w-5 h-5 transition-transform ${openItem === "item-2" ? "rotate-180" : "rotate-0"}`} />
               </IconWrapper>
@@ -268,9 +268,9 @@ export const SendStep1 = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="text-end pe-3 mt-3">
+                <div className="mt-3 text-end pe-3">
                   <button onClick={() => navigate(routes.DASHBOARD.recipients.index.abs)}
-                    className="text-slate-600 font-semibold text-lg hover:underline">See all</button>
+                    className="text-lg font-semibold text-slate-600 hover:underline">See all</button>
                 </div>
               </div>
             </AccordionContent>
@@ -341,7 +341,7 @@ export const SendStep2 = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-5 mb-12">
+      <div className="flex flex-col mb-12 gap-y-5">
         <section className="flex flex-col gap-y-2">
           <div className="mb-4">
             {showAlert && (
@@ -371,13 +371,13 @@ export const SendStep2 = () => {
                 />
               </div>
 
-              <div className="flex-grow flex flex-col sm:flex-row sm:items-center justify-between gap-y-1 sm:gap-y-0">
-                <div className="flex-grow flex flex-col text-start">
+              <div className="flex flex-col justify-between flex-grow sm:flex-row sm:items-center gap-y-1 sm:gap-y-0">
+                <div className="flex flex-col flex-grow text-start">
                   <span className="text-base sm:text-lg text-[#3D4F60]">Pay with Wallet</span>
                   <span className="text-sm sm:text-base text-[#3D4F60]">
                     Balance: NGN 100,000.<span className="text-[.6rem] sm:text-xs">00</span>
                   </span>
-                  <Link className="flex items-center gap-x-1 mt-1">
+                  <Link className="flex items-center mt-1 gap-x-1">
                     <RefreshIcon className="w-4 h-4 sm:w-4 sm:h-4" />
                     <span className="text-sm text-[#3D4F60]">Refresh</span>
                   </Link>
@@ -397,12 +397,12 @@ export const SendStep2 = () => {
         </section>
         <section className="my-2">
           <header className="flex items-center justify-between">
-            <span className="font-bold text-xl">Transfer details</span>
-            <button className="font-bold underline text-xl" type="button">
+            <span className="text-xl font-bold">Transfer details</span>
+            <button className="text-xl font-bold underline" type="button">
               Edit
             </button>
           </header>
-          <div className="mt-4 flex flex-col gap-y-1">
+          <div className="flex flex-col mt-4 gap-y-1">
             <div className="flex justify-between">
               <span className="text-slate-600">You send</span>
               <span className="font-semibold text-slate-600">1,352 NGN</span>
@@ -424,9 +424,9 @@ export const SendStep2 = () => {
         <hr />
         <section className="my-2">
           <header>
-            <h3 className="font-bold text-xl">Recipient details</h3>
+            <h3 className="text-xl font-bold">Recipient details</h3>
           </header>
-          <div className="mt-2 flex flex-col gap-y-1">
+          <div className="flex flex-col mt-2 gap-y-1">
             <div className="flex justify-between">
               <span className="text-slate-600">Account Channel</span>
               <span className="font-semibold text-slate-600">ALIPAY</span>
@@ -453,12 +453,12 @@ export const SendStep2 = () => {
         <hr />
         <section className="my-2">
           <header className="flex items-center justify-between">
-            <h3 className="font-bold text-xl">Schedule details</h3>
-            <button className="font-bold underline text-xl" type="button">
+            <h3 className="text-xl font-bold">Schedule details</h3>
+            <button className="text-xl font-bold underline" type="button">
               Edit
             </button>
           </header>
-          <div className="mt-2 flex flex-col gap-y-1">
+          <div className="flex flex-col mt-2 gap-y-1">
             <div className="flex justify-between">
               <span className="text-slate-600">Sending</span>
               <span className="font-semibold text-slate-600">Now</span>
@@ -474,7 +474,7 @@ export const SendStep2 = () => {
           </div>
         </section>
         <section>
-          <span className="font-bold text-lg text-slate-700">Reference</span>
+          <span className="text-lg font-bold text-slate-700">Reference</span>
           <BorderWrapper borderColor="border-stone-400" cn="py-3 px-4 flex items-center gap-x-3" radiusSize="xl" noBorderAt="rounded-tl-sm">
             <span>Tunde</span>
           </BorderWrapper>
@@ -546,7 +546,7 @@ export const SendStep3 = () => {
       <figure className="max-w-56">
         <img src={CompletedIcon} alt="" />
       </figure>
-      <div className="mb-5 mt-6">
+      <div className="mt-6 mb-5">
         <h1 className="text-3xl font-semibold">Payment on the way🎉</h1>
         <span className="text-slate-700">
           You can track your payment on the
@@ -558,7 +558,7 @@ export const SendStep3 = () => {
           page
         </span>
       </div>
-      <div className="flex flex-col gap-y-2 w-full mt-4 mb-16">
+      <div className="flex flex-col w-full mt-4 mb-16 gap-y-2">
         <button
           type="button"
           onClick={handleGoBackHome}

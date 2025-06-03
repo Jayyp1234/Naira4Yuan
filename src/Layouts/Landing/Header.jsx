@@ -35,16 +35,16 @@ export default function LandingPageHeader() {
 	return (
 		<>
 			<header id="v-header" className="v-variant">
-				<div className="pt-2 w-full sm:w-11/12 2xl:w-9/12 mx-auto">
-					<div className="flex px-4 sm:px-0 mx-auto items-center">
-						<div className="w-5/6 p-0 flex m-0 items-center justify-between">
-							<figure className="v-logo-image p-0" role="img" title="">
+        <div className="w-full pt-2 mx-auto sm:w-11/12 2xl:w-9/12">
+          <div className="flex items-center px-4 mx-auto sm:px-0">
+            <div className="flex items-center justify-between w-5/6 p-0 m-0">
+              <figure className="p-0 v-logo-image" role="img" title="">
 								<Link to={routes.INDEX}>
 									<img src={LogoFullWhiteVariant} alt="" className="img-fluid" />
 								</Link>
 							</figure>
-							<nav className="v-navigation v-middle-links flex-grow hidden xl:block p-0">
-								<ul className="v-navigation-inner gap-x-4 lg:gap-x-5 justify-center">
+              <nav className="flex-grow hidden p-0 v-navigation v-middle-links xl:block">
+                <ul className="justify-center v-navigation-inner gap-x-4 lg:gap-x-5">
 									<li className="v-each-link">
 										<Link to={routes} className="v-link">
 											<span className="v-subtext">Join Community</span>
@@ -95,7 +95,7 @@ export default function LandingPageHeader() {
 													<ChevronDownIcon />
 												</IconWrapper>
 											</DropdownMenuTrigger>
-											<DropdownMenuContent className="md:min-w-80 md:max-w-sm w-full rounded-3xl p-4">
+                      <DropdownMenuContent className="w-full p-4 md:min-w-80 md:max-w-sm rounded-3xl">
 												<CompanyDropdownComponent />
 											</DropdownMenuContent>
 										</DropdownMenu>
@@ -103,8 +103,8 @@ export default function LandingPageHeader() {
 								</ul>
 							</nav>
 						</div>
-						<div className="w-1/5 flex items-center justify-end gap-x-5 p-0">
-							<nav className="v-navigation v-auth hidden lg:flex">
+            <div className="flex items-center justify-end w-1/5 p-0 gap-x-5">
+              <nav className="hidden v-navigation v-auth lg:flex">
 								<ul className="v-navigation-inner gap-x-3.5">
 									<li className="v-each-link">
 										<Link to={routes.AUTH.login.abs} className="v-link v-login">
@@ -118,7 +118,7 @@ export default function LandingPageHeader() {
 									</li>
 								</ul>
 							</nav>
-							<div className="xl:hidden flex items-center">
+              <div className="flex items-center xl:hidden">
 								<button type="button" onClick={handleSideBarVisibility} className="v-mobile-menu-toggler">
 									<IconWrapper>
 										<MenuIcon className="w-7 h-7" />

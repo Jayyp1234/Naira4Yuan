@@ -4,14 +4,14 @@ import { ChevronDownIcon, IconWrapper, QuestionCircleIcon, SwitchAroundIcon } fr
 
 export const Xchange = ({ disabled = false, hasHeader = true }) => {
 	return (
-		<div className="v-exchange-container-wrapper w-full">
+    <div className="w-full v-exchange-container-wrapper">
 			<div className="v-exchange-container">
 				<div className="v-exchange-container-content">
 					<div className="v-exchange-container-body">
 						<form action="" className="v-exchange-container-form gap-y-2">
 							<div className="v-form-input has-pad-right has-pad-top">
 								<div className="v-form-input-inner">
-									<label htmlFor="" className="v-floating-label text-sm">
+                  <label htmlFor="" className="text-sm v-floating-label">
 										Recipient Gets (&#165;)
 									</label>
 									<input
@@ -23,10 +23,10 @@ export const Xchange = ({ disabled = false, hasHeader = true }) => {
 									/>
 									<span className="v-form-float v-form-float-right">
 										<button type="button" onClick={() => {}} className="v-selection-toggler">
-											<figure className="w-5 h-5 rounded-full overflow-hidden">
-												<img src={ChinaIcon} alt="" className="object-full object-cover h-full w-full" />
+                      <figure className="w-5 h-5 overflow-hidden rounded-full">
+                        <img src={ChinaIcon} alt="" className="object-cover w-full h-full object-full" />
 											</figure>
-											<span className="text-lg uppercase font-medium">chy</span>
+                      <span className="text-lg font-medium uppercase">chy</span>
 											<IconWrapper>
 												<ChevronDownIcon />
 											</IconWrapper>
@@ -43,16 +43,19 @@ export const Xchange = ({ disabled = false, hasHeader = true }) => {
 							</div>
 							<div className="v-form-input has-pad-right has-pad-top">
 								<div className="v-form-input-inner">
-									<label htmlFor="" className="v-floating-label text-sm">
+                  <label htmlFor="" className="text-sm v-floating-label">
 										You Pay
-									</label>
-									<input type="text" inputMode="numeric" className="font-bold !text-3xl form-control no-focus" style={{ paddingRight: "6.5rem" }} />
+                  </label>
+                  <div className="font-bold form-control no-focus !text-4xl " style={{ paddingRight: "6.5rem" }}>
+                    ₦209.65
+                  </div>
+                  {/* <input type="text" inputMode="numeric" className="font-bold !text-3xl form-control no-focus" style={{ paddingRight: "6.5rem" }} /> */}
 									<span className="v-form-float v-form-float-right">
 										<button type="button" onClick={() => {}} className="v-selection-toggler">
-											<figure className="w-5 h-5 rounded-full overflow-hidden">
-												<img src={NigeriaIcon} alt="" className="object-full object-cover h-full w-full" />
+                      <figure className="w-5 h-5 overflow-hidden rounded-full">
+                        <img src={NigeriaIcon} alt="" className="object-cover w-full h-full object-full" />
 											</figure>
-											<span className="text-lg uppercase font-medium">NGN</span>
+                      <span className="text-lg font-medium uppercase">NGN</span>
 											<IconWrapper>
 												<ChevronDownIcon />
 											</IconWrapper>
@@ -62,9 +65,9 @@ export const Xchange = ({ disabled = false, hasHeader = true }) => {
 							</div>
 						</form>
 					</div>
-					<footer className="v-exchange-container-footer mt-2">
+          <footer className="mt-2 v-exchange-container-footer">
 						<div className="grid grid-cols-2 relative before:content-[''] before:top-1/2 before:left-1/2 before:absolute before:w-[0.5px] before:h-4/6 before:my-auto before:-translate-y-1/2 before:bg-slate-400 py-4 border border-slate-300 rounded-xl">
-							<aside className="text-center px-2">
+              <aside className="px-2 text-center">
 								<span className="flex justify-center text-[.9rem] sm:text-[.92rem]">
 									Include fees
 									<span>
@@ -73,7 +76,7 @@ export const Xchange = ({ disabled = false, hasHeader = true }) => {
 								</span>
 								<span>00.00 NGN</span>
 							</aside>
-							<aside className="flex justify-center text-center px-2">
+              <aside className="flex justify-center px-2 text-center">
 								<span className="text-[.9rem] sm:text-[.92rem]">
 									Should arrive in <br /> 30 minutes
 								</span>
@@ -88,14 +91,14 @@ export const Xchange = ({ disabled = false, hasHeader = true }) => {
 
 export const XchangeCard = ({ disabled = false, hasHeader = true }) => {
   return (
-    <div className="v-exchange-container-wrapper w-full">
+    <div className="w-full v-exchange-container-wrapper">
       <div className="v-exchange-container">
         <div className="v-exchange-container-content">
           <div className="v-exchange-container-body">
             <form action="" className="v-exchange-container-form gap-y-2">
               <div className="v-form-input has-pad-right has-pad-top">
                 <div className="v-form-input-inner">
-                  <label htmlFor="" className="v-floating-label text-sm">
+                  <label htmlFor="" className="text-sm v-floating-label">
                     Recipient Gets (&#165;)
                   </label>
                   <input
@@ -107,10 +110,10 @@ export const XchangeCard = ({ disabled = false, hasHeader = true }) => {
                   />
                   <span className="v-form-float v-form-float-right">
                     <button type="button" onClick={() => { }} className="v-selection-toggler">
-                      <figure className="w-5 h-5 rounded-full overflow-hidden">
-                        <img src={ChinaIcon} alt="" className="object-full object-cover h-full w-full" />
+                      <figure className="w-5 h-5 overflow-hidden rounded-full">
+                        <img src={ChinaIcon} alt="" className="object-cover w-full h-full object-full" />
                       </figure>
-                      <span className="text-lg uppercase font-medium">chy</span>
+                      <span className="text-lg font-medium uppercase">chy</span>
                       <IconWrapper>
                         <ChevronDownIcon />
                       </IconWrapper>
@@ -127,16 +130,16 @@ export const XchangeCard = ({ disabled = false, hasHeader = true }) => {
               </div> */}
               <div className="v-form-input has-pad-right has-pad-top">
                 <div className="v-form-input-inner">
-                  <label htmlFor="" className="v-floating-label text-sm">
+                  <label htmlFor="" className="text-sm v-floating-label">
                     You Pay
                   </label>
                   <input type="text" inputMode="numeric" className="font-bold !text-3xl form-control no-focus" style={{ paddingRight: "6.5rem" }} />
                   <span className="v-form-float v-form-float-right">
                     <button type="button" onClick={() => { }} className="v-selection-toggler">
-                      <figure className="w-5 h-5 rounded-full overflow-hidden">
-                        <img src={NigeriaIcon} alt="" className="object-full object-cover h-full w-full" />
+                      <figure className="w-5 h-5 overflow-hidden rounded-full">
+                        <img src={NigeriaIcon} alt="" className="object-cover w-full h-full object-full" />
                       </figure>
-                      <span className="text-lg uppercase font-medium">NGN</span>
+                      <span className="text-lg font-medium uppercase">NGN</span>
                       <IconWrapper>
                         <ChevronDownIcon />
                       </IconWrapper>
@@ -146,9 +149,9 @@ export const XchangeCard = ({ disabled = false, hasHeader = true }) => {
               </div>
             </form>
           </div>
-          <footer className="v-exchange-container-footer mt-2">
+          <footer className="mt-2 v-exchange-container-footer">
             <div className="grid grid-cols-2 relative before:content-[''] before:top-1/2 before:left-1/2 before:absolute before:w-[0.5px] before:h-4/6 before:my-auto before:-translate-y-1/2 before:bg-slate-400 py-4 border border-slate-300 rounded-xl">
-              <aside className="text-center px-2">
+              <aside className="px-2 text-center">
                 <span className="flex justify-center text-[.9rem] sm:text-[.92rem]">
                   Present Rate per yuan
                   <span>
@@ -157,7 +160,7 @@ export const XchangeCard = ({ disabled = false, hasHeader = true }) => {
                 </span>
                 <span>00.00 NGN</span>
               </aside>
-              <aside className="flex justify-center text-center px-2">
+              <aside className="flex justify-center px-2 text-center">
                 <span className="text-[.9rem] sm:text-[.92rem]">
                   Should arrive in <br /> 8 hours
                 </span>

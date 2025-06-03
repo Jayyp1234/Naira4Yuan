@@ -23,6 +23,7 @@ import Step1 from "@/assets/media/images/1 1202201564.png";
 import Step2 from "@/assets/media/images/2 10.png";
 import Step3 from "@/assets/media/images/3 52.png";
 import Step4 from "@/assets/media/images/22 1.png";
+import Thumbnail from "@/assets/media/images/Rectangle 25405.png";
 import Graph from "@/assets/media/images/Screenshot_2025-01-21_205341-removebg-preview 1.png";
 
 // logos
@@ -60,6 +61,7 @@ import EmptyImage from "@/assets/media/svgs/empty.svg";
 import EmptyImageVar2 from "@/assets/media/svgs/empty-image-var-2.svg";
 import EmptyImageVar3 from "@/assets/media/svgs/Picture → Megaphone.svg";
 import Dollar from "@/assets/media/svgs/monetary illustration.svg";
+import Youtube from "@/assets/media/svgs/YouTube.svg";
 
 // flags
 import NigeriaIcon from "@/assets/media/flags/nigeria.png";
@@ -131,4 +133,6 @@ export {
   Graph,
   Dollar,
   EmptyImageVar3,
+  Thumbnail,
+  Youtube,
 };

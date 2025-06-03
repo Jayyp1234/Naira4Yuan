@@ -4,7 +4,7 @@ import { BankIcon } from "@/data/Icons";
 import { IconWrapper } from "@/data/Icons";
 import { NigeriaIcon, ChinaIcon } from "@/data";
 import { FundWalletVerificationModal } from "/src/components/LayoutComponents/AllModals";
-import { BasicVerificationModal, BvnVerificationModal, FundWalletBankTransferModal, FundWalletManualBVNVerificationModal, SelectIdTypeModal, SimpleVerificationModal } from "@/components/LayoutComponents/AllModals";
+import { BasicVerificationModal, BvnVerificationModal, FundWalletBankTransferModal, FundWalletManualBVNVerificationModal, IndividualVerificationModal, IndividualVerificationTypeModal, IndividualVerifyModal, SelectIdTypeModal, SimpleVerificationModal } from "@/components/LayoutComponents/AllModals";
 import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 
 // export const FundWallet = () => {
@@ -19,27 +19,27 @@ import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 
 //   return (
 //     <>
-//       <div className="max-w-lg w-full mx-auto px-4 py-12 sm:px-6 lg:px-8">
-//         <h1 className="text-center text-2xl font-semibold mb-8">Fund Wallet</h1>
+//       <div className="w-full max-w-lg px-4 py-12 mx-auto sm:px-6 lg:px-8">
+//         <h1 className="mb-8 text-2xl font-semibold text-center">Fund Wallet</h1>
 
 //         {/* Amount Input */}
 //         <div className="mb-6">
 //           <label htmlFor="amount" className="block mb-2 font-medium text-gray-700">
 //             Amount to Add
 //           </label>
-//           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white">
+//           <div className="flex items-center overflow-hidden bg-white border border-gray-300 rounded-lg">
 //             <input
 //               id="amount"
 //               type="text"
 //               value={amount}
 //               onChange={(e) => setAmount(e.target.value)}
-//               className="flex-1 p-3 outline-none text-sm w-full"
+//               className="flex-1 w-full p-3 text-sm outline-none"
 //             />
 //             <div className="relative w-24">
 //               <select
 //                 value={currency}
 //                 onChange={(e) => setCurrency(e.target.value)}
-//                 className="appearance-none w-full h-full pl-9 py-3 text-sm font-medium text-gray-600 bg-white outline-none cursor-pointer"
+//                 className="w-full h-full py-3 text-sm font-medium text-gray-600 bg-white outline-none appearance-none cursor-pointer pl-9"
 //               >
 //                 {currencyOptions.map((option) => (
 //                   <option key={option.value} value={option.value}>
@@ -47,7 +47,7 @@ import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 //                   </option>
 //                 ))}
 //               </select>
-//               <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+//               <div className="absolute transform -translate-y-1/2 pointer-events-none right-3 top-1/2">
 //                 <svg
 //                   className="w-4 h-4 text-gray-500"
 //                   fill="none"
@@ -58,7 +58,7 @@ import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 //                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
 //                 </svg>
 //               </div>
-//               <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+//               <div className="absolute transform -translate-y-1/2 left-3 top-1/2">
 //                 <figure className="w-5 h-5">
 //                   <img
 //                     src={currencyOptions.find((c) => c.value === currency)?.icon}
@@ -110,12 +110,12 @@ import { FundWalletSkeleton } from "@/components/Skeleton/Skeleton";
 export const FundWallet = () => {
   const [amount, setAmount] = useState("10000");
   const [isShowVerification, setIsShowVerification] = useState(false);
-  const [isBasicVerification, setIsBasicVerification] = useState(false);
-  const [isIdTypeVerification, setIsIdTypeVerification] = useState(false);
-  const [isIdVerification, setIsIdVerification] = useState(false);
-  const [isBvnVerification, setIsBvnVerification] = useState(false);
-  const [isManualVerification, setIsManualVerification] = useState(false);
-  const [isAccVerification, setIsAccVerification] = useState(false);
+  const [isShowVerificationType, setIsShowVerificationType] = useState(false);
+  const [isShowKycVerification, setIsShowKycVerification] = useState(false);
+  const [isShowBvnVerification, setIsShowBvnVerification] = useState(false);
+  const [isShowBankTransferModal, setIsShowBankTransferModal] = useState(false);
+  const [isShowManualBvnModal, setIsShowManualBvnModal] = useState(false);
+
   const [currency, setCurrency] = useState("NGN");
 
   const currencyOptions = [
@@ -125,26 +125,23 @@ export const FundWallet = () => {
 
   const toggleModal = (type, value) => {
     switch (type) {
-      case "KYC_VERIFICATION":
+      case "INDIVIDUAL_VERIFICATION":
         setIsShowVerification(value);
         break;
-      case "BASIC_VERIFICATION":
-        setIsBasicVerification(value);
+      case "INDIVIDUAL_TYPE_VERIFICATION":
+        setIsShowVerificationType(value);
         break;
-      case "SELECT_ID_TYPE":
-        setIsBasicVerification(value);
-        break;
-      case "SELECT_ID":
-        setIsIdVerification(value);
+      case "KYC_VERIFICATION":
+        setIsShowKycVerification(value);
         break;
       case "AUTH_BVN_VERIFICATION":
-        setIsBvnVerification(value);
-        break;
-      case "MANUAL_BVN_VERIFICATION":
-        setIsManualVerification(value);
+        setIsShowBvnVerification(value);
         break;
       case "DASHBOARD_BANK_TRANSFER":
-        setIsAccVerification(value);
+        setIsShowBankTransferModal(value);
+        break;
+      case "MANUAL_BVN_VERIFICATION":
+        setIsShowManualBvnModal(value);
         break;
       default:
         break;
@@ -167,27 +164,27 @@ export const FundWallet = () => {
 
   return (
     <>
-      <div className="max-w-md mx-auto px-4 py-12">
-        <h1 className="text-center text-2xl font-semibold mb-8">Fund Wallet</h1>
+      <div className="max-w-md px-4 py-12 mx-auto">
+        <h1 className="mb-8 text-2xl font-semibold text-center">Fund Wallet</h1>
 
         {/* Amount Input */}
         <div className="mb-6">
           <label htmlFor="amount" className="block mb-2 font-medium text-gray-700">
             Amount to Add
           </label>
-          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-white">
+          <div className="flex items-center overflow-hidden bg-white border border-gray-300 rounded-lg">
             <input
               id="amount"
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="flex-1 p-3 outline-none text-2xl font-bold w-full"
+              className="flex-1 w-full p-3 text-2xl font-bold outline-none"
             />
             <div className="relative w-24">
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="appearance-none w-full h-full pl-9 py-3 text-sm font-medium text-gray-600 bg-white outline-none cursor-pointer"
+                className="w-full h-full py-3 text-sm font-medium text-gray-600 bg-white outline-none appearance-none cursor-pointer pl-9"
               >
                 {currencyOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -195,7 +192,7 @@ export const FundWallet = () => {
                   </option>
                 ))}
               </select>
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <div className="absolute transform -translate-y-1/2 pointer-events-none right-3 top-1/2">
                 <svg
                   className="w-4 h-4 text-gray-500"
                   fill="none"
@@ -206,7 +203,7 @@ export const FundWallet = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+              <div className="absolute transform -translate-y-1/2 left-3 top-1/2">
                 <figure className="w-5 h-5">
                   <img
                     src={currencyOptions.find((c) => c.value === currency)?.icon}
@@ -232,67 +229,63 @@ export const FundWallet = () => {
 
         <button
           type="button"
-          onClick={() => toggleModal("KYC_VERIFICATION", true)}
+          onClick={() => toggleModal("INDIVIDUAL_VERIFICATION", true)}
           className="w-full py-3 text-center rounded-xl font-medium text-black bg-[#F1C34E] hover:bg-[#e3b938] transition"
         >
           Continue
         </button>
       </div>
 
-      <FundWalletVerificationModal
+      <IndividualVerificationModal
         open={isShowVerification}
         modalData={{ toggleModal }}
         action={() => {
-          setIsShowVerification(false);
-          setIsBasicVerification(true);
+          toggleModal("INDIVIDUAL_VERIFICATION", false);
+          toggleModal("INDIVIDUAL_TYPE_VERIFICATION", true);
         }}
       />
-      <SimpleVerificationModal
-        open={isBasicVerification}
+
+      <IndividualVerificationTypeModal
+        open={isShowVerificationType}
         modalData={{ toggleModal }}
         action={() => {
-          setIsBasicVerification(false);
-          setIsIdTypeVerification(true);
+          toggleModal("INDIVIDUAL_TYPE_VERIFICATION", false);
+          toggleModal("KYC_VERIFICATION", true);
         }}
       />
-      <SelectIdTypeModal
-        open={isIdTypeVerification}
+
+      <IndividualVerifyModal
+        open={isShowKycVerification}
         modalData={{ toggleModal }}
         action={() => {
-          setIsIdTypeVerification(false);
-          setIsIdVerification(true);
+          toggleModal("KYC_VERIFICATION", false);
+          toggleModal("AUTH_BVN_VERIFICATION", true);
         }}
       />
-      <BasicVerificationModal
-        open={isIdVerification}
-        modalData={{ toggleModal }}
-        action={() => {
-          setIsIdVerification(false);
-          setIsBvnVerification(true);
-        }}
-      />
+
       <BvnVerificationModal
-        open={isBvnVerification}
+        open={isShowBvnVerification}
         modalData={{ toggleModal }}
         action={() => {
-          setIsBvnVerification(false);
-          setIsAccVerification(true);
+          toggleModal("AUTH_BVN_VERIFICATION", false);
+          toggleModal("DASHBOARD_BANK_TRANSFER", true);
         }}
       />
+
       <FundWalletManualBVNVerificationModal
-        open={isManualVerification}
+        open={isShowManualBvnModal}
         modalData={{ toggleModal }}
         action={() => {
-          setIsBvnVerification(false);
-          setIsManualVerification(false);
-          setIsAccVerification(true);
+          toggleModal("MANUAL_BVN_VERIFICATION", false);
+          toggleModal("DASHBOARD_BANK_TRANSFER", true);
         }}
       />
+
       <FundWalletBankTransferModal
-        open={isAccVerification}
+        open={isShowBankTransferModal}
         modalData={{ toggleModal }}
         action={() => {
-          setIsAccVerification(false);
+          toggleModal("DASHBOARD_BANK_TRANSFER", false);
         }}
       />
     </>

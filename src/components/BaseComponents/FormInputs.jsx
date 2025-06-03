@@ -1,6 +1,7 @@
 import { IconWrapper } from "@/data/Icons";
 import { ChevronDownIcon, DownloadIcon } from "@/data/Icons";
-import React from "react";
+import useOutsideClick from "@/hooks/useOutsideClick";
+import React, { useRef, useState } from "react";
 
 export const FormControl = ({ type = "text", label = {}, style = "", icon = {}, floatEle, ...others }) => {
 	return (
@@ -93,14 +94,52 @@ export const FileUpload = ({ id, label }) => (
   </div>
 );
 
-export const SelectBox = ({ label, placeholder }) => (
-  <div className="w-full">
-    <label className="block text-base font-normal text-gray-900 mb-1">{label}</label>
-    <div className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer">
-      <span className="block truncate text-gray-400 text-base">{placeholder}</span>
-      <IconWrapper>
-        <ChevronDownIcon className="w-5 h-5 text-gray-400" />
-      </IconWrapper>
+export const SelectBox = ({ label, placeholder = "Select an option", options = [], onChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const boxRef = useRef(null);
+
+  useOutsideClick(boxRef, () => setIsOpen(false), isOpen); // optional: close dropdown on outside click
+
+  const handleSelect = (option) => {
+    setSelected(option);
+    setIsOpen(false);
+    if (onChange) onChange(option);
+  };
+
+  return (
+    <div className="relative w-full" ref={boxRef}>
+      {label && (
+        <label className="block mb-1 text-base font-normal text-gray-900">
+          {label}
+        </label>
+      )}
+
+      <div
+        className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
+        <span className={`block truncate text-base ${selected ? "text-gray-800" : "text-gray-400"}`}>
+          {selected?.label || placeholder}
+        </span>
+        <IconWrapper>
+          <ChevronDownIcon className="w-5 h-5 text-gray-400" />
+        </IconWrapper>
+      </div>
+
+      {isOpen && (
+        <ul className="absolute z-50 w-full mt-2 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-sm max-h-60">
+          {options.map((opt, index) => (
+            <li
+              key={index}
+              onClick={() => handleSelect(opt)}
+              className="px-4 py-2 text-sm text-gray-800 cursor-pointer hover:bg-gray-100"
+            >
+              {opt.label}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
-  </div>
-);
+  );
+};

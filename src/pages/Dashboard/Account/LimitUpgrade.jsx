@@ -22,16 +22,15 @@ export const LimitUpgrade = () => {
   });
 
   const [selectedState, setSelectedState] = useState("");
-  const [selectedCity, setSelectedCity] = useState(""); // Store selected city
-
-  // Unified toggle function
+  const [selectedCity, setSelectedCity] = useState("");
+  
   const toggleModal = (modalType, isOpen) => {
     setModals((prev) => ({ ...prev, [modalType]: isOpen }));
   };
 
   const handleCitySelection = (city) => {
     setSelectedCity(city);
-    toggleModal("CITY", false); // Close city modal after selection
+    toggleModal("CITY", false);
   };
 
 
@@ -39,14 +38,14 @@ export const LimitUpgrade = () => {
     <>
       <nav className="flex items-center flex-1 mb-3">
         <button
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
           onClick={() => navigate(-1)}
         >
           <ChevronLeftIcon className="w-4 h-4" />
           <span>Back</span>
         </button>
       </nav>
-      <div className="mb-14 max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto mb-14">
         <header className="mb-4">
           <h2 className="text-xl font-normal">Kindly input your details for an upgrade</h2>
         </header>
@@ -110,7 +109,7 @@ export const LimitUpgrade = () => {
             </div>
           </div>
           <div className="w-full">
-            <label className="block text-base font-normal text-gray-900 mb-1">
+            <label className="block mb-1 text-base font-normal text-gray-900">
               Means of Identification
             </label>
 
@@ -118,7 +117,7 @@ export const LimitUpgrade = () => {
               onClick={() => toggleModal("SELECT_MEANS_ID", true)}
               className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer"
             >
-              <span className="block truncate text-gray-400 text-base">
+              <span className="block text-base text-gray-400 truncate">
                 Select means of identification
               </span>
               <IconWrapper>
@@ -148,7 +147,7 @@ export const LimitUpgrade = () => {
             </div>
           </div>
           <div className="w-full">
-            <label className="block text-base font-normal text-gray-900 mb-1">
+            <label className="block mb-1 text-base font-normal text-gray-900">
               State of Origin
             </label>
 
@@ -156,7 +155,7 @@ export const LimitUpgrade = () => {
               onClick={() => toggleModal("STATE_ORIGIN", true)}
               className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer"
             >
-              <span className="block truncate text-gray-400 text-base">
+              <span className="block text-base text-gray-400 truncate">
                 Select your state of origin
               </span>
               <IconWrapper>
@@ -165,9 +164,9 @@ export const LimitUpgrade = () => {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="w-full">
-              <label className="block text-base font-normal text-gray-900 mb-1">
+              <label className="block mb-1 text-base font-normal text-gray-900">
                 State of Residence
               </label>
 
@@ -184,7 +183,7 @@ export const LimitUpgrade = () => {
               </div>
             </div>
             <div className="w-full">
-              <label className="block text-base font-normal text-gray-900 mb-1">
+              <label className="block mb-1 text-base font-normal text-gray-900">
                 City
               </label>
 
@@ -192,7 +191,7 @@ export const LimitUpgrade = () => {
                 className="flex items-center justify-between w-full px-3.5 py-2 min-h-[3rem] bg-[#F8F9FD] hover:bg-[#eff1f7] text-left text-base rounded-lg cursor-pointer"
                 onClick={() => toggleModal("CITY", true)} // Open the modal on click
               >
-                <span className="block truncate text-gray-400 text-base">
+                <span className="block text-base text-gray-400 truncate">
                   {selectedCity ? selectedCity : "Select city"} {/* Show selected city */}
                 </span>
                 <IconWrapper>
@@ -202,7 +201,7 @@ export const LimitUpgrade = () => {
             </div>
           </div>
           <div className="w-full">
-            <label className="block text-base font-medium text-gray-900 mb-2">
+            <label className="block mb-2 text-base font-medium text-gray-900">
               Address
             </label>
 
@@ -233,10 +232,10 @@ export const LimitUpgrade = () => {
             </div>
           </div>
           <div className="w-full bg-[#FCD55436] rounded-xl px-4 py-3 flex items-center">
-            <div className="flex-shrink-0 bg-white rounded-full w-7 h-7 flex items-center justify-center mr-4">
-              <span className="text-black font-bold text-sm">!</span>
+            <div className="flex items-center justify-center flex-shrink-0 mr-4 bg-white rounded-full w-7 h-7">
+              <span className="text-sm font-bold text-black">!</span>
             </div>
-            <p className="text-gray-700 text-base">
+            <p className="text-base text-gray-700">
               Upload a selfie image of you holding your identification document
             </p>
           </div>
@@ -248,12 +247,16 @@ export const LimitUpgrade = () => {
         <SelectIdModal
           open={modals.SELECT_MEANS_ID}
           modalData={{ toggleModal }}
-          action={() => { }}
+          action={() => {
+            toggleModal("SELECT_MEANS_ID", false);
+          }}
         />
         <StateOfOriginModal
           open={modals.STATE_ORIGIN}
           modalData={{ toggleModal }}
-          action={() => { }}
+          action={() => {
+            toggleModal("STATE_ORIGIN", false);
+          }}
         />
         <StateOfResidenceModal
           open={modals.STATE_RESIDENCE}
@@ -280,7 +283,7 @@ export const Upgrade = () => {
     <>
       <nav className="flex items-center flex-1 mb-3">
         <button
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
           onClick={() => navigate(-1)}
         >
           <ChevronLeftIcon className="w-4 h-4" />
@@ -292,12 +295,12 @@ export const Upgrade = () => {
           <figure className="max-w-56">
             <img src={CompletedIcon} alt="" />
           </figure>
-          <div className="mb-5 mt-6">
+          <div className="mt-6 mb-5">
             <h1 className="text-3xl font-semibold">Business Account Verification Ongoing</h1>
             <span className="text-sm text-slate-500">We'll get back to you via email. Please keep an eye on your inbox
               for an update on your verification status.</span>
           </div>
-          <div className="flex flex-col gap-y-3 w-full">
+          <div className="flex flex-col w-full gap-y-3">
             <button
               type="button"
               className="border-[#f1c34e] border-solid border enabled:active:scale-95 transition-all ease-in-out bg-[#F1C34E] flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-semibold">

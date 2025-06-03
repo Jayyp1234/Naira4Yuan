@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal } from "../BaseComponents/Modal";
-import { FormControl, RadioInput } from "../BaseComponents/FormInputs";
+import { FormControl, RadioInput, SelectBox } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { CHN, CompletedIcon, FRA, NGN, Step1, Step2, Step3, Step4 } from "@/data";
 import { FooterButton } from "../BaseComponents/FooterButton";
@@ -22,7 +22,7 @@ export const BasicVerificationModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_ID", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "border-b", textStyle: "text-main" }}>
-      <div className="py-6 px-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full px-6 py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-40">
           <FormControl
             type="tel"
@@ -49,18 +49,18 @@ export const SelectIdTypeModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_ID_TYPE", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
-      <div className="py-6 px-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full px-6 py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-4 min-h-72">
-          <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b pb-3">
+          <label htmlFor="bvn" className="flex items-center justify-between pb-3 border-b cursor-pointer">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="bvn" />
-              <span className="text-xl leading-tight flex">Bank Verification Number (BVN)</span>
+              <span className="flex text-xl leading-tight">Bank Verification Number (BVN)</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b pb-2">
+          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="nin" />
-              <span className="text-xl leading-tight flex">National Identity Number (NIN)</span>
+              <span className="flex text-xl leading-tight">National Identity Number (NIN)</span>
             </div>
           </label>
         </div>
@@ -95,13 +95,13 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
       onRequestClose={() => toggleModal("SET_PASSWORD", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Enter a pin", style: "border-b", textStyle: "text-main" }}
     >
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
               Enter your preferred 4-digit pin for your Naira4Yuan account.
             </span>
-            <div className="flex flex-col gap-y-2 mt-6">
+            <div className="flex flex-col mt-6 gap-y-2">
               <FormControl
                 type="password"
                 inputMode="numeric"
@@ -143,7 +143,7 @@ export const ManualBVNVerificationModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_BANK", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "border-b", textStyle: "text-main" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <FormControl
             type="text"
@@ -188,13 +188,13 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("AUTH_EMAIL_VERIFICATION", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Verify email address", style: "border-b", textStyle: "text-main" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
               We sent a code to <b>tundeburemo@gmail.com</b>
             </span>
-            <div className="flex flex-col gap-y-2 mt-6">
+            <div className="flex flex-col mt-6 gap-y-2">
               <div>
                 <label htmlFor="code" className="text-[.94rem]">
                   Enter code
@@ -213,7 +213,7 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
           <div className="mt-6">
             <span className="text-[.95rem]">
               Didn{`'`}t receive a code?
-              <button type="button" className="ms-2 font-semibold underline text-main">
+              <button type="button" className="font-semibold underline ms-2 text-main">
                 Click to resend in 0:58
               </button>
             </span>
@@ -253,13 +253,13 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
               We sent a code to <b>2348068745750</b> on text and WhatsApp
             </span>
-            <div className="flex flex-col gap-y-2 mt-6">
+            <div className="flex flex-col mt-6 gap-y-2">
               <div>
                 <label htmlFor="code" className="text-[.94rem]">
                   Enter code
@@ -286,7 +286,7 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
           <div className="mt-6">
             <span className="text-[.95rem]">
               Didn{`'`}t receive a code?
-              <button type="button" className="ms-2 font-semibold underline text-main">
+              <button type="button" className="font-semibold underline ms-2 text-main">
                 Click to resend in 0:58
               </button>
             </span>
@@ -313,16 +313,16 @@ export const ResetPasswordModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("AUTH_RESET_PASSWORD", false)}
       modalHeader={{ hasHeader: true, modalTitle: "", style: "", textStyle: "text-main" }}>
-      <div className="pb-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full pb-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <div className="text-center">
               <h2 className="text-2xl font-semibold">Reset Password</h2>
               <span className="text-sm">
-                We sent a code to <b className="underline underline-offset-2 font-semibold">tundeburemo@gmail.com</b>
+                We sent a code to <b className="font-semibold underline underline-offset-2">tundeburemo@gmail.com</b>
               </span>
             </div>
-            <div className="min-h-72 flex-grow">
+            <div className="flex-grow min-h-72">
               <div className="my-5 flex flex-col gap-y-3.5">
                 <div>
                   <label htmlFor="code" className="text-[.94rem]">
@@ -356,7 +356,7 @@ export const ResetPasswordModal = ({ open, modalData, action }) => {
                 <div className="mb-6">
                   <span className="text-[.95rem]">
                     Didn't receive a code?
-                    <button type="button" className="ml-2 underline text-base font-semibold">
+                    <button type="button" className="ml-2 text-base font-semibold underline">
                       Click to resend
                     </button>
                   </span>
@@ -389,16 +389,16 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_REFERRAL_METHOD", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Select referral method", style: "", textStyle: "text-main" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {referralSources.map((referral, index) => (
             <label
               key={referral.id}
               htmlFor={referral.id}
-              className="flex items-center justify-between cursor-pointer border-b border-gray-200 last:border-b-0 pb-2">
+              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0">
               <div className="flex items-center gap-2">
                 <RadioInput name="referral" id={referral.id} />
-                <span className="text-sm leading-tight flex">{referral.label}</span>
+                <span className="flex text-sm leading-tight">{referral.label}</span>
               </div>
             </label>
           ))}
@@ -420,16 +420,16 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
 //       isOpen={open}
 //       onRequestClose={() => toggleModal("DASHBOARD_ACCOUNT_OWNERSHIP", false)}
 //       modalHeader={{ hasHeader: true, modalTitle: "Select balance", style: "border-b", textStyle: "text-black" }}>
-//       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//         <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
+//       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
+//         <div className="flex flex-col flex-grow pt-6 gap-y-3 min-h-72">
 //           {countries.map((country, index) => (
 //             <label
 //               key={country.id || index}
 //               htmlFor={country.id}
-//               className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2">
+//               className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer">
 //               <div className="flex items-center gap-2">
 //                 <RadioInput name="country" id={country.id} />
-//                 <span className="text-sm leading-tight flex">{country.label}</span>
+//                 <span className="flex text-sm leading-tight">{country.label}</span>
 //               </div>
 //               <figure className="w-5 h-5">
 //                 <img src={country.icon} alt="" className="img-fluid" />
@@ -471,13 +471,13 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
 //         textStyle: "text-black",
 //       }}
 //     >
-//       <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-//         <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
+//       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
+//         <div className="flex flex-col flex-grow pt-6 gap-y-3 min-h-72">
 //           {countries.map((country) => (
 //             <label
 //               key={country.id}
 //               htmlFor={country.id}
-//               className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
+//               className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer"
 //             >
 //               <div className="flex items-center gap-2">
 //                 <RadioInput
@@ -486,7 +486,7 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
 //                   checked={selectedBalance === country.id}
 //                   onChange={() => setSelectedBalance(country.id)}
 //                 />
-//                 <span className="text-sm leading-tight flex">{country.label}</span>
+//                 <span className="flex text-sm leading-tight">{country.label}</span>
 //               </div>
 //               <figure className="w-5 h-5">
 //                 <img src={country.icon} alt={`${country.label} icon`} className="img-fluid" />
@@ -534,13 +534,13 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
         textStyle: "text-black",
       }}
     >
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-        <div className="flex flex-col flex-grow gap-y-3 min-h-72 pt-6">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
+        <div className="flex flex-col flex-grow pt-6 gap-y-3 min-h-72">
           {countries.map((country) => (
             <label
               key={country.id}
               htmlFor={country.id}
-              className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-2"
+              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <RadioInput
@@ -549,7 +549,7 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
                   checked={selectedBalance === country.id}
                   onChange={() => setSelectedBalance(country.id)} // This is where the state is updated
                 />
-                <span className="text-sm leading-tight flex">{country.label}</span>
+                <span className="flex text-sm leading-tight">{country.label}</span>
               </div>
               <figure className="w-5 h-5">
                 <img src={country.icon} alt={`${country.label} icon`} className="img-fluid" />
@@ -583,16 +583,16 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_COUNTRY", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {countries.map((country, index) => (
             <label
               key={country.id || index}
               htmlFor={country.id}
-              className="flex items-center justify-between cursor-pointer border-b border-gray-200 last:border-b-0 pb-2">
+              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0">
               <div className="flex items-center gap-2">
                 <RadioInput name="country" id={country.id} />
-                <span className="text-sm leading-tight flex">{country.label}</span>
+                <span className="flex text-sm leading-tight">{country.label}</span>
               </div>
               <figure className="w-5 h-5">
                 <img src={country.icon} alt="" className="img-fluid" />
@@ -620,16 +620,16 @@ export const TwoFAMessageAlertPreferenceModal = ({ open, modalData, action }) =>
       isOpen={open}
       onRequestClose={() => toggleModal("DASHBOARD_2FA_VERFICATION_ALERT_METHOD", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Select Preference Method", style: "border-b" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {preferences.map((preferences, index) => (
             <label
               key={preferences.id || index}
               htmlFor={preferences.id}
-              className="flex items-center justify-between cursor-pointer border-b border-gray-200 last:border-b-0 pb-2">
+              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0">
               <div className="flex items-center gap-2">
                 <RadioInput name="preferences" id={preferences.id} />
-                <span className="text-sm leading-tight flex">{preferences.label}</span>
+                <span className="flex text-sm leading-tight">{preferences.label}</span>
               </div>
             </label>
           ))}
@@ -650,7 +650,7 @@ export const BankTransferModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("DASHBOARD_BANK_TRANSFER", false)}
       modalHeader={{ hasHeader: true, modalTitle: "", style: "border-b", textStyle: "" }}>
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <header className="text-center">
             <h2 className="text-3xl font-semibold">Bank transfer details</h2>
@@ -660,7 +660,7 @@ export const BankTransferModal = ({ open, modalData, action }) => {
               Transfer funds from any Nigerian bank to the account details below. Once the payment is made, the amount will automatically be credited
               to your Gate Africa wallet, ready for use on the platform.
             </span>
-            <div className="flex items-center gap-x-2 rounded-lg p-2 bg-yellow-100 mb-2">
+            <div className="flex items-center p-2 mb-2 bg-yellow-100 rounded-lg gap-x-2">
               <IconWrapper className="text-yellow-400">
                 <WarningIcon />
               </IconWrapper>
@@ -702,11 +702,11 @@ export const HowToUseNaira4YuanModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("HOW_TO_NAIRA4YUAN", false)}
       modalHeader={{ hasHeader: true, modalTitle: "How to use Naira4Yuan", style: "border-b", textStyle: "" }}>
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-4">
         <div className="flex flex-col flex-grow gap-y-5">
           <Iframe srcLink={routes.EXTERNAL.youtube} />
         </div>
-        <div className="w-10/12 xl:w-7/12 mx-auto text-center">
+        <div className="w-10/12 mx-auto text-center xl:w-7/12">
           <span className="text-[.95rem]">
             This video shows the process of sending USDT from an external wallet. Click "Watch, Proceed" to continue to sell.
           </span>
@@ -744,7 +744,7 @@ export const FundWalletManualBVNVerificationModal = ({ open, modalData, action }
         textStyle: "text-main"
       }}
     >
-      <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4 md:w-11/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <FormControl
             type="text"
@@ -809,14 +809,14 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
           textStyle: "text-main"
         }}
       >
-        <div className="p-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col w-full p-6 mx-auto gap-y-4">
           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
             <section>
-              <span className="block text-center text-lg">
+              <span className="block text-lg text-center">
                 We sent a code to <b>08132*****157</b> to confirm your BVN
               </span>
-              <div className="flex flex-col gap-y-2 mt-6">
-                <div>
+              <div className="flex flex-col mt-6 gap-y-2">
+                <div className="mx-auto">
                   <label htmlFor="code" className="text-base">
                     Enter code
                   </label>
@@ -839,7 +839,7 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
             <div className="mt-6 text-center">
               <span className="text-base">
                 Didn{`'`}t receive a code?
-                <button type="button" className="ms-2 font-semibold underline text-main">
+                <button type="button" className="font-semibold underline ms-2 text-main">
                   Click to resend
                 </button>
               </span>
@@ -848,9 +848,12 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
               <span className="text-base">
                 I don{`'`}t have access to my BVN phone number
                 <button
-                  onClick={() => toggleModal("MANUAL_BVN_VERIFICATION", true)}
+                  onClick={() => {
+                    toggleModal("AUTH_BVN_VERIFICATION", false);
+                    toggleModal("MANUAL_BVN_VERIFICATION", true);
+                  }}
                   type="button"
-                  className="ms-2 font-semibold underline text-main"
+                  className="font-semibold underline ms-2 text-main"
                 >
                   Use manual method
                 </button>
@@ -865,7 +868,7 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
             />
           </div>
         </div>
-      </Modal>
+      </Modal >
     </>
   );
 };
@@ -885,18 +888,18 @@ export const SimpleVerificationIdModal = ({ open, modalData, action }) => {
           textStyle: "text-main"
         }}
       >
-        <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-            <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b pb-2">
+            <label htmlFor="bvn" className="flex items-center justify-between pb-2 border-b cursor-pointer">
               <div className="flex items-center gap-2">
                 <RadioInput name="referral" id="bvn" />
-                <span className="text-lg font-medium leading-tight flex">Bank Verification Number (BVN)</span>
+                <span className="flex text-lg font-medium leading-tight">Bank Verification Number (BVN)</span>
               </div>
             </label>
-            <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+            <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
               <div className="flex items-center gap-2">
                 <RadioInput name="referral" id="nin" />
-                <span className="text-lg font-medium leading-tight flex">National Identity Number (NIN)</span>
+                <span className="flex text-lg font-medium leading-tight">National Identity Number (NIN)</span>
               </div>
             </label>
           </div>
@@ -936,13 +939,13 @@ export const SimpleVerificationModal = ({ open, modalData, action }) => {
           textStyle: ""
         }}
       >
-        <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-8">
           <div className="flex flex-col flex-grow gap-y-5 min-h-60">
             {preferences.map((preference) => (
               <label
                 key={preference.id}
                 htmlFor={preference.id}
-                className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-3"
+                className="flex items-center justify-between pb-3 border-b border-gray-200 cursor-pointer"
               >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">
@@ -952,7 +955,7 @@ export const SimpleVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-2xl font-medium leading-tight flex">{preference.label}</span>
+                    <span className="flex text-2xl font-medium leading-tight">{preference.label}</span>
                   </div>
                 </div>
               </label>
@@ -985,7 +988,7 @@ export const FundWalletBankTransferModal = ({ open, modalData, action }) => {
         textStyle: ""
       }}
     >
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-4 sm:w-10/12 md:w-11/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <header className="text-center">
             <h2 className="text-3xl font-semibold">Bank transfer details</h2>
@@ -995,18 +998,18 @@ export const FundWalletBankTransferModal = ({ open, modalData, action }) => {
               Transfer funds from any Nigerian bank to the account details below. Once the payment is made, the amount will automatically be credited
               to your Gate Africa wallet, ready for use on the platform.
             </span>
-            <div className="flex items-center gap-x-2 rounded-lg p-2 bg-yellow-100 mb-2">
-              <IconWrapper className="text-yellow-400">
+            <div className="flex items-center p-2 mb-2 bg-[#FCD55440] rounded-lg gap-x-2">
+              <IconWrapper className="text-[#F1C34E]">
                 <WarningIcon />
               </IconWrapper>
-              <span className="leading-tight text-base">NB: A fee of ¥1 will be charged</span>
+              <span className="text-base leading-tight text-[#3D4F60]">NB: A fee of ¥1 will be charged</span>
             </div>
             <button
               type="button"
-              className="flex justify-center mx-auto items-center font-medium bg-slate-200 rounded-lg rounded-no-tl py-2.5 px-5 gap-x-2"
+              className="flex justify-center mx-auto items-center bg-[#F8F9FD] rounded-lg rounded-no-tl py-2.5 px-5 gap-x-2"
               onClick={() => navigator.clipboard.writeText('0050924366')}
             >
-              <h4 className="text-xl">0050924366</h4>
+              <h4 className="text-2xl text-[#0F172A]">0050924366</h4>
               <IconWrapper>
                 <CopyIcon2 />
               </IconWrapper>
@@ -1060,8 +1063,8 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
           textStyle: ""
         }}
       >
-        <div className="p-6 pb-10 flex flex-col gap-y-10 w-full mx-auto">
-          <div className="w-full xl:w-9/12 mx-auto text-center">
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-10">
+          <div className="w-full mx-auto text-center xl:w-9/12">
             <span className="text-xl">
               You have to be verified to proceed with this transaction.
             </span>
@@ -1072,7 +1075,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
               <label
                 key={preference.id}
                 htmlFor={preference.id}
-                className="flex items-center justify-between cursor-pointer border-b border-gray-200 pb-3"
+                className="flex items-center justify-between pb-3 border-b border-gray-200 cursor-pointer"
               >
                 <div className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">
@@ -1082,7 +1085,7 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
                       checked={selectedOption === preference.id}
                       onChange={() => handleOptionChange(preference.id)}
                     />
-                    <span className="text-2xl font-medium leading-tight flex">{preference.label}</span>
+                    <span className="flex text-2xl font-medium leading-tight">{preference.label}</span>
                   </div>
                   {selectedOption === preference.id && (
                     <div className="ml-2">
@@ -1103,7 +1106,181 @@ export const FundWalletVerificationModal = ({ open, modalData, action }) => {
           </div>
         </div>
       </Modal>
+    </>
+  );
+};
 
+export const IndividualVerificationModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const preferences = [
+    { id: "individual-account-verification", label: "Individual Account Verification" },
+  ];
+
+  const handleOptionChange = (id) => {
+    setSelectedOption(id);
+  };
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("INDIVIDUAL_VERIFICATION", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Individual Verification",
+          style: "border-b",
+          textStyle: ""
+        }}
+      >
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-10">
+          <div className="w-full mx-auto text-center xl:w-9/12">
+            <span className="text-xl">
+              You have to be verified to proceed with this transaction.
+            </span>
+          </div>
+
+          <div className="flex flex-col flex-grow gap-y-5 min-h-60">
+            {preferences.map((preference) => (
+              <label
+                key={preference.id}
+                htmlFor={preference.id}
+                className="flex items-center justify-between pb-3 border-b border-gray-200 cursor-pointer"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <RadioInput
+                      name="preferences"
+                      id={preference.id}
+                      checked={selectedOption === preference.id}
+                      onChange={() => handleOptionChange(preference.id)}
+                    />
+                    <span className="flex text-base font-normal leading-tight text-[#64748B]">{preference.label}</span>
+                  </div>
+                  <button className="bg-[#FCD55440] px-4 py-2.5 text-[#3D4F60] rounded-xl text-sm">
+                    Not Verified
+                  </button>
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <div className="mt-2">
+            <FooterButton
+              text="Proceed to Verify"
+              onClick={action}
+              className="!text-[1.05rem] animate-active"
+              disabled={!selectedOption}
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export const IndividualVerificationTypeModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("INDIVIDUAL_TYPE_VERIFICATION", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Individual Verification",
+          style: "border-b",
+          textStyle: ""
+        }}
+      >
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-10">
+          <SelectBox
+            label="Verification Type"
+            placeholder="Choose verification type"
+            options={[
+              { label: "NIN", value: "nin" },
+            ]}
+            onChange={(val) => console.log("Selected:", val)}
+          />
+
+          <div className="mt-2">
+            <FooterButton
+              text="Proceed to Verify"
+              onClick={action}
+              className="!text-[1.05rem] animate-active"
+            />
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+};
+
+export const IndividualVerifyModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const preferences = [
+    { id: "basic-verification", label: "Basic Verification" },
+    { id: "individual-account-verification", label: "Individual Account Verification" },
+  ];
+
+  const handleOptionChange = (id) => {
+    setSelectedOption(id);
+  };
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("KYC_VERIFICATION", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Individual Verification",
+          style: "border-b",
+          textStyle: ""
+        }}
+      >
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-10">
+
+          <div className="flex flex-col flex-grow gap-y-5 min-h-60">
+            {preferences.map((preference) => (
+              <label
+                key={preference.id}
+                htmlFor={preference.id}
+                className="flex items-center justify-between pb-3 border-b border-gray-200 cursor-pointer"
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <RadioInput
+                      name="preferences"
+                      id={preference.id}
+                      checked={selectedOption === preference.id}
+                      onChange={() => handleOptionChange(preference.id)}
+                    />
+                    <span className="flex text-base text-[#64748B] font-medium leading-tight">{preference.label}</span>
+                  </div>
+                  {selectedOption === preference.id && (
+                    <div className="ml-2">
+                      {tickCircle({})}
+                    </div>
+                  )}
+                </div>
+              </label>
+            ))}
+          </div>
+
+          <div className="mt-2">
+            <FooterButton
+              text="Proceed to Verify"
+              onClick={action}
+              className="!text-[1.05rem] animate-active"
+            />
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };
@@ -1176,7 +1353,7 @@ export function DatePickerModal({ open, modalData, onDateSelect, dateType, curre
           textStyle: "text-black",
         }}
       >
-        <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+        <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
           <div className="flex flex-col flex-grow gap-y-3 min-h-72">
             <div className="flex items-center justify-between mb-6">
               <button onClick={() => navigateMonth("prev")} className="p-2 bg-gray-200 hover:bg-[#004D40] hover:text-white rounded-full">
@@ -1192,7 +1369,7 @@ export function DatePickerModal({ open, modalData, onDateSelect, dateType, curre
 
             <div className="grid grid-cols-7 gap-1 mb-4">
               {["M", "T", "W", "T", "F", "S", "S"].map((day) => (
-                <div key={day} className="w-10 h-10 flex items-center justify-center text-sm text-gray-500">
+                <div key={day} className="flex items-center justify-center w-10 h-10 text-sm text-gray-500">
                   {day}
                 </div>
               ))}
@@ -1235,16 +1412,16 @@ export const WalletOptionModal = ({ open, modalData, action }) => {
           textStyle: ""
         }}
       >
-        <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
-          <div className="flex flex-col flex-grow gap-y-3 mb-10">
+        <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-8">
+          <div className="flex flex-col flex-grow mb-10 gap-y-3">
             {menuItems.map((item, index) => (
               <button
                 key={index}
-                className="w-full flex items-center justify-between p-4 py-2 text-left hover:bg-gray-50 transition-colors"
+                className="flex items-center justify-between w-full p-4 py-2 text-left transition-colors hover:bg-gray-50"
                 onClick={() => console.log(`Selected: ${item}`)}
               >
                 <span className="text-lg font-normal text-gray-800">{item}</span>
-                <ChevronRight className="h-5 w-5 text-gray-400" />
+                <ChevronRight className="w-5 h-5 text-gray-400" />
               </button>
             ))}
           </div>
@@ -1274,10 +1451,10 @@ export const FileFormatModal = ({ open, modalData, selectedValue, setSelectedVal
       onRequestClose={() => toggleModal("PDF", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Select format", style: "border-b", textStyle: "" }}
     >
-      <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-8">
         <div className="flex flex-col gap-y-3 min-h-60">
           {preferences.map((pref) => (
-            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 cursor-pointer border-b">
+            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 border-b cursor-pointer">
               <div className="flex items-center gap-2">
                 <RadioInput
                   name="file-format-options"
@@ -1325,10 +1502,10 @@ export const LanguageModal = ({ open, modalData, selectedValue, setSelectedValue
       onRequestClose={() => toggleModal(false)}
       modalHeader={{ hasHeader: true, modalTitle: "Select Language", style: "border-b", textStyle: "" }}
     >
-      <div className="p-6 pb-10 flex flex-col gap-y-8 w-full mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-8">
         <div className="flex flex-col gap-y-3 min-h-60">
           {preferences.map((pref) => (
-            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 cursor-pointer border-b">
+            <label key={pref.id} htmlFor={pref.id} className="flex items-center justify-between pb-3 border-b cursor-pointer">
               <div className="flex items-center gap-2">
                 <RadioInput
                   name="language-options"
@@ -1406,7 +1583,7 @@ export const HowToGetAlipayQrModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("HOW_TO_GETALIPAYQR", false)}
       modalHeader={{ hasHeader: true, modalTitle: "How to get your Alipay QR Code", style: "border-b", textStyle: "" }}>
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full mx-auto">
+      <div className="flex flex-col w-full p-6 pb-10 mx-auto gap-y-4">
         <figure className="bg-[#F5F5DC] rounded-xl pt-4 pb-0 w-full flex justify-center">
           <img
             src={stepContent[currentStep].image}
@@ -1418,7 +1595,7 @@ export const HowToGetAlipayQrModal = ({ open, modalData, action }) => {
         <div className="flex flex-col items-center justify-center mt-4">
           <div className="w-full">
             <div className="mb-4">
-              <p className="font-bold text-lg">Step {currentStep} of {totalSteps}</p>
+              <p className="text-lg font-bold">Step {currentStep} of {totalSteps}</p>
               <div className="flex gap-1 my-2">
                 {[...Array(totalSteps)].map((_, index) => (
                   <div
@@ -1432,7 +1609,7 @@ export const HowToGetAlipayQrModal = ({ open, modalData, action }) => {
           </div>
         </div>
 
-        <div className="flex items-center space-x-3 mt-1">
+        <div className="flex items-center mt-1 space-x-3">
           <button
             onClick={handlePrevious}
             className={`px-8 py-3 bg-[#f9f9e6] text-black rounded-md ${currentStep === 1 ? 'opacity-50' : ''}`}
@@ -1460,30 +1637,30 @@ export const SwitchBusinessAccountModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SWITCH_BUSINESS_ACCOUNT", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Switch to a Business Account", style: "border-b", textStyle: "" }}>
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+      <div className="flex flex-col w-full p-6 pb-10 gap-y-4">
         <div className="flex flex-col space-y-3">
           <div className="bg-[#F8F9FD] p-4 rounded-lg">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
 
               {/* Left Section */}
               <div className="flex-1">
-                <h3 className="text-lg font-medium mt-1">Business Account</h3>
+                <h3 className="mt-1 text-lg font-medium">Business Account</h3>
 
                 <ul className="mt-2 space-y-2 text-sm sm:text-base">
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Daily Incoming Transactions: ₦10,000 - ₦5,000,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Daily Outgoing Transactions: ¥50 - ¥10,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Total Monthly Incoming Limit: ₦50,000,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Total Monthly Outgoing Limit: ¥100,000</span>
                   </li>
                 </ul>
@@ -1491,27 +1668,27 @@ export const SwitchBusinessAccountModal = ({ open, modalData, action }) => {
             </div>
           </div>
           <div className="bg-[#F8F9FD] p-4 rounded-lg">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
 
               {/* Left Section */}
               <div className="flex-1">
-                <h3 className="text-lg font-medium mt-1">What you’ll need</h3>
+                <h3 className="mt-1 text-lg font-medium">What you’ll need</h3>
 
                 <ul className="mt-2 space-y-2 text-sm sm:text-base">
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>You must be individual verified before attempting to switch to a business account</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Regulatory ID Card</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Your Selfie</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Your Business Details: CAC Certificate, Memart</span>
                   </li>
                 </ul>
@@ -1534,35 +1711,35 @@ export const SelectIdModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_MEANS_ID", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Select means of identification", style: "", textStyle: "text-main" }}>
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          <label htmlFor="bvn" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+          <label htmlFor="bvn" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="bvn" />
-              <span className="text-sm leading-tight flex">National ID Card</span>
+              <span className="flex text-sm leading-tight">National ID Card</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="nin" />
-              <span className="text-sm leading-tight flex">NIN</span>
+              <span className="flex text-sm leading-tight">NIN</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="nin" />
-              <span className="text-sm leading-tight flex">Voter’s card</span>
+              <span className="flex text-sm leading-tight">Voter’s card</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
               <RadioInput name="referral" id="nin" />
-              <span className="text-sm leading-tight flex">International passport</span>
+              <span className="flex text-sm leading-tight">International passport</span>
             </div>
           </label>
         </div>
         <div>
-          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton onClick={action} text="Continue" className="!text-[1.05rem] uppercase" />
         </div>
       </div>
     </Modal>
@@ -1590,13 +1767,13 @@ export const StateOfOriginModal = ({ open, modalData, action }) => {
         textStyle: "text-main"
       }}
     >
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
-        <div className="flex flex-col flex-grow gap-y-3 min-h-72 mb-8">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
+        <div className="flex flex-col flex-grow mb-8 gap-y-3 min-h-72">
           {states.map((state) => (
             <label
               key={state}
               htmlFor={state.toLowerCase()}
-              className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2"
+              className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0"
             >
               <div className="flex items-center gap-2">
                 <RadioInput
@@ -1606,7 +1783,7 @@ export const StateOfOriginModal = ({ open, modalData, action }) => {
                   checked={selectedState === state}
                   onChange={handleSelect}
                 />
-                <span className="text-sm leading-tight flex">{state}</span>
+                <span className="flex text-sm leading-tight">{state}</span>
               </div>
             </label>
           ))}
@@ -1644,13 +1821,13 @@ export const StateOfResidenceModal = ({ open, modalData, action }) => {
         textStyle: "text-main"
       }}
     >
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {states.map((state) => (
             <label
               key={state}
               htmlFor={state.toLowerCase()}
-              className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2"
+              className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0"
             >
               <div className="flex items-center gap-2">
                 <RadioInput
@@ -1660,7 +1837,7 @@ export const StateOfResidenceModal = ({ open, modalData, action }) => {
                   checked={selectedState === state}
                   onChange={handleSelect}
                 />
-                <span className="text-sm leading-tight flex">{state}</span>
+                <span className="flex text-sm leading-tight">{state}</span>
               </div>
             </label>
           ))}
@@ -1698,15 +1875,15 @@ export const CityModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="py-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {/* Repeatable labels for each city */}
           {["Ibadan", "Ogbomoso", "Ado-awaye", "Eruwa", "Benin", "Fiditi", "Igbo-ora", "Iseyin", "Egbeda"].map(
             (city, index) => (
-              <label key={index} className="flex items-center justify-between cursor-pointer border-b last:border-b-0 pb-2">
+              <label key={index} className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
                 <div className="flex items-center gap-2">
                   <RadioInput name="referral" id={city} />
-                  <span className="text-sm leading-tight flex">{city}</span>
+                  <span className="flex text-sm leading-tight">{city}</span>
                 </div>
               </label>
             )
@@ -1738,30 +1915,30 @@ export const IndividualAccModal = ({ open, modalData, action }) => {
         textStyle: ""
       }}
     >
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+      <div className="flex flex-col w-full p-6 pb-10 gap-y-4">
         <div className="flex flex-col space-y-3">
           <div className="bg-[#F8F9FD] p-4 rounded-lg">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
 
               {/* Left Section */}
               <div className="flex-1">
-                <h3 className="text-lg font-medium mt-1">Individual Account</h3>
+                <h3 className="mt-1 text-lg font-medium">Individual Account</h3>
 
                 <ul className="mt-2 space-y-2 text-sm sm:text-base">
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Daily Incoming Transactions: ₦1,000 - ₦500,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Daily Outgoing Transactions: ¥20 - ¥3,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Total Monthly Incoming Limit: ₦2,000,000</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Total Monthly Outgoing Limit: ¥30,000</span>
                   </li>
                 </ul>
@@ -1769,23 +1946,23 @@ export const IndividualAccModal = ({ open, modalData, action }) => {
             </div>
           </div>
           <div className="bg-[#F8F9FD] p-4 rounded-lg">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:gap-8">
 
               {/* Left Section */}
               <div className="flex-1">
-                <h3 className="text-lg font-medium mt-1">What’s Required</h3>
+                <h3 className="mt-1 text-lg font-medium">What’s Required</h3>
 
                 <ul className="mt-2 space-y-2 text-sm sm:text-base">
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Basic Identity Verification (BVN or NIN)</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>A valid ID (e.g. National ID, Voter’s Card, Driver’s License)</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-black mr-2">•</span>
+                    <span className="mr-2 text-black">•</span>
                     <span>Your Selfie for facial verification</span>
                   </li>
                 </ul>
@@ -1821,7 +1998,7 @@ export const AddNicknameModal = ({ open, modalData, action }) => {
         textStyle: ""
       }}
     >
-      <div className="p-6 pb-10 flex flex-col gap-y-4 w-full">
+      <div className="flex flex-col w-full p-6 pb-10 gap-y-4">
         <FormControl
           type="text"
           value={nickname}
@@ -1860,7 +2037,7 @@ export const WithdrawalModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="p-6 w-full max-w-xl mx-auto flex flex-col gap-y-6">
+      <div className="flex flex-col w-full max-w-xl p-6 mx-auto gap-y-6">
         <div className="flex flex-col gap-y-4">
           {/* Bank Dropdown */}
           <div className="flex flex-col gap-y-1">
@@ -1942,12 +2119,12 @@ export const ProofModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="p-6 w-full max-w-xl mx-auto">
+      <div className="w-full max-w-xl p-6 mx-auto">
         <form onSubmit={handleSubmit}>
           {/* Trustpilot */}
           <div className="mb-2">
             <div className="flex items-center">
-              <h2 className="text-lg font-normal mr-1">Trustpilot Review</h2>
+              <h2 className="mr-1 text-lg font-normal">Trustpilot Review</h2>
               <Link
                 className="text-xs underline"
               >
@@ -1955,7 +2132,7 @@ export const ProofModal = ({ open, modalData, action }) => {
               </Link>
             </div>
 
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer">
+            <div className="p-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer">
               <label htmlFor="trustpilot-upload" className="flex flex-col cursor-pointer">
                 <div className="flex gap-2">
                   <Download className="w-4 h-4 text-gray-700" />
@@ -1978,7 +2155,7 @@ export const ProofModal = ({ open, modalData, action }) => {
                   <img
                     src={URL.createObjectURL(trustpilotImage)}
                     alt="Trustpilot preview"
-                    className="mt-2 w-auto h-32 rounded-md object-contain border"
+                    className="object-contain w-auto h-32 mt-2 border rounded-md"
                   />
                 </div>
               )}
@@ -1988,7 +2165,7 @@ export const ProofModal = ({ open, modalData, action }) => {
           {/* Google Review */}
           <div className="mb-2">
             <div className="flex items-center">
-              <h2 className="text-lg font-normal mr-1">Google My Business Review</h2>
+              <h2 className="mr-1 text-lg font-normal">Google My Business Review</h2>
               <Link
                 className="text-xs underline"
               >
@@ -1996,7 +2173,7 @@ export const ProofModal = ({ open, modalData, action }) => {
               </Link>
             </div>
 
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 cursor-pointer">
+            <div className="p-4 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer">
               <label htmlFor="google-upload" className="flex flex-col cursor-pointer">
                 <div className="flex gap-2">
                   <Download className="w-4 h-4 text-gray-700" />
@@ -2019,7 +2196,7 @@ export const ProofModal = ({ open, modalData, action }) => {
                   <img
                     src={URL.createObjectURL(googleImage)}
                     alt="Google review preview"
-                    className="mt-2 w-auto h-32 rounded-md object-contain border"
+                    className="object-contain w-auto h-32 mt-2 border rounded-md"
                   />
                 </div>
               )}
@@ -2030,7 +2207,7 @@ export const ProofModal = ({ open, modalData, action }) => {
             <p className="text-xs">*Kindly note that you only get rewarded if you are an active user.</p>
           </div>
 
-          <div className="mt-10 px-6">
+          <div className="px-6 mt-10">
             <FooterButton
               text="Submit for verification"
               className="!text-[1rem] uppercase"
@@ -2057,14 +2234,14 @@ export const ProofVerificationModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="p-6 w-full max-w-xl mx-auto">
-        <div className="flex flex-col gap-2 items-center">
+      <div className="w-full max-w-xl p-6 mx-auto">
+        <div className="flex flex-col items-center gap-2">
           <figure className="max-w-40">
             <img src={CompletedIcon} alt="" />
           </figure>
-          <p className="text-2xl text-black text-center">Submitted.
+          <p className="text-2xl text-center text-black">Submitted.
             Verification Pending</p>
-          <span className="block text-center mb-8">Your review proof has been successfully submitted. We’ll verify it shortly,
+          <span className="block mb-8 text-center">Your review proof has been successfully submitted. We’ll verify it shortly,
             and if you’re eligible, your cashback will be credited.
             Please check your email for updates.</span>
           <FooterButton
@@ -2092,7 +2269,7 @@ export const InboxModal = ({ open, modalData, action, modalContent }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="p-6 w-full max-w-xl mx-auto flex flex-col gap-y-6">
+      <div className="flex flex-col w-full max-w-xl p-6 mx-auto gap-y-6">
         <h3 className="text-lg font-medium">{modalContent?.title}</h3>
         <p className="text-gray-500">{modalContent?.description}</p>
         <small className="text-slate-600">{modalContent?.date}</small>
@@ -2121,26 +2298,26 @@ export const DeleteConfirmationModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="pb-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full pb-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-60">
           <section className="mt-4">
             <div className="text-center">
               <h2 className="text-3xl font-semibold text-red-600">Delete Confirmation</h2>
-              <p className="text-base mt-2 text-gray-700">
+              <p className="mt-2 text-base text-gray-700">
                 Are you sure you want to delete this item? This action cannot be undone.
               </p>
             </div>
 
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col justify-center gap-4 mt-8 sm:flex-row">
               <button
                 onClick={() => toggleModal("DELETE_CONFIRMATION", false)}
-                className="w-full sm:w-40 py-3 rounded-lg border bg-gray-100 border-gray-300 hover:bg-gray-300 text-gray-800 transition-all duration-200"
+                className="w-full py-3 text-gray-800 transition-all duration-200 bg-gray-100 border border-gray-300 rounded-lg sm:w-40 hover:bg-gray-300"
               >
                 Cancel
               </button>
               <button
                 onClick={action}
-                className="w-full sm:w-40 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-all duration-200"
+                className="w-full py-3 font-medium text-white transition-all duration-200 bg-red-600 rounded-lg sm:w-40 hover:bg-red-700"
               >
                 Delete
               </button>
@@ -2166,26 +2343,26 @@ export const CloseAccountModal = ({ open, modalData, action }) => {
         textStyle: "text-main",
       }}
     >
-      <div className="pb-6 flex flex-col gap-y-4 w-full sm:w-10/12 md:w-9/12 mx-auto">
+      <div className="flex flex-col w-full pb-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-60">
           <section className="mt-4">
             <div className="text-center">
               <h2 className="text-3xl font-semibold text-red-600">Close Account</h2>
-              <p className="text-base mt-2 text-gray-700">
+              <p className="mt-2 text-base text-gray-700">
                 Are you sure you want to permanently close your account? This action is irreversible and all your data will be lost.
               </p>
             </div>
 
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col justify-center gap-4 mt-8 sm:flex-row">
               <button
                 onClick={() => toggleModal("CLOSE_ACCOUNT", false)}
-                className="w-full sm:w-40 py-3 rounded-lg border bg-gray-100 border-gray-300 hover:bg-gray-300 text-gray-800 transition-all duration-200"
+                className="w-full py-3 text-gray-800 transition-all duration-200 bg-gray-100 border border-gray-300 rounded-lg sm:w-40 hover:bg-gray-300"
               >
                 Cancel
               </button>
               <button
                 onClick={action}
-                className="w-full sm:w-40 py-3 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition-all duration-200"
+                className="w-full py-3 font-medium text-white transition-all duration-200 bg-red-600 rounded-lg sm:w-40 hover:bg-red-700"
               >
                 Close Account
               </button>
@@ -2213,19 +2390,19 @@ export const CalculatorModal = ({ open, modalData, action }) => {
       }}
     >
       <div className="p-3">
-        <div className="flex flex-col gap-y-4 w-full sm:w-10/12 mx-auto mb-5">
+        <div className="flex flex-col w-full mx-auto mb-5 gap-y-4 sm:w-10/12">
           <div className="flex flex-col flex-grow gap-y-3 min-h-60">
             <section className="mt-4">
               <div className="">
                 <p className="text-xs font-semibold text-[#013930]">1 Chinese Yuan equals</p>
-                <h1 className="text-2xl mt-1 text-gray-700">
+                <h1 className="mt-1 text-2xl text-gray-700">
                   202.58 Nigerian Naira
                 </h1>
               </div>
               <div className="mt-2">
                 <XchangeCard />
               </div>
-              <div className="flex items-center gap-x-3 mt-4">
+              <div className="flex items-center mt-4 gap-x-3">
                 <button
                   onClick={() => navigate(routes.DASHBOARD.fundwallet.abs)}
                   type="button"
@@ -2242,7 +2419,7 @@ export const CalculatorModal = ({ open, modalData, action }) => {
             </section>
           </div>
         </div>
-        <div className="flex gap-2 justify-end">
+        <div className="flex justify-end gap-2">
           <IconWrapper >
             <ShareIcon className="w-4 h-4" />
           </IconWrapper>
@@ -2267,7 +2444,7 @@ export const FollowModal = ({ open, modalData, action }) => {
       isOpen={open}
       onRequestClose={() => toggleModal("FOLLOW", false)}
       modalHeader={{ hasHeader: true, modalTitle: "Enter Email Address to Follow", style: "border-b", textStyle: "text-main" }}>
-      <div className="p-6 flex flex-col gap-y-4 w-full mx-auto">
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-4">
         <div className="flex flex-col flex-grow gap-y-10">
           <FormControl
             type="text"

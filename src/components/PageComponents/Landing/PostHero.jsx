@@ -11,30 +11,30 @@ export const PostHero = () => {
 	return (
 		<>
 			<CompanyImageStacks />
-			<div className="mb-14 mt-8">
-				<header className="text-center flex flex-col gap-y-2 w-11/12 mx-auto">
-					<h2 className="text-3xl text-center sm:text-4xl font-extrabold">How Naira4yuan Works</h2>
+			<div className="mt-8 mb-14">
+				<header className="flex flex-col w-11/12 mx-auto text-center gap-y-2">
+					<h2 className="text-3xl font-extrabold text-center sm:text-4xl">How Naira4yuan Works</h2>
 					<span>The system is fully automated, ensuring instant crediting of fiat accounts without the need for human intervention.</span>
 				</header>
-				<div className="mt-8 w-full flex items-stretch justify-center gap-8 flex-wrap xl:flex-nowrap">
+				<div className="flex flex-wrap items-stretch justify-center w-full gap-8 mt-8 xl:flex-nowrap">
 					<aside className="bg-main w-full sm:w-[47%] xl:w-1/3 rounded-3xl rounded-tl-sm rounded-bl-sm p-8 relative">
-						<figure className="absolute pointer-events-none select-none -top-4 right-0">
+						<figure className="absolute right-0 pointer-events-none select-none -top-4">
 							<img src={whiteStar} alt="" />
 						</figure>
-						<div className="flex flex-col gap-y-4 relative h-full">
+						<div className="relative flex flex-col h-full gap-y-4">
 							<header>
 								<h2 className="text-4xl text-balance font-bold text-[#0DFF7A]">Fund your Naira wallet 🚀</h2>
 							</header>
 							<div className="flex-grow">
-								<span className="text-justify text-white block">
+								<span className="block text-justify text-white">
 									Start by funding your Naira4yuan wallet by transferring Naira from your Naira bank account to your dedicated account on Naira4yuan.
 								</span>
 							</div>
-							<footer className="flex flex-col gap-y-2 mt-12 min-h-56">
+							<footer className="flex flex-col mt-12 gap-y-2 min-h-56">
 								{depositArray.map((deposit, index) => (
 									<div key={index} className="flex items-center justify-between bg-white/30 p-3.5 rounded-2xl">
 										<div className="flex items-center space-x-4">
-											<IconWrapper className="bg-white p-2 rounded-full">
+											<IconWrapper className="p-2 bg-white rounded-full">
 												<ArrowDownIcon />
 											</IconWrapper>
 											<div className="text-white">
@@ -42,7 +42,7 @@ export const PostHero = () => {
 												<p className="text-sm">{deposit.description}</p>
 											</div>
 										</div>
-										<span className="bg-gray-100 text-black px-3 py-1 rounded text-sm">{deposit.amount}</span>
+										<span className="px-3 py-1 text-sm text-black bg-gray-100 rounded">{deposit.amount}</span>
 									</div>
 								))}
 							</footer>
@@ -52,7 +52,7 @@ export const PostHero = () => {
 						<figure className="absolute pointer-events-none select-none -top-4 left-4">
 							<img src={bluePlus} alt="" className="h-auto max-w-full" />
 						</figure>
-						<div className="flex flex-col gap-y-4 relative h-full">
+						<div className="relative flex flex-col h-full gap-y-4">
 							<header>
 								<h2 className="text-4xl text-balance font-bold text-[#10B259]">Get Updates in Real Time</h2>
 							</header>
@@ -65,10 +65,10 @@ export const PostHero = () => {
 						</div>
 					</aside>
 					<aside className="bg-white w-full md:w-[48%] xl:w-1/3 rounded-3xl p-8 relative">
-						<figure className="absolute pointer-events-none select-none top-4 right-4 rotate-45">
+						<figure className="absolute rotate-45 pointer-events-none select-none top-4 right-4">
 							<img src={greenPlus} alt="" className="h-auto max-w-full" />
 						</figure>
-						<div className="flex flex-col gap-y-4 relative h-full">
+						<div className="relative flex flex-col h-full gap-y-4">
 							<header>
 								<h2 className="text-4xl text-balance font-bold text-[#10B259]">Send Yuan to Alipay account</h2>
 							</header>
@@ -102,29 +102,29 @@ export const ThreeAsides = () => {
 	};
 
 	return (
-		<div className="flex flex-wrap gap-y-5 lg:grid lg:grid-cols-6 gap-x-2 justify-center">
+		<div className="flex flex-wrap justify-center gap-y-5 lg:grid lg:grid-cols-6 gap-x-2">
 			<aside className="w-full sm:w-[48%] sm:order-1 lg:w-full lg:col-span-2 flex flex-col rounded-2xl overflow-hidden shadow">
 				<div className="px-5 py-3 bg-[#F5F5DC]">
 					<span className="font-medium">Naira to Yuan</span>
 				</div>
-				<div className="p-4 flex-grow flex-col flex gap-y-7 bg-white">
+				<div className="flex flex-col flex-grow p-4 bg-white gap-y-7">
 					<Xchange />
 					<button type="button" className="bg-main py-3.5 text-white w-full rounded-lg rounded-tl-none">
 						Continue
 					</button>
 				</div>
 			</aside>
-			<aside className="w-full lg:w-max sm:order-3 md:order-2 flex items-start justify-center mx-auto lg:col-span-2">
+			<aside className="flex items-start justify-center w-full mx-auto lg:w-max sm:order-3 md:order-2 lg:col-span-2">
 				<figure className="shadow rounded-3xl">
-					<img src={ScanCodeImage} alt="" className="max-w-full h-auto" />
+					<img src={ScanCodeImage} alt="" className="h-auto max-w-full" />
 				</figure>
 			</aside>
 			<aside className="w-full sm:w-[48%] sm:order-2 md:order-3 lg:w-full lg:col-span-2 flex flex-col rounded-2xl overflow-hidden shadow">
 				<div className="px-5 py-3 bg-[#F5F5DC]">
 					<span className="font-medium">Add a new recipient</span>
 				</div>
-				<div className="p-5 flex-grow flex-col flex gap-y-4 bg-white">
-					<div className="flex-grow flex flex-col gap-y-3">
+				<div className="flex flex-col flex-grow p-5 bg-white gap-y-4">
+					<div className="flex flex-col flex-grow gap-y-3">
 						<div className="grid grid-cols-3 gap-2">
 							{paymentMethods.map((method) => (
 								<label
@@ -161,11 +161,12 @@ export const ThreeAsides = () => {
 									exist: true,
 									text: "Alipay ID",
 									id: "alipay-id",
-								}}
+                }}
+                readOnly
 							/>
 						</div>
-						<div className="relative border-y my-3 select-none">
-							<span className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 uppercase bg-white left-1/2 p-2">or</span>
+						<div className="relative my-3 select-none border-y">
+							<span className="absolute p-2 uppercase -translate-x-1/2 -translate-y-1/2 bg-white top-1/2 left-1/2">or</span>
 						</div>
 						<BorderWrapper
 							radiusSize="2xl"
@@ -177,7 +178,7 @@ export const ThreeAsides = () => {
 							<IconWrapper>
 								<DownloadIcon className="w-5 h-5" />
 							</IconWrapper>
-							<div className="flex flex-grow flex-col items-start text-start">
+							<div className="flex flex-col items-start flex-grow text-start">
 								<span className="font-semibold">Upload Alipay Code</span>
 								<span className="text-xs text-slate-600">File size should be a minimum of 2MB and in PNG or PDF format. </span>
 							</div>

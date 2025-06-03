@@ -1222,6 +1222,26 @@ export const MedalIcon = ({ className = svgDefaultSize }) => (
 	</svg>
 );
 
+export const YouTubeIcon = ({ className = svgDefaultSize }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    width="82"
+    height="82"
+    viewBox="0 0 82 82"
+    fill="none"
+  >
+    <path
+      d="M80.311 21.2833C79.3654 17.771 76.596 15.0016 73.0837 14.056C66.6669 12.2998 40.9998 12.2998 40.9998 12.2998C40.9998 12.2998 15.3327 12.2998 8.91594 13.9884C5.47115 14.9341 2.63426 17.771 1.68863 21.2833C0 27.7001 0 41.0064 0 41.0064C0 41.0064 0 54.3803 1.68863 60.7296C2.63426 64.2419 5.4036 67.0113 8.91594 67.9569C15.4003 69.7131 40.9998 69.7131 40.9998 69.7131C40.9998 69.7131 66.6669 69.7131 73.0837 68.0244C76.596 67.0788 79.3654 64.3095 80.311 60.7971C81.9996 54.3803 81.9996 41.074 81.9996 41.074C81.9996 41.074 82.0672 27.7001 80.311 21.2833Z"
+      fill="#FF0000"
+    />
+    <path
+      d="M32.8262 53.2998L54.1704 41.0066L32.8262 28.7134V53.2998Z"
+      fill="white"
+    />
+  </svg>
+);
+
 export const BellIconVar = ({ className = svgDefaultSize }) => (
 	<svg xmlns="http://www.w3.org/2000/svg" className={className} width={96} height={96} viewBox="0 0 16 16">
 		<path
