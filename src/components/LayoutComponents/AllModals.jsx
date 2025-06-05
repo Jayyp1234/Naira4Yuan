@@ -44,28 +44,37 @@ export const BasicVerificationModal = ({ open, modalData, action }) => {
 
 export const SelectIdTypeModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+  const [selectedIdType, setSelectedIdType] = useState('');
+
+  const handleSelection = (e) => setSelectedIdType(e.target.id);
+  const handleContinue = () => {
+    if (!selectedIdType) return alert("Please select an ID type.");
+    action(selectedIdType);
+  };
+
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_ID_TYPE", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
+      modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "border-b", textStyle: "text-main" }}
+    >
       <div className="flex flex-col w-full px-6 py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-4 min-h-72">
           <label htmlFor="bvn" className="flex items-center justify-between pb-3 border-b cursor-pointer">
             <div className="flex items-center gap-2">
-              <RadioInput name="referral" id="bvn" />
-              <span className="flex text-xl leading-tight">Bank Verification Number (BVN)</span>
+              <RadioInput name="referral" id="bvn" checked={selectedIdType === 'bvn'} onChange={handleSelection} />
+              <span className="flex text-base leading-tight">Bank Verification Number (BVN)</span>
             </div>
           </label>
           <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer">
             <div className="flex items-center gap-2">
-              <RadioInput name="referral" id="nin" />
-              <span className="flex text-xl leading-tight">National Identity Number (NIN)</span>
+              <RadioInput name="referral" id="nin" checked={selectedIdType === 'nin'} onChange={handleSelection} />
+              <span className="flex text-base leading-tight">National Identity Number (NIN)</span>
             </div>
           </label>
         </div>
         <div>
-          <FooterButton onClick={action} text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton onClick={handleContinue} text="Continue" className="!text-[1.05rem] uppercase" />
         </div>
       </div>
     </Modal>
@@ -873,6 +882,111 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
+export const NinVerificationModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+  const [otp, setOtp] = useState("");
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("AUTH_NIN_VERIFICATION", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Verify Nin",
+          style: "border-b",
+          textStyle: "text-main"
+        }}
+      >
+        <div className="flex flex-col w-full p-6 mx-auto gap-y-4">
+          <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+            <section>
+              <span className="block text-lg text-center">
+                We sent a code to <b>08132*****157</b> to confirm your NIN
+              </span>
+              <div className="flex flex-col mt-6 gap-y-2">
+                <div className="mx-auto">
+                  <label htmlFor="code" className="text-base">
+                    Enter code
+                  </label>
+                  <InputOTP
+                    maxLength={4}
+                    className="flex flex-col"
+                    value={otp}
+                    onChange={(value) => setOtp(value)}
+                  >
+                    <InputOTPGroup className="flex gap-x-4">
+                      <InputOTPSlot index={0} className={inputModalStyle} />
+                      <InputOTPSlot index={1} className={inputModalStyle} />
+                      <InputOTPSlot index={2} className={inputModalStyle} />
+                      <InputOTPSlot index={3} className={inputModalStyle} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </div>
+              </div>
+            </section>
+            <div className="mt-6 text-center">
+              <span className="text-base">
+                Didn{`'`}t receive a code?
+                <button type="button" className="font-semibold underline ms-2 text-main">
+                  Click to resend
+                </button>
+              </span>
+            </div>
+          </div>
+          <div>
+            <FooterButton
+              text="Continue"
+              onClick={action}
+              className="!text-[1.05rem] uppercase"
+            />
+          </div>
+        </div>
+      </Modal >
+    </>
+  );
+};
+
+export const BvnModal = ({ open, modalData, action }) => {
+  const { toggleModal } = modalData;
+
+  return (
+    <>
+      <Modal
+        isOpen={open}
+        onRequestClose={() => toggleModal("BVN_VERIFICATION", false)}
+        modalHeader={{
+          hasHeader: true,
+          modalTitle: "Basic Verification",
+          style: "border-b",
+          textStyle: "text-main"
+        }}
+      >
+        <div className="flex flex-col w-full p-6 mx-auto gap-y-4">
+          <div className="flex flex-col flex-grow gap-y-3 min-h-72">
+            <FormControl
+              type="text"
+              name="bvn"
+              label={{
+                exist: true,
+                text: "Enter BVN",
+              }}
+              placeholder="Enter your BVN"
+            />
+          </div>
+          <div>
+            <FooterButton
+              text="Proceed"
+              onClick={action}
+              className="!text-[1.05rem] uppercase"
+            />
+          </div>
+        </div>
+      </Modal >
+    </>
+  );
+};
+
 export const SimpleVerificationIdModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
 
@@ -1201,11 +1315,12 @@ export const IndividualVerificationTypeModal = ({ open, modalData, action }) => 
             placeholder="Choose verification type"
             options={[
               { label: "NIN", value: "nin" },
+              { label: "BVN", value: "bvn" },
             ]}
             onChange={(val) => console.log("Selected:", val)}
           />
 
-          <div className="mt-2">
+          <div className="mt-20">
             <FooterButton
               text="Proceed to Verify"
               onClick={action}
@@ -1710,12 +1825,12 @@ export const SelectIdModal = ({ open, modalData, action }) => {
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_MEANS_ID", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Select means of identification", style: "", textStyle: "text-main" }}>
+      modalHeader={{ hasHeader: true, modalTitle: "Select means of identification", style: "border-b", textStyle: "text-main" }}>
       <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          <label htmlFor="bvn" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
+          <label htmlFor="id" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
-              <RadioInput name="referral" id="bvn" />
+              <RadioInput name="referral" id="id" />
               <span className="flex text-sm leading-tight">National ID Card</span>
             </div>
           </label>
@@ -1725,15 +1840,15 @@ export const SelectIdModal = ({ open, modalData, action }) => {
               <span className="flex text-sm leading-tight">NIN</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
+          <label htmlFor="voter" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
-              <RadioInput name="referral" id="nin" />
+              <RadioInput name="referral" id="voter" />
               <span className="flex text-sm leading-tight">Voter’s card</span>
             </div>
           </label>
-          <label htmlFor="nin" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
+          <label htmlFor="passport" className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
             <div className="flex items-center gap-2">
-              <RadioInput name="referral" id="nin" />
+              <RadioInput name="referral" id="passport" />
               <span className="flex text-sm leading-tight">International passport</span>
             </div>
           </label>
@@ -1763,7 +1878,7 @@ export const StateOfOriginModal = ({ open, modalData, action }) => {
       modalHeader={{
         hasHeader: true,
         modalTitle: "State of Origin",
-        style: "",
+        style: "border-b",
         textStyle: "text-main"
       }}
     >
@@ -1817,7 +1932,7 @@ export const StateOfResidenceModal = ({ open, modalData, action }) => {
       modalHeader={{
         hasHeader: true,
         modalTitle: "State of residence",
-        style: "",
+        style: "border-b",
         textStyle: "text-main"
       }}
     >
@@ -1871,14 +1986,13 @@ export const CityModal = ({ open, modalData, action }) => {
       modalHeader={{
         hasHeader: true,
         modalTitle: "City",
-        style: "",
+        style: "border-b",
         textStyle: "text-main",
       }}
     >
-      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
+      <div className="flex flex-col w-full py-6 mx-auto gap-y-5 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          {/* Repeatable labels for each city */}
-          {["Ibadan", "Ogbomoso", "Ado-awaye", "Eruwa", "Benin", "Fiditi", "Igbo-ora", "Iseyin", "Egbeda"].map(
+          {["Ibadan", "Ogbomoso", "Ado-awaye", "Eruwa", "Fiditi", "Igbo-ora", "Iseyin", "Egbeda"].map(
             (city, index) => (
               <label key={index} className="flex items-center justify-between pb-2 border-b cursor-pointer last:border-b-0">
                 <div className="flex items-center gap-2">

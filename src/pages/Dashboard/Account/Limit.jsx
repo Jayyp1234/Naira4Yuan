@@ -122,15 +122,15 @@ export const Limit = () => {
               Want more limit? Open a business account
             </p>
           </button>
-          <div className="w-20 sm:w-32 h-2 bg-[#013930] rounded-b-2xl absolute right-4"></div>
+          {/* <div className="w-20 sm:w-32 h-2 bg-[#013930] rounded-b-2xl absolute right-4"></div> */}
         </div>
       </div>
 
       <SwitchBusinessAccountModal
         open={isSwitchModalOpen}
-        modalData={{ toggleModal, isBusinessVerified: true }} // or false depending on state
+        modalData={{ toggleModal, isBusinessVerified: true }}
         action={() => {
-          toggleModal("SWITCH_BUSINESS_ACCOUNT", false); // optionally close modal
+          toggleModal("SWITCH_BUSINESS_ACCOUNT", false);
           navigate("/dashboard/account/limit/upgrade");
         }}
       />

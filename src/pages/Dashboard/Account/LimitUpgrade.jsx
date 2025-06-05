@@ -269,7 +269,7 @@ export const LimitUpgrade = () => {
         <CityModal
           open={modals.CITY}
           modalData={{ toggleModal }}
-          action={handleCitySelection} // Pass city selection handler as action
+          action={handleCitySelection}
         />
       </div>
     </>
