@@ -8,8 +8,8 @@ export const VideoSection = () => {
 	return (
     <div className="flex flex-col w-full gap-8 px-4 mx-auto">
       <div className="grid w-full grid-cols-1 gap-10 py-24 mx-auto sm:w-10/12 md:w-full xl:w-10/12 lg:grid-cols-2">
-				<aside className="">
-          <Iframe srcLink={routes.EXTERNAL.youtube} thumbnail={Thumbnail} />
+        <aside role="presentation" className="">
+          <Iframe srcLink={routes.EXTERNAL.youtube} />
 				</aside>
         <aside className="flex flex-col items-end">
           <div className="flex flex-col xl:w-full gap-y-4">

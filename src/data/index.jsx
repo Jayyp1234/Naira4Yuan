@@ -136,3 +136,7 @@ export {
   Thumbnail,
   Youtube,
 };
+
+export const videoLinks = {
+  landingPage: "https://www.youtube.com/embed/0G5DAcUVqzk?si=x_l7IGyCGVUGg4oL",
+};
