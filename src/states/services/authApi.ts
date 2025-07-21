@@ -1,80 +1,105 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {
-  EmailOtpRequest,
-  VerifyEmailOtpRequest,
-  SmsOtpRequest,
-  VerifyPhoneOtpRequest,
-  ForgotPasswordRequest,
-  ResetPasswordRequest,
-  FinalizeRegistrationRequest,
-  LoginRequest,
-  DefaultApiResponse,
-} from "../types/auth.types";
+import { getApiBaseUrl } from "@/lib/config";
+
+const baseUrl = getApiBaseUrl();
+
+interface BaseResponse<T = any> {
+  success: boolean;
+  message: string;
+  data: T;
+  errors: any;
+  code: number;
+  timestamp: string;
+}
+
+// Request Interfaces
+interface SendEmailOtpRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface VerifyEmailOtpRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+  code: string;
+}
+
+interface SendSmsOtpRequest {
+  userRefCode: string;
+  password: string;
+  pin: string;
+  phone_number: string;
+  country_id: number;
+  method: "sms" | "whatsapp" | "call";
+  username: string;
+}
+
+interface VerifyPhoneOtpRequest extends Omit<SendSmsOtpRequest, "method"> {
+  code: string;
+}
+
+interface FinalizeRegistrationRequest {
+  userRefCode: string;
+  hear_about_us: string;
+  referred_by?: string;
+}
+
+interface ForgotPasswordOtpRequest {
+  email: string;
+}
+
+interface ResetPasswordRequest {
+  email: string;
+  otp: string;
+  password: string;
+  confirm_password: string;
+}
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://naira4yuan.com", //Replace with the actual baseUrl when provided
-    prepareHeaders: (headers) => {
-      headers.set("Content-Type", "application/json");
-      return headers;
-    },
-  }),
+  baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
-    sendEmailOtp: builder.mutation<DefaultApiResponse, EmailOtpRequest>({
+    sendEmailOtp: builder.mutation<BaseResponse, SendEmailOtpRequest>({
       query: (body) => ({
         url: "/api/user/auth/send-email-otp",
         method: "POST",
         body,
       }),
     }),
-    verifyEmailOtp: builder.mutation<DefaultApiResponse, VerifyEmailOtpRequest>(
-      {
-        query: (body) => ({
-          url: "/api/user/auth/verify-email-otp",
-          method: "POST",
-          body,
-        }),
-      }
-    ),
-    sendSmsOtp: builder.mutation<DefaultApiResponse, SmsOtpRequest>({
+
+    verifyEmailOtp: builder.mutation<BaseResponse, VerifyEmailOtpRequest>({
+      query: (body) => ({
+        url: "/api/user/auth/verify-email-otp",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    sendSmsOtp: builder.mutation<BaseResponse, SendSmsOtpRequest>({
       query: (body) => ({
         url: "/api/user/auth/send-sms-otp",
         method: "POST",
         body,
       }),
     }),
-    verifyPhoneOtp: builder.mutation<DefaultApiResponse, VerifyPhoneOtpRequest>(
-      {
-        query: (body) => ({
-          url: "/api/user/auth/verify-phone-otp",
-          method: "POST",
-          body,
-        }),
-      }
-    ),
-    forgotPasswordOtp: builder.mutation<
-      DefaultApiResponse,
-      ForgotPasswordRequest
-    >({
+
+    verifyPhoneOtp: builder.mutation<BaseResponse, VerifyPhoneOtpRequest>({
       query: (body) => ({
-        url: "/api/user/auth/forgot-password-otp",
+        url: "/api/user/auth/verify-phone-otp",
         method: "POST",
         body,
       }),
     }),
-    resetPasswordWithOtp: builder.mutation<
-      DefaultApiResponse,
-      ResetPasswordRequest
-    >({
-      query: (body) => ({
-        url: "/api/user/auth/reset-password-with-otp",
-        method: "POST",
-        body,
-      }),
-    }),
+
     finalizeRegistration: builder.mutation<
-      DefaultApiResponse,
+      BaseResponse,
       FinalizeRegistrationRequest
     >({
       query: (body) => ({
@@ -83,18 +108,38 @@ export const authApi = createApi({
         body,
       }),
     }),
-    login: builder.mutation<DefaultApiResponse, LoginRequest>({
+
+    forgotPasswordOtp: builder.mutation<BaseResponse, ForgotPasswordOtpRequest>(
+      {
+        query: (body) => ({
+          url: "/api/user/auth/forgot-password-otp",
+          method: "POST",
+          body,
+        }),
+      }
+    ),
+
+    resetPasswordWithOtp: builder.mutation<BaseResponse, ResetPasswordRequest>({
+      query: (body) => ({
+        url: "/api/user/auth/reset-password-with-otp",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    login: builder.mutation<BaseResponse, LoginRequest>({
       query: (body) => ({
         url: "/api/user/auth/login",
         method: "POST",
         body,
       }),
     }),
-    getCountries: builder.query<DefaultApiResponse, void>({
-      query: () => "/api/user/location/countries",
-    }),
-    runQueue: builder.query<DefaultApiResponse, void>({
-      query: () => "/run-queue",
+
+    runQueue: builder.query<BaseResponse, void>({
+      query: () => ({
+        url: "/run-queue",
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -104,10 +149,9 @@ export const {
   useVerifyEmailOtpMutation,
   useSendSmsOtpMutation,
   useVerifyPhoneOtpMutation,
+  useFinalizeRegistrationMutation,
   useForgotPasswordOtpMutation,
   useResetPasswordWithOtpMutation,
-  useFinalizeRegistrationMutation,
   useLoginMutation,
-  useGetCountriesQuery,
   useRunQueueQuery,
 } = authApi;

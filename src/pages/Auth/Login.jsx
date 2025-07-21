@@ -17,39 +17,40 @@ const postFormBtnTextStyle = "text-[.92rem] text-main font-semibold";
 const Login = () => {
   const passwordInputRef = React.useRef(null);
   const [isVisible, setIsVisible] = React.useState(false);
-  const { stateData, setStateData } = React.useContext(StateDataContext);
+  const { stateData } = React.useContext(StateDataContext);
   const [showAlert, setShowAlert] = React.useState(true);
-
-  const {
-    data: { modals },
-    toggleModal,
-    switchModal,
-  } = useModalTrigger(stateData);
-
+  const { data: { modals }, toggleModal } = useModalTrigger(stateData);
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [login, { isLoading }] = useLoginMutation();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      toast.error("Please enter both email and password.");
-      return;
-    }
+  // State to hold form inputs
+  const [formData, setFormData] = React.useState({ email: "", password: "" });
+
+  // RTK Login mutation
+  const [login, { isLoading, error }] = useLoginMutation();
+
+  const isFormValid = formData.email.trim() !== "" && formData.password.trim() !== "";
+
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!isFormValid) return;
 
     try {
-      const res = await login({ email, password }).unwrap();
+      const response = await login(formData).unwrap();
 
-      toast.success("Login successful!");
-
-      localStorage.setItem("token", res?.data?.access_token);
-
-      navigate(routes.DASHBOARD.abs);
+      if (response?.success && response?.data?.access_token) {
+        localStorage.setItem("user_token", response.data.access_token);
+        toast.success("Login successful");
+        navigate(routes.DASHBOARD.abs);
+      } else {
+        toast.error(response?.message || "Login failed");
+      }
     } catch (err) {
-      const message =
-        err?.data?.message || "Login failed. Please check your credentials.";
+      const message = err?.data?.message || "Something went wrong";
       toast.error(message);
-      console.error("Login error:", err);
     }
   };
 
@@ -74,43 +75,47 @@ const Login = () => {
             />
           )}
         </div>
-        <form className="flex flex-col gap-y-5">
+        <form onSubmit={handleLogin} className="flex flex-col gap-y-5">
           <FormControl
-            type="text"
+            type={"text"}
             style="w-full"
-            placeholder="Enter your email address"
-            label={{ exist: true, text: "Email Address" }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={(e) => handleChange("email", e.target.value)}
+            placeholder="Enter your email address or phone number"
+            label={{ exist: true, text: "Enter Address or phone number" }}
           />
+          <div className="flex flex-col gap-y-2">
+            <FormControl
+              type={isVisible ? "text" : "password"}
+              style="w-full"
+              value={formData.password}
+              onChange={(e) => handleChange("password", e.target.value)}
+              icon={{
+                exist: true,
+                action: () => setIsVisible((prev) => !prev),
+                element: isVisible ? OpenEyeIcon : CloseEyeIcon,
+              }}
+              ref={passwordInputRef}
+              placeholder="Enter your password"
+              label={{ exist: true, text: "Password" }}
+            />
 
-          <FormControl
-            type={isVisible ? "text" : "password"}
-            style="w-full"
-            icon={{
-              exist: true,
-              action: () => setIsVisible((prev) => !prev),
-              element: isVisible ? OpenEyeIcon : CloseEyeIcon,
-            }}
-            ref={passwordInputRef}
-            placeholder="Enter your password"
-            label={{ exist: true, text: "Password" }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            {error?.data?.message && (
+              <p className="text-sm text-red-500">{error.data.message}</p>
+            )}
+          </div>
 
           <div className="mt-2">
             <button
-              type="button"
-              disabled={isLoading}
-              onClick={handleLogin}
-              className="enabled:active:scale-95 transition-all ease-in-out bg-[#F1C34E] flex items-center justify-center w-full rounded-lg py-3.5 text-[.9rem] font-medium"
+              type="submit"
+              disabled={isLoading || !isFormValid}
+              className={`transition-all ease-in-out flex items-center justify-center w-full rounded-lg py-3.5 text-[.9rem] font-medium ${isLoading || !isFormValid
+                ? "bg-[#F1C34E]/60 cursor-not-allowed"
+                : "bg-[#F1C34E] enabled:active:scale-95"
+                }`}
             >
               {isLoading ? (
-                <span className="flex items-center gap-2">
-                  <Spinner className="w-4 h-4 !border-black" />
-                  Logging in
-                </span>
+                <Spinner className="w-4 h-4 !border-black" />
               ) : (
                 "Proceed"
               )}
@@ -141,7 +146,7 @@ const Login = () => {
             className="enabled:active:scale-95 transition-all ease-in-out w-full border border-solid border-black/30 rounded-lg p-2.5 py-3 flex items-center justify-center gap-x-2"
           >
             <figure className="flex items-center w-6 h-6">
-              <img src={GoogleIcon} alt="Google login icon" className="w-full h-full" />
+              <img src={GoogleIcon} alt="Google icon" className="w-full h-full" />
             </figure>
             <span className="text-[.9rem]">Continue with Google</span>
           </button>

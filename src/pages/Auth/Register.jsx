@@ -25,9 +25,9 @@ import {
 //   } = React.useContext(StateDataContext);
 
 //   return (
-//     <div className="w-full md:w-9/12 lg:w-8/12 xl:w-3/6 pt-10 sm:py-14 md:py-20 mx-auto">
+//     <div className="w-full pt-10 mx-auto md:w-9/12 lg:w-8/12 xl:w-3/6 sm:py-14 md:py-20">
 //       {!register.isVerified && (
-//         <header className="flex justify-between items-center gap-x-3">
+//         <header className="flex items-center justify-between gap-x-3">
 //           <h2 className="text-3xl font-bold">
 //             {!register.isRegistered && <>{register.stepperVal === 1 && "Register"}</>}
 //             {register.isRegistered && <>{register.stepperVal === 2 && "Individual Verification"}</>}
@@ -71,9 +71,9 @@ export default function Register() {
   } = React.useContext(StateDataContext);
 
   return (
-    <div className="w-full md:w-9/12 lg:w-8/12 xl:w-3/6 pt-10 sm:py-14 md:py-20 mx-auto">
+    <div className="w-full pt-10 mx-auto md:w-9/12 lg:w-8/12 xl:w-3/6 sm:py-14 md:py-20">
       {!register.isRegistered && (
-        <header className="flex justify-between items-center gap-x-3">
+        <header className="flex items-center justify-between gap-x-3">
           <h2 className="text-3xl font-bold">
             Register
           </h2>
@@ -117,7 +117,7 @@ export const RegisterStepper1 = () => {
   return (
     <>
       <form action="" className="flex flex-col gap-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormControl type="text" placeholder="Enter your first name" label={{ exist: true, text: "First name" }} />
           <FormControl type="text" placeholder="Enter your last name" label={{ exist: true, text: "Last name" }} />
         </div>
@@ -141,7 +141,7 @@ export const RegisterStepper1 = () => {
           label={{ exist: true, text: "Email address" }}
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormControl type="password" placeholder="Enter your password" label={{ exist: true, text: "Password" }} />
           <div onClick={() => setShowSetPinModal(true)}>
             <FormControl
@@ -196,7 +196,7 @@ export const RegisterStepper1 = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex flex-col">
             <label className="text-[.94rem] font-medium text-gray-700 dark:text-gray-300">How did you hear about us?</label>
             <button
@@ -311,11 +311,11 @@ export const Registered = () => {
         <figure className="max-w-56">
           <img src={CompletedIcon} alt="" />
         </figure>
-        <div className="mb-5 mt-6">
+        <div className="mt-6 mb-5">
           <h1 className="text-3xl font-semibold">Registration Complete</h1>
           <span className="text-sm text-slate-500">You successfully registered</span>
         </div>
-        <div className="flex flex-col gap-y-3 w-full">
+        <div className="flex flex-col w-full gap-y-3">
           <button
             type="button"
             onClick={proceedWithAction}
@@ -345,11 +345,11 @@ export const Verified = () => {
         <figure className="max-w-56">
           <img src={CompletedIcon} alt="" />
         </figure>
-        <div className="mb-5 mt-6">
+        <div className="mt-6 mb-5">
           <h1 className="text-3xl font-semibold">Individual Verification Complete</h1>
           <span className="text-sm text-slate-500">You will receive an email shortly</span>
         </div>
-        <div className="flex flex-col gap-y-3 w-full">
+        <div className="flex flex-col w-full gap-y-3">
           <button
             type="button"
             className="border-[#f1c34e] border-solid border enabled:active:scale-95 transition-all ease-in-out bg-[#F1C34E] flex items-center justify-center w-full rounded-lg py-3.5 text-[.95rem] font-semibold">
