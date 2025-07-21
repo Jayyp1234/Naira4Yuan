@@ -1,3 +1,3 @@
 export const getApiBaseUrl = () => {
-  return 'http://naira4yuan.com';
+  return "https://naira4yuan.com";
 };

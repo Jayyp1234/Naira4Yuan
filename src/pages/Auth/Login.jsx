@@ -115,7 +115,7 @@ const Login = () => {
                 }`}
             >
               {isLoading ? (
-                <Spinner className="w-4 h-4 !border-black" />
+                <Spinner className="!border-black w-6 h-6" />
               ) : (
                 "Proceed"
               )}

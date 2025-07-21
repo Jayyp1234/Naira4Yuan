@@ -1,3 +1,5 @@
-export const Spinner = ({ className = "h-4 w-4" }) => (
-  <div className={`${className} animate-spin rounded-full border-2 border-white border-t-transparent`} />
+export const Spinner = ({ className = "w-7 h-7" }) => (
+  <span className={`${className} border-4 border-white rounded-full !border-t-transparent animate-spin`} >
+  </span>
 );
+
