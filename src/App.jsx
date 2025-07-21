@@ -75,7 +75,9 @@ import { HelpContact } from "./pages/Dashboard/Help/HelpContact";
 import { HelpDetails } from "./pages/Dashboard/Help/HelpDetails";
 import { Help } from "./pages/Dashboard/Help/Help";
 
-// recipients and transaction
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const StateDataContext = React.createContext(null);
 
@@ -196,6 +198,18 @@ const App = () => {
         {/* 404 Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </StateDataContext.Provider>
   );
 };

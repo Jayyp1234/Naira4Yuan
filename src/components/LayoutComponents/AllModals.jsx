@@ -11,9 +11,13 @@ import { routes } from "../../data/routes";
 import { ArrowDownToLine, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react';
 import { Link, useNavigate } from "react-router";
 import { Xchange, XchangeCard } from "./Xchange";
+import { toast } from "react-toastify";
+import { useForgotPasswordOtpMutation, useResetPasswordWithOtpMutation } from "@/states/services/authApi";
+import { Spinner } from "../BaseComponents/Spinner";
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
+
 
 export const BasicVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
@@ -314,66 +318,144 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-export const ResetPasswordModal = ({ open, modalData, action }) => {
+export const ResetPasswordModal = ({ open, modalData }) => {
   const { toggleModal } = modalData;
+  const [email, setEmail] = useState("tundeburemo@gmail.com"); // You can replace this with dynamic input
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [resetPassword, { isLoading }] = useResetPasswordWithOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useForgotPasswordOtpMutation();
+
+  const handleSubmit = async () => {
+    if (!otp || otp.length !== 4) {
+      toast.error("Please enter a valid 4-digit OTP.");
+      return;
+    }
+
+    if (!newPassword || !confirmPassword) {
+      toast.error("Please fill in all password fields.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await resetPassword({
+        email,
+        otp,
+        password: newPassword,
+        confirm_password: confirmPassword,
+      }).unwrap();
+
+      toast.success("Your password has been reset successfully!");
+      toggleModal("AUTH_RESET_PASSWORD", false);
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to reset password.");
+      console.error("Reset password error:", error);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      await resendOtp({ email }).unwrap();
+      toast.success("A password reset code has been sent to your email address.");
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to resend OTP.");
+      console.error("Resend OTP error:", error);
+    }
+  };
 
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("AUTH_RESET_PASSWORD", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "", style: "", textStyle: "text-main" }}>
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
       <div className="flex flex-col w-full pb-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <div className="text-center">
               <h2 className="text-2xl font-semibold">Reset Password</h2>
               <span className="text-sm">
-                We sent a code to <b className="font-semibold underline underline-offset-2">tundeburemo@gmail.com</b>
+                We sent a code to{" "}
+                <b className="font-semibold underline underline-offset-2">
+                  {email}
+                </b>
               </span>
             </div>
-            <div className="flex-grow min-h-72">
-              <div className="my-5 flex flex-col gap-y-3.5">
-                <div>
-                  <label htmlFor="code" className="text-[.94rem]">
-                    Enter code
-                  </label>
-                  <InputOTP maxLength={4} className="flex flex-col">
-                    <InputOTPGroup className="flex gap-x-4">
-                      <InputOTPSlot index={0} className={inputModalStyle} />
-                      <InputOTPSlot index={1} className={inputModalStyle} />
-                      <InputOTPSlot index={2} className={inputModalStyle} />
-                      <InputOTPSlot index={3} className={inputModalStyle} />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </div>
-                <FormControl
-                  type="password"
-                  label={{
-                    exist: true,
-                    text: "New password",
-                  }}
-                  placeholder="Enter new password"
-                />
-                <FormControl
-                  type="password"
-                  label={{
-                    exist: true,
-                    text: "Retype New Password",
-                  }}
-                  placeholder="Retype new password"
-                />
-                <div className="mb-6">
-                  <span className="text-[.95rem]">
-                    Didn't receive a code?
-                    <button type="button" className="ml-2 text-base font-semibold underline">
-                      Click to resend
-                    </button>
-                  </span>
-                </div>
+
+            <div className="my-5 flex flex-col gap-y-3.5">
+              <div>
+                <label htmlFor="code" className="text-[.94rem]">
+                  Enter code
+                </label>
+                <InputOTP maxLength={4} value={otp} onChange={setOtp} className="flex flex-col">
+                  <InputOTPGroup className="flex gap-x-4">
+                    <InputOTPSlot index={0} className={inputModalStyle} />
+                    <InputOTPSlot index={1} className={inputModalStyle} />
+                    <InputOTPSlot index={2} className={inputModalStyle} />
+                    <InputOTPSlot index={3} className={inputModalStyle} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </div>
+
+              <FormControl
+                type="password"
+                label={{ exist: true, text: "New password" }}
+                placeholder="Enter new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+
+              <FormControl
+                type="password"
+                label={{ exist: true, text: "Retype New Password" }}
+                placeholder="Retype new password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+
+              <div className="mb-6">
+                <span className="text-[.95rem]">
+                  Didn't receive a code?
+                  <button
+                    type="button"
+                    onClick={handleResendOtp}
+                    disabled={isResending}
+                    className="ml-2 text-base font-semibold underline"
+                  >
+                    {isResending ? "Resending..." : "Click to resend"}
+                  </button>
+                </span>
               </div>
             </div>
+
             <div>
-              <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+              <FooterButton
+                text={
+                  isLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Spinner className="w-4 h-4" />
+                      Submitting
+                    </span>
+                  ) : (
+                    "Continue"
+                  )
+                }
+                className="!text-[1.05rem] uppercase"
+                onClick={handleSubmit}
+                disabled={isLoading}
+              />
             </div>
           </section>
         </div>

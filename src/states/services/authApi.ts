@@ -12,76 +12,89 @@ import {
 } from "../types/auth.types";
 
 export const authApi = createApi({
-  reducerPath: 'authApi',
+  reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://', //Replace with the actual baseUrl when provided and change to ENV for production
+    baseUrl: "http://naira4yuan.com", //Replace with the actual baseUrl when provided
     prepareHeaders: (headers) => {
-      headers.set('Content-Type', 'application/json');
+      headers.set("Content-Type", "application/json");
       return headers;
     },
   }),
   endpoints: (builder) => ({
     sendEmailOtp: builder.mutation<DefaultApiResponse, EmailOtpRequest>({
       query: (body) => ({
-        url: '/api/user/auth/send-email-otp',
-        method: 'POST',
+        url: "/api/user/auth/send-email-otp",
+        method: "POST",
         body,
       }),
     }),
-    verifyEmailOtp: builder.mutation<DefaultApiResponse, VerifyEmailOtpRequest>({
-      query: (body) => ({
-        url: '/api/user/auth/verify-email-otp',
-        method: 'POST',
-        body,
-      }),
-    }),
+    verifyEmailOtp: builder.mutation<DefaultApiResponse, VerifyEmailOtpRequest>(
+      {
+        query: (body) => ({
+          url: "/api/user/auth/verify-email-otp",
+          method: "POST",
+          body,
+        }),
+      }
+    ),
     sendSmsOtp: builder.mutation<DefaultApiResponse, SmsOtpRequest>({
       query: (body) => ({
-        url: '/api/user/auth/send-sms-otp',
-        method: 'POST',
+        url: "/api/user/auth/send-sms-otp",
+        method: "POST",
         body,
       }),
     }),
-    verifyPhoneOtp: builder.mutation<DefaultApiResponse, VerifyPhoneOtpRequest>({
+    verifyPhoneOtp: builder.mutation<DefaultApiResponse, VerifyPhoneOtpRequest>(
+      {
+        query: (body) => ({
+          url: "/api/user/auth/verify-phone-otp",
+          method: "POST",
+          body,
+        }),
+      }
+    ),
+    forgotPasswordOtp: builder.mutation<
+      DefaultApiResponse,
+      ForgotPasswordRequest
+    >({
       query: (body) => ({
-        url: '/api/user/auth/verify-phone-otp',
-        method: 'POST',
+        url: "/api/user/auth/forgot-password-otp",
+        method: "POST",
         body,
       }),
     }),
-    forgotPasswordOtp: builder.mutation<DefaultApiResponse, ForgotPasswordRequest>({
+    resetPasswordWithOtp: builder.mutation<
+      DefaultApiResponse,
+      ResetPasswordRequest
+    >({
       query: (body) => ({
-        url: '/api/user/auth/forgot-password-otp',
-        method: 'POST',
+        url: "/api/user/auth/reset-password-with-otp",
+        method: "POST",
         body,
       }),
     }),
-    resetPasswordWithOtp: builder.mutation<DefaultApiResponse, ResetPasswordRequest>({
+    finalizeRegistration: builder.mutation<
+      DefaultApiResponse,
+      FinalizeRegistrationRequest
+    >({
       query: (body) => ({
-        url: '/api/user/auth/reset-password-with-otp',
-        method: 'POST',
-        body,
-      }),
-    }),
-    finalizeRegistration: builder.mutation<DefaultApiResponse, FinalizeRegistrationRequest>({
-      query: (body) => ({
-        url: '/api/user/auth/finalize-registration',
-        method: 'POST',
+        url: "/api/user/auth/finalize-registration",
+        method: "POST",
         body,
       }),
     }),
     login: builder.mutation<DefaultApiResponse, LoginRequest>({
       query: (body) => ({
-        url: '/api/user/auth/login',
-        method: 'POST',
+        url: "/api/user/auth/login",
+        method: "POST",
         body,
       }),
     }),
     getCountries: builder.query<DefaultApiResponse, void>({
-      query: () => '/api/user/location/countries',
+      query: () => "/api/user/location/countries",
     }),
     runQueue: builder.query<DefaultApiResponse, void>({
-      query: () => '/run-queue',
+      query: () => "/run-queue",
     }),
   }),
 });

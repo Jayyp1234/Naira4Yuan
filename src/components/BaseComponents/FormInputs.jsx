@@ -3,42 +3,75 @@ import { ChevronDownIcon, DownloadIcon } from "@/data/Icons";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import React, { useRef, useState } from "react";
 
-export const FormControl = ({ type = "text", label = {}, style = "", icon = {}, floatEle, ...others }) => {
-	return (
-		<div className="relative">
-			{label?.exist && (
-				<label htmlFor={label.id ?? ""} className={`${label?.style ?? ""} text-[.94rem]`}>
-					{label?.text ?? ""}
-				</label>
-			)}
-			<div className="relative">
-				<input
-					type={type}
-					{...others}
-					id={label.id ?? ""}
-					className={`${style} ${floatEle?.exist && (floatEle?.position === "right" || floatEle?.position === "r" ? "pr-28" : "pl-10")} ${
-						icon?.exist ? "pr-12" : ""
-					} placeholder:text-sm text-base px-3.5 py-3 min-h-[3.2rem] transition-all duration-300 ease-in-out bg-[#F8F9FD] focus:bg-[#eff1f7] rounded-lg w-full`}
-				/>
-				{icon?.exist && (
-					<button
-						onClick={icon?.action}
-						type="button"
-						className="flex items-center justify-center absolute right-2.5 top-1/2 -translate-y-1/2 p-2 transition-all hover:bg-slate-200 bg-transparent rounded-full text-slate-500">
-						<IconWrapper className="pointer-events-none">{React.createElement(icon?.element, { className: "w-5 h-5" })}</IconWrapper>
-					</button>
-				)}
-				{floatEle?.exist && (
-					<div
-						className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-slate-500 ${
-							floatEle?.position?.toLowerCase() === "right" || floatEle?.position?.toLowerCase() === "r" ? "right-3" : "left-3"
-						} text-sm ${floatEle.style || ""}`}>
-						{floatEle.children}
-					</div>
-				)}
-			</div>
-		</div>
-	);
+export const FormControl = ({
+  type = "text",
+  label = {},
+  style = "",
+  icon = {},
+  floatEle,
+  value,
+  onChange,
+  id,
+  name,
+  placeholder,
+  ...others
+}) => {
+  return (
+    <div className="relative">
+      {label?.exist && (
+        <label
+          htmlFor={label.id ?? ""}
+          className={`${label?.style ?? ""} text-[.94rem]`}
+        >
+          {label?.text ?? ""}
+        </label>
+      )}
+      <div className="relative">
+        <input
+          type={type}
+          id={label.id ?? ""}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          {...others}
+          className={`${style} ${floatEle?.exist &&
+            (floatEle?.position === "right" || floatEle?.position === "r"
+              ? "pr-28"
+              : "pl-10")
+            } ${icon?.exist ? "pr-12" : ""
+            } placeholder:text-sm text-base px-3.5 py-3 min-h-[3.2rem] transition-all duration-300 ease-in-out bg-[#F8F9FD] focus:bg-[#eff1f7] rounded-lg w-full`}
+        />
+
+        {icon?.exist && (
+          <button
+            onClick={icon?.action}
+            type="button"
+            className="flex items-center justify-center absolute right-2.5 top-1/2 -translate-y-1/2 p-2 transition-all hover:bg-slate-200 bg-transparent rounded-full text-slate-500"
+          >
+            <IconWrapper className="pointer-events-none">
+              {React.createElement(icon?.element, {
+                className: "w-5 h-5",
+              })}
+            </IconWrapper>
+          </button>
+        )}
+
+        {floatEle?.exist && (
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 flex items-center justify-center text-slate-500 ${
+              floatEle?.position?.toLowerCase() === "right" ||
+                floatEle?.position?.toLowerCase() === "r"
+                ? "right-3"
+                : "left-3"
+              } text-sm ${floatEle.style || ""}`}
+          >
+            {floatEle.children}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export const RadioInput = ({ className = "", ...others }) => {
