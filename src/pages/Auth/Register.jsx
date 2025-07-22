@@ -102,6 +102,10 @@ export const RegisterStepper1 = () => {
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const [selectedReferral, setSelectedReferral] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [pin, setPin] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
 
   const {
     data: { modals },
@@ -115,10 +119,6 @@ export const RegisterStepper1 = () => {
     newStates.auth.register.isRegistered = true;
     setStateData(newStates);
   }
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
 
   const referralSourcesMap = {
     twitter: "Twitter",
@@ -181,12 +181,13 @@ export const RegisterStepper1 = () => {
           <FormControl type="password" placeholder="Enter your password" label={{ exist: true, text: "Password" }} />
           <div onClick={() => setShowSetPinModal(true)}>
             <FormControl
-              type="tel"
+              type="password"
               inputMode="numeric"
               maxLength="4"
               placeholder="Enter your 4 digit pin"
               label={{ exist: true, text: "Pin" }}
-              readOnly // Optional, if you want it just to trigger the modal
+              value={pin}
+              readOnly
             />
           </div>
         </div>
@@ -285,9 +286,7 @@ export const RegisterStepper1 = () => {
       <SetPasswordModal
         open={showSetPinModal}
         modalData={{ toggleModal: (type, state) => setShowSetPinModal(state) }}
-        action={(pin) => {
-          console.log("PIN set to:", pin); // or update some state
-        }}
+        action={(newPin) => setPin(newPin)}
       />
       <NumberVerificationModal
         open={showPhoneModal}

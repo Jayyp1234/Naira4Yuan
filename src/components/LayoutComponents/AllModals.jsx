@@ -94,10 +94,12 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
   const isValid = pin.length === 4 && confirmPin.length === 4 && pin === confirmPin;
 
   const handleSubmit = () => {
-    if (pin.length !== 4 || confirmPin.length !== 4) {
-      setError("PIN must be exactly 4 digits.");
-    } else if (pin !== confirmPin) {
-      setError("PINs do not match.");
+    if (!isValid) {
+      if (pin.length !== 4 || confirmPin.length !== 4) {
+        setError("PIN must be exactly 4 digits.");
+      } else if (pin !== confirmPin) {
+        setError("PINs do not match.");
+      }
     } else {
       setError("");
       action?.(pin);
@@ -637,6 +639,7 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
 
 export const SelectReferralMethodModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+
   const referralSources = [
     { id: "twitter", label: "Twitter" },
     { id: "friends_or_family", label: "Friends or Family" },
@@ -646,27 +649,50 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
     { id: "word_of_mouth", label: "Word of mouth" },
   ];
 
+  const [selected, setSelected] = useState("");
+
+  const handleContinue = () => {
+    if (selected) {
+      action(selected);
+      toggleModal("SELECT_REFERRAL_METHOD", false);
+    }
+  };
+
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_REFERRAL_METHOD", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Select referral method", style: "", textStyle: "text-main" }}>
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Select referral method",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          {referralSources.map((referral, index) => (
+          {referralSources.map((referral) => (
             <label
               key={referral.id}
               htmlFor={referral.id}
-              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0">
+              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === referral.id ? "bg-[#F8F9FD] rounded" : ""
+                }`}
+              onClick={() => setSelected(referral.id)}
+            >
               <div className="flex items-center gap-2">
-                <RadioInput name="referral" id={referral.id} />
+                <RadioInput name="referral" id={referral.id} checked={selected === referral.id} />
                 <span className="flex text-sm leading-tight">{referral.label}</span>
               </div>
             </label>
           ))}
         </div>
         <div>
-          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={handleContinue}
+            disabled={!selected}
+          />
         </div>
       </div>
     </Modal>
@@ -840,20 +866,38 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
     { id: "fra", label: "FRA", icon: FRA },
   ];
 
+  const [selected, setSelected] = useState("");
+
+  const handleContinue = () => {
+    if (selected) {
+      action(selected);
+      toggleModal("SELECT_COUNTRY", false);
+    }
+  };
+
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("SELECT_COUNTRY", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Basic Verification", style: "", textStyle: "text-main" }}>
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Basic Verification",
+        style: "",
+        textStyle: "text-main",
+      }}
+    >
       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           {countries.map((country, index) => (
             <label
               key={country.id || index}
               htmlFor={country.id}
-              className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0">
+              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === country.id ? "" : ""
+                }`}
+              onClick={() => setSelected(country.id)}
+            >
               <div className="flex items-center gap-2">
-                <RadioInput name="country" id={country.id} />
+                <RadioInput name="country" id={country.id} checked={selected === country.id} />
                 <span className="flex text-sm leading-tight">{country.label}</span>
               </div>
               <figure className="w-5 h-5">
@@ -863,7 +907,12 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
           ))}
         </div>
         <div>
-          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton
+            text="Continue"
+            className="!text-[1.05rem] uppercase"
+            onClick={handleContinue}
+            disabled={!selected}
+          />
         </div>
       </div>
     </Modal>
