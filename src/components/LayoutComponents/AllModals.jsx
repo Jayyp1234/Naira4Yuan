@@ -11,6 +11,9 @@ import { routes } from "../../data/routes";
 import { ArrowDownToLine, ChevronLeft, ChevronRight, Download, Plus } from 'lucide-react';
 import { Link, useNavigate } from "react-router";
 import { Xchange, XchangeCard } from "./Xchange";
+import { toast } from "react-toastify";
+import { useForgotPasswordOtpMutation, useResetPasswordWithOtpMutation, useSendEmailOtpMutation, useSendSmsOtpMutation, useVerifyEmailOtpMutation, useVerifyPhoneOtpMutation } from "@/states/services/authApi";
+import { Spinner } from "../BaseComponents/Spinner";
 
 const inputModalStyle =
   "bg-slate-200 rounded-lg !min-w-14 !min-h-14 focus:!outline-main !outline-main !ring-main focus:!border-main focus:!ring-main !text-2xl";
@@ -192,28 +195,97 @@ export const ManualBVNVerificationModal = ({ open, modalData, action }) => {
 export const EmailVerificationModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
 
+  const [otp, setOtp] = useState("");
+  const [timer, setTimer] = useState(60);
+
+  const email = "glorybrain01@gmail.com"; // Replace this with dynamic value
+  const first_name = "Glory"; // optional — from registration context
+  const last_name = "Kotin"; // optional — from registration context
+
+  const [verifyOtp, { isLoading }] = useVerifyEmailOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useSendEmailOtpMutation();
+
+  const isOtpValid = otp.trim().length === 4;
+
+  useEffect(() => {
+    if (!open) return;
+    setTimer(60);
+    setOtp("");
+  }, [open]);
+
+  useEffect(() => {
+    if (timer <= 0) return;
+    const countdown = setInterval(() => setTimer((t) => t - 1), 1000);
+    return () => clearInterval(countdown);
+  }, [timer]);
+
+  const handleSubmit = async () => {
+    if (!isOtpValid) return;
+
+    try {
+      const res = await verifyOtp({
+        email,
+        first_name,
+        last_name,
+        code: otp,
+      }).unwrap();
+
+      if (res?.success) {
+        toast.success("Email verified successfully");
+        toggleModal("AUTH_EMAIL_VERIFICATION", false);
+      } else {
+        toast.error(res?.message || "Verification failed");
+      }
+    } catch (err) {
+      const msg = err?.data?.message || "Something went wrong";
+      toast.error(msg);
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      await resendOtp({ email, first_name, last_name }).unwrap();
+      toast.success("Verification code resent");
+      setTimer(60);
+    } catch (err) {
+      const msg = err?.data?.message || "Failed to resend code";
+      toast.error(msg);
+    }
+  };
+
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("AUTH_EMAIL_VERIFICATION", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Verify email address", style: "border-b", textStyle: "text-main" }}>
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Verify email address",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
+    >
       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
-              We sent a code to <b>tundeburemo@gmail.com</b>
+              We sent a code to <b>{email}</b>
             </span>
             <div className="flex flex-col mt-6 gap-y-2">
               <div>
                 <label htmlFor="code" className="text-[.94rem]">
                   Enter code
                 </label>
-                <InputOTP maxLength={4} className="flex flex-col" id="email-verification-otp">
+                <InputOTP
+                  maxLength={4}
+                  value={otp}
+                  onChange={setOtp}
+                  className="flex flex-col"
+                  id="email-verification-otp"
+                >
                   <InputOTPGroup className="flex gap-x-4">
-                    <InputOTPSlot index={0} className={inputModalStyle} />
-                    <InputOTPSlot index={1} className={inputModalStyle} />
-                    <InputOTPSlot index={2} className={inputModalStyle} />
-                    <InputOTPSlot index={3} className={inputModalStyle} />
+                    {[0, 1, 2, 3].map((index) => (
+                      <InputOTPSlot key={index} index={index} className={inputModalStyle} />
+                    ))}
                   </InputOTPGroup>
                 </InputOTP>
               </div>
@@ -221,15 +293,30 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
           </section>
           <div className="mt-6">
             <span className="text-[.95rem]">
-              Didn{`'`}t receive a code?
-              <button type="button" className="font-semibold underline ms-2 text-main">
-                Click to resend in 0:58
+              Didn&apos;t receive a code?
+              <button
+                type="button"
+                disabled={timer > 0 || isResending}
+                onClick={handleResend}
+                className={`font-semibold underline ms-2 text-main ${timer > 0 || isResending ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+              >
+                {isResending
+                  ? "Resending..."
+                  : timer > 0
+                    ? `Click to resend in 0:${timer < 10 ? `0${timer}` : timer}`
+                    : "Click to resend"}
               </button>
             </span>
           </div>
         </div>
         <div>
-          <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+          <FooterButton
+            text={isLoading ? <Spinner className="!border-black w-6 h-6" /> : "Continue"}
+            onClick={handleSubmit}
+            className="!text-[1.05rem] uppercase"
+            disabled={!isOtpValid || isLoading}
+          />
         </div>
       </div>
     </Modal>
@@ -241,13 +328,79 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = () => {
-    if (otp.length !== 4) {
+  const [timer, setTimer] = useState(60);
+  const [verifyOtp, { isLoading }] = useVerifyPhoneOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useSendSmsOtpMutation();
+
+  // Mock data — replace with dynamic values via props/context
+  const phone_number = "08147328081";
+  const userRefCode = "WZLDA";
+  const username = "glorybrain";
+  const country_id = 1;
+  const password = "userpassword";
+  const pin = "1234";
+
+  const isValidOtp = otp.length === 4;
+
+  useEffect(() => {
+    if (!open) return;
+    setOtp("");
+    setTimer(60);
+  }, [open]);
+
+  useEffect(() => {
+    if (timer <= 0) return;
+    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const handleSubmit = async () => {
+    if (!isValidOtp) {
       setError("Please enter the 4-digit code.");
-    } else {
-      setError("");
-      action(otp); // Send OTP to parent handler
-      toggleModal("AUTH_NUMBER_VERIFICATION", false); // Close modal
+      return;
+    }
+
+    setError("");
+    try {
+      const res = await verifyOtp({
+        userRefCode,
+        password,
+        pin,
+        phone_number,
+        country_id,
+        username,
+        code: otp,
+      }).unwrap();
+
+      if (res?.success) {
+        toast.success("Phone number verified successfully");
+        action?.(otp); // optional callback
+        toggleModal("AUTH_NUMBER_VERIFICATION", false);
+      } else {
+        toast.error(res?.message || "Verification failed");
+      }
+    } catch (err) {
+      const msg = err?.data?.message || "Something went wrong";
+      toast.error(msg);
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      await resendOtp({
+        userRefCode,
+        password,
+        pin,
+        phone_number,
+        country_id,
+        method: "sms", // or 'whatsapp', 'call'
+        username,
+      }).unwrap();
+      toast.success("OTP sent to your phone");
+      setTimer(60);
+    } catch (err) {
+      const msg = err?.data?.message || "Failed to resend code";
+      toast.error(msg);
     }
   };
 
@@ -266,7 +419,7 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
-              We sent a code to <b>2348068745750</b> on text and WhatsApp
+              We sent a code to <b>{`234${phone_number.slice(1)}`}</b> on text and WhatsApp
             </span>
             <div className="flex flex-col mt-6 gap-y-2">
               <div>
@@ -294,19 +447,29 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
 
           <div className="mt-6">
             <span className="text-[.95rem]">
-              Didn{`'`}t receive a code?
-              <button type="button" className="font-semibold underline ms-2 text-main">
-                Click to resend in 0:58
+              Didn&apos;t receive a code?
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={timer > 0 || isResending}
+                className={`font-semibold underline ms-2 text-main ${timer > 0 || isResending ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+              >
+                {isResending
+                  ? "Resending..."
+                  : timer > 0
+                    ? `Click to resend in 0:${timer < 10 ? `0${timer}` : timer}`
+                    : "Click to resend"}
               </button>
             </span>
           </div>
         </div>
         <div>
           <FooterButton
-            text="Continue"
+            text={isLoading ? <Spinner className="!border-black w-6 h-6" /> : "Continue"}
             className="!text-[1.05rem] uppercase"
             onClick={handleSubmit}
-            disabled={otp.length !== 4}
+            disabled={!isValidOtp || isLoading}
           />
         </div>
       </div>
@@ -314,66 +477,147 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-export const ResetPasswordModal = ({ open, modalData, action }) => {
+export const ResetPasswordModal = ({ open, modalData, action, email }) => {
   const { toggleModal } = modalData;
+
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [resetPassword, { isLoading }] = useResetPasswordWithOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useForgotPasswordOtpMutation();
+
+  const [timer, setTimer] = useState(60);
+
+  useEffect(() => {
+    if (!open) return;
+    setTimer(60);
+  }, [open]);
+
+  useEffect(() => {
+    if (timer <= 0) return;
+    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const isFormValid =
+    otp.trim().length === 4 &&
+    password.trim().length >= 6 &&
+    confirmPassword.trim().length >= 6 &&
+    password === confirmPassword;
+
+  const handleSubmit = async () => {
+    if (!isFormValid) return;
+
+    try {
+      const res = await resetPassword({
+        email,
+        otp,
+        password,
+        confirm_password: confirmPassword,
+      }).unwrap();
+
+      if (res?.success) {
+        toast.success("Password reset successful");
+        toggleModal("AUTH_RESET_PASSWORD", false);
+      } else {
+        toast.error(res?.message || "Password reset failed");
+      }
+    } catch (err) {
+      const msg = err?.data?.message || "Something went wrong";
+      toast.error(msg);
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      await resendOtp({ email }).unwrap();
+      toast.success("OTP resent to your email");
+      setTimer(60);
+    } catch (err) {
+      const msg = err?.data?.message || "Failed to resend OTP";
+      toast.error(msg);
+    }
+  };
 
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("AUTH_RESET_PASSWORD", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "", style: "", textStyle: "text-main" }}>
+      modalHeader={{ hasHeader: true, modalTitle: "", style: "", textStyle: "text-main" }}
+    >
       <div className="flex flex-col w-full pb-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <div className="text-center">
               <h2 className="text-2xl font-semibold">Reset Password</h2>
               <span className="text-sm">
-                We sent a code to <b className="font-semibold underline underline-offset-2">tundeburemo@gmail.com</b>
+                We sent a code to <b className="font-semibold underline underline-offset-2">{email}</b>
               </span>
             </div>
-            <div className="flex-grow min-h-72">
-              <div className="my-5 flex flex-col gap-y-3.5">
-                <div>
-                  <label htmlFor="code" className="text-[.94rem]">
-                    Enter code
-                  </label>
-                  <InputOTP maxLength={4} className="flex flex-col">
-                    <InputOTPGroup className="flex gap-x-4">
-                      <InputOTPSlot index={0} className={inputModalStyle} />
-                      <InputOTPSlot index={1} className={inputModalStyle} />
-                      <InputOTPSlot index={2} className={inputModalStyle} />
-                      <InputOTPSlot index={3} className={inputModalStyle} />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </div>
+
+            <div className="my-5 flex flex-col gap-y-3.5">
+              <div>
+                <label htmlFor="code" className="text-[.94rem]">
+                  Enter code
+                </label>
+                <InputOTP
+                  maxLength={4}
+                  value={otp}
+                  onChange={setOtp}
+                  className="flex flex-col"
+                >
+                  <InputOTPGroup className="flex gap-x-4">
+                    {[0, 1, 2, 3].map((index) => (
+                      <InputOTPSlot key={index} index={index} className={inputModalStyle} />
+                    ))}
+                  </InputOTPGroup>
+                </InputOTP>
+              </div>
+
+              <FormControl
+                type="password"
+                label={{ exist: true, text: "New password" }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter new password"
+              />
+              <div className="flex flex-col gap-y-1">
                 <FormControl
                   type="password"
-                  label={{
-                    exist: true,
-                    text: "New password",
-                  }}
-                  placeholder="Enter new password"
-                />
-                <FormControl
-                  type="password"
-                  label={{
-                    exist: true,
-                    text: "Retype New Password",
-                  }}
+                  label={{ exist: true, text: "Retype New Password" }}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Retype new password"
                 />
-                <div className="mb-6">
-                  <span className="text-[.95rem]">
-                    Didn't receive a code?
-                    <button type="button" className="ml-2 text-base font-semibold underline">
-                      Click to resend
-                    </button>
-                  </span>
-                </div>
+
+                {password && confirmPassword && password !== confirmPassword && (
+                  <span className="text-sm text-red-500">Passwords do not match</span>
+                )}
+              </div>
+
+              <div className="mb-6">
+                <span className="text-[.95rem]">
+                  Didn&apos;t receive a code?
+                  <button
+                    type="button"
+                    onClick={handleResend}
+                    disabled={timer > 0 || isResending}
+                    className={`ml-2 text-base font-semibold underline ${timer > 0 || isResending ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                  >
+                    {isResending ? "Resending..." : timer > 0 ? `Click to resend in 0:${timer < 10 ? `0${timer}` : timer}` : "Click to resend"}
+                  </button>
+                </span>
               </div>
             </div>
+
             <div>
-              <FooterButton text="Continue" className="!text-[1.05rem] uppercase" />
+              <FooterButton
+                text={isLoading ? <Spinner className="!border-black w-6 h-6" /> : "Continue"}
+                className="!text-[1.05rem] uppercase"
+                onClick={handleSubmit}
+                disabled={!isFormValid || isLoading}
+              />
             </div>
           </section>
         </div>
@@ -849,7 +1093,7 @@ export const BvnVerificationModal = ({ open, modalData, action }) => {
               <span className="text-base">
                 Didn{`'`}t receive a code?
                 <button type="button" className="font-semibold underline ms-2 text-main">
-                  Click to resend
+                  Click to resend in 0:58
                 </button>
               </span>
             </div>
@@ -929,7 +1173,7 @@ export const NinVerificationModal = ({ open, modalData, action }) => {
               <span className="text-base">
                 Didn{`'`}t receive a code?
                 <button type="button" className="font-semibold underline ms-2 text-main">
-                  Click to resend
+                  Click to resend in 0:58
                 </button>
               </span>
             </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { StateDataContext } from "@/App";
 import { useNavigate } from "react-router";
-import { CompletedIcon, NigeriaIcon } from "@/data";
+import { CHN, CompletedIcon, FRA, NGN, NigeriaIcon } from "@/data";
 import { ChevronDownIcon, IconWrapper } from "@/data/Icons";
 import { useModalTrigger } from "../../hooks/useModalTrigger";
 import {
@@ -100,6 +100,8 @@ export const RegisterStepper1 = () => {
   const { stateData, setStateData } = React.useContext(StateDataContext);
   const [showSetPinModal, setShowSetPinModal] = useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const [selectedReferral, setSelectedReferral] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   const {
     data: { modals },
@@ -114,15 +116,52 @@ export const RegisterStepper1 = () => {
     setStateData(newStates);
   }
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const referralSourcesMap = {
+    twitter: "Twitter",
+    friends_or_family: "Friends or Family",
+    linkedin: "LinkedIn",
+    instagram: "Instagram",
+    tiktok: "Tiktok",
+    word_of_mouth: "Word of mouth",
+  };
+
+  const countryData = {
+    ngn: { label: "NGN", icon: NGN },
+    chn: { label: "CHN", icon: CHN },
+    fra: { label: "FRA", icon: FRA },
+  };
+
   return (
     <>
       <form action="" className="flex flex-col gap-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FormControl type="text" placeholder="Enter your first name" label={{ exist: true, text: "First name" }} />
-          <FormControl type="text" placeholder="Enter your last name" label={{ exist: true, text: "Last name" }} />
+          <FormControl
+            type="text"
+            placeholder="Enter your first name"
+            label={{ exist: true, text: "First name" }}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+
+          <FormControl
+            type="text"
+            placeholder="Enter your last name"
+            label={{ exist: true, text: "Last name" }}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
         </div>
 
         <FormControl
+          type="email"
+          placeholder="Enter your email address"
+          label={{ exist: true, text: "Email address" }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           floatEle={{
             exist: true,
             position: "right",
@@ -136,9 +175,6 @@ export const RegisterStepper1 = () => {
               </button>
             ),
           }}
-          type="email"
-          placeholder="Enter your email address"
-          label={{ exist: true, text: "Email address" }}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -164,7 +200,11 @@ export const RegisterStepper1 = () => {
               onClick={() => toggleModal("SELECT_COUNTRY", true)}
             >
               <figure className="w-5 h-5 rounded-full">
-                <img src={NigeriaIcon} alt="" />
+                <img
+                  src={countryData[selectedCountry]?.icon || NigeriaIcon}
+                  alt=""
+                  className="object-cover w-full h-full rounded-full"
+                />
               </figure>
               <IconWrapper>
                 <ChevronDownIcon />
@@ -204,7 +244,7 @@ export const RegisterStepper1 = () => {
               className="w-full min-h-[3rem] h-auto outline-none p-4 transition ease-in-out duration-300 text-sm flex items-center justify-between border-gray-300 rounded-lg bg-[#F8F9FD] hover:bg-[#eff1f7]"
               onClick={() => toggleModal("SELECT_REFERRAL_METHOD", true)}
             >
-              <span>Select</span>
+              <span>{selectedReferral ? referralSourcesMap[selectedReferral] : "Select"}</span>
               <IconWrapper>
                 <ChevronDownIcon />
               </IconWrapper>
@@ -225,9 +265,23 @@ export const RegisterStepper1 = () => {
       </div>
 
       {/* Modals */}
-      <SelectCountryModal modalData={{ toggleModal }} open={modals.SELECT_COUNTRY} />
-      <EmailVerificationModal modalData={{ toggleModal }} open={modals.AUTH_EMAIL_VERIFICATION} />
-      <SelectReferralMethodModal modalData={{ toggleModal }} open={modals.SELECT_REFERRAL_METHOD} />
+      <SelectCountryModal
+        modalData={{ toggleModal }}
+        open={modals.SELECT_COUNTRY}
+        action={(countryId) => setSelectedCountry(countryId)}
+      />
+      <EmailVerificationModal
+        modalData={{ toggleModal }}
+        open={modals.AUTH_EMAIL_VERIFICATION}
+        email={email}
+        first_name={firstName}
+        last_name={lastName}
+      />
+      <SelectReferralMethodModal
+        modalData={{ toggleModal }}
+        open={modals.SELECT_REFERRAL_METHOD}
+        action={(referral) => setSelectedReferral(referral)}
+      />
       <SetPasswordModal
         open={showSetPinModal}
         modalData={{ toggleModal: (type, state) => setShowSetPinModal(state) }}

@@ -130,7 +130,13 @@ const Login = () => {
               </button>
               <button
                 type="button"
-                onClick={() => toggleModal("AUTH_RESET_PASSWORD", true)}
+                onClick={() => {
+                  if (!formData.email.trim()) {
+                    toast.error("Please enter your email address first");
+                    return;
+                  }
+                  toggleModal("AUTH_RESET_PASSWORD", true);
+                }}
                 className={postFormBtnTextStyle}
               >
                 Forgot Password
@@ -153,7 +159,11 @@ const Login = () => {
         </footer>
       </main>
 
-      <ResetPasswordModal modalData={{ toggleModal }} open={modals.AUTH_RESET_PASSWORD} />
+      <ResetPasswordModal
+        modalData={{ toggleModal }}
+        open={modals.AUTH_RESET_PASSWORD}
+        email={formData.email}
+      />
     </div>
   );
 };
