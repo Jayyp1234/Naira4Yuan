@@ -16,6 +16,7 @@ import {
 } from "../../components/LayoutComponents/AllModals";
 import { useFinalizeRegistrationMutation, useSendEmailOtpMutation, useSendSmsOtpMutation } from "@/states/services/authApi";
 import { toast } from "react-toastify";
+import { routes } from "@/data/routes";
 
 // export default function Register() {
 //   const {
@@ -445,6 +446,7 @@ export const RegisterStepper2 = () => {
 };
 
 export const Registered = () => {
+  const navigate = useNavigate();
   const { stateData, setStateData } = React.useContext(StateDataContext);
   const {
     data: { modals },
@@ -457,6 +459,7 @@ export const Registered = () => {
     const newStates = structuredClone(stateData);
     newStates.auth.register.stepperVal = 2;
     setStateData(newStates);
+    navigate(routes.DASHBOARD.abs);
   }
   return (
     <>

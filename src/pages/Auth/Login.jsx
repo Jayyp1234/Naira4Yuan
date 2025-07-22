@@ -22,10 +22,8 @@ const Login = () => {
   const { data: { modals }, toggleModal } = useModalTrigger(stateData);
   const navigate = useNavigate();
 
-  // State to hold form inputs
   const [formData, setFormData] = React.useState({ email: "", password: "" });
 
-  // RTK Login mutation
   const [login, { isLoading, error }] = useLoginMutation();
 
   const isFormValid = formData.email.trim() !== "" && formData.password.trim() !== "";
