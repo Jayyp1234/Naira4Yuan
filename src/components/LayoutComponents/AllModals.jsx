@@ -203,15 +203,11 @@ export const ManualBVNVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-export const EmailVerificationModal = ({ open, modalData, action }) => {
+export const EmailVerificationModal = ({ open, modalData, action, email, first_name, last_name }) => {
   const { toggleModal } = modalData;
 
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
-
-  const email = "glorybrain01@gmail.com"; // Replace this with dynamic value
-  const first_name = "Glory"; // optional — from registration context
-  const last_name = "Kotin"; // optional — from registration context
 
   const [verifyOtp, { isLoading }] = useVerifyEmailOtpMutation();
   const [resendOtp, { isLoading: isResending }] = useSendEmailOtpMutation();
@@ -243,6 +239,7 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
 
       if (res?.success) {
         toast.success("Email verified successfully");
+        action();
         toggleModal("AUTH_EMAIL_VERIFICATION", false);
       } else {
         toast.error(res?.message || "Verification failed");
@@ -334,7 +331,18 @@ export const EmailVerificationModal = ({ open, modalData, action }) => {
   );
 };
 
-export const NumberVerificationModal = ({ open, modalData, action }) => {
+export const NumberVerificationModal = ({
+  open,
+  modalData,
+  action,
+  phone_number,
+  userRefCode,
+  username,
+  country_id,
+  password,
+  pin,
+  dialCode,
+}) => {
   const { toggleModal } = modalData;
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -342,14 +350,6 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
   const [timer, setTimer] = useState(60);
   const [verifyOtp, { isLoading }] = useVerifyPhoneOtpMutation();
   const [resendOtp, { isLoading: isResending }] = useSendSmsOtpMutation();
-
-  // Mock data — replace with dynamic values via props/context
-  const phone_number = "08147328081";
-  const userRefCode = "WZLDA";
-  const username = "glorybrain";
-  const country_id = 1;
-  const password = "userpassword";
-  const pin = "1234";
 
   const isValidOtp = otp.length === 4;
 
@@ -430,8 +430,9 @@ export const NumberVerificationModal = ({ open, modalData, action }) => {
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
           <section>
             <span>
-              We sent a code to <b>{`234${phone_number.slice(1)}`}</b> on text and WhatsApp
+              We sent a code to <b>{`${dialCode || ""}${phone_number?.slice(1) || ""}`}</b> on text and WhatsApp
             </span>
+
             <div className="flex flex-col mt-6 gap-y-2">
               <div>
                 <label htmlFor="code" className="text-[.94rem]">
@@ -505,19 +506,23 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
   }, [open]);
 
   useEffect(() => {
-    if (timer <= 0) return;
+    if (!open || timer <= 0) return;
     const interval = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(interval);
-  }, [timer]);
+  }, [open, timer]);
+
+  const isPasswordStrong = password.length >= 6;
 
   const isFormValid =
     otp.trim().length === 4 &&
-    password.trim().length >= 6 &&
+    isPasswordStrong &&
     confirmPassword.trim().length >= 6 &&
     password === confirmPassword;
 
   const handleSubmit = async () => {
     if (!isFormValid) return;
+
+    toast.dismiss();
 
     try {
       const res = await resetPassword({
@@ -540,6 +545,8 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
   };
 
   const handleResend = async () => {
+    toast.dismiss();
+
     try {
       await resendOtp({ email }).unwrap();
       toast.success("OTP resent to your email");
@@ -576,8 +583,9 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
                   value={otp}
                   onChange={setOtp}
                   className="flex flex-col"
+                  aria-label="Enter 4-digit OTP code"
                 >
-                  <InputOTPGroup className="flex gap-x-4">
+                  <InputOTPGroup className="flex gap-x-4" role="group" aria-label="OTP input group">
                     {[0, 1, 2, 3].map((index) => (
                       <InputOTPSlot key={index} index={index} className={inputModalStyle} />
                     ))}
@@ -616,7 +624,11 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
                     className={`ml-2 text-base font-semibold underline ${timer > 0 || isResending ? "opacity-50 cursor-not-allowed" : ""
                       }`}
                   >
-                    {isResending ? "Resending..." : timer > 0 ? `Click to resend in 0:${timer < 10 ? `0${timer}` : timer}` : "Click to resend"}
+                    {isResending
+                      ? "Resending..."
+                      : timer > 0
+                        ? `Click to resend in 0:${timer < 10 ? `0${timer}` : timer}`
+                        : "Click to resend"}
                   </button>
                 </span>
               </div>
@@ -675,7 +687,7 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
             <label
               key={referral.id}
               htmlFor={referral.id}
-              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === referral.id ? "bg-[#F8F9FD] rounded" : ""
+              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === referral.id ? "" : ""
                 }`}
               onClick={() => setSelected(referral.id)}
             >
@@ -860,17 +872,19 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
 
 export const SelectCountryModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+
   const countries = [
-    { id: "ngn", label: "NGN", icon: NGN },
-    { id: "chn", label: "CHN", icon: CHN },
-    { id: "fra", label: "FRA", icon: FRA },
+    { id: 1, label: "NGN", dialCode: "234", icon: NGN },
+    { id: 2, label: "CHN", dialCode: "86", icon: CHN },
+    { id: 3, label: "FRA", dialCode: "33", icon: FRA },
   ];
 
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("1");
 
   const handleContinue = () => {
-    if (selected) {
-      action(selected);
+    const selectedCountry = countries.find((c) => c.id === selected);
+    if (selectedCountry) {
+      action(selectedCountry); t
       toggleModal("SELECT_COUNTRY", false);
     }
   };
@@ -888,12 +902,11 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
     >
       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          {countries.map((country, index) => (
+          {countries.map((country) => (
             <label
-              key={country.id || index}
+              key={country.id}
               htmlFor={country.id}
-              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === country.id ? "" : ""
-                }`}
+              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer`}
               onClick={() => setSelected(country.id)}
             >
               <div className="flex items-center gap-2">
@@ -918,6 +931,7 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
     </Modal>
   );
 };
+
 
 export const TwoFAMessageAlertPreferenceModal = ({ open, modalData, action }) => {
   const preferences = [

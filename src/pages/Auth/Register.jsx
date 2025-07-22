@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { StateDataContext } from "@/App";
 import { useNavigate } from "react-router";
@@ -14,6 +14,8 @@ import {
   SelectReferralMethodModal,
   SetPasswordModal,
 } from "../../components/LayoutComponents/AllModals";
+import { useFinalizeRegistrationMutation, useSendEmailOtpMutation, useSendSmsOtpMutation } from "@/states/services/authApi";
+import { toast } from "react-toastify";
 
 // export default function Register() {
 //   const {
@@ -101,11 +103,17 @@ export const RegisterStepper1 = () => {
   const [showSetPinModal, setShowSetPinModal] = useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const [selectedReferral, setSelectedReferral] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [pin, setPin] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [userRefCode, setUserRefCode] = useState("WZLDA"); // or get from stateData.auth.userRefCode
+  const [username, setUsername] = useState("");
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const {
     data: { modals },
@@ -114,11 +122,38 @@ export const RegisterStepper1 = () => {
 
   const navigate = useNavigate();
 
-  function registerUser() {
-    const newStates = structuredClone(stateData);
-    newStates.auth.register.isRegistered = true;
-    setStateData(newStates);
+  async function registerUser() {
+    try {
+      const response = await finalizeRegistration({
+        // userRefCode: stateData.auth.userRefCode, // from verified step
+        userRefCode: "WZLDA",
+        hear_about_us: selectedReferral,
+        referred_by: "", // or actual value if you collect it
+      }).unwrap();
+
+      if (response?.success) {
+        const newStates = structuredClone(stateData);
+        newStates.auth.register.isRegistered = true;
+        setStateData(newStates);
+        toast.success("Registration completed");
+        // navigate("/dashboard");
+      } else {
+        toast.error(response?.message || "Failed to finalize registration");
+      }
+    } catch (err) {
+      toast.error(err?.data?.message || "Error finalizing registration");
+    }
   }
+
+  useEffect(() => {
+    if (email) {
+      setUsername(email.split("@")[0]);
+    }
+  }, [email]);
+
+  const [sendEmailOtp, { isLoading: sendingEmail }] = useSendEmailOtpMutation();
+  const [sendSmsOtp, { isLoading: sendingSms }] = useSendSmsOtpMutation();
+  const [finalizeRegistration, { isLoading: submitting }] = useFinalizeRegistrationMutation();
 
   const referralSourcesMap = {
     twitter: "Twitter",
@@ -127,12 +162,6 @@ export const RegisterStepper1 = () => {
     instagram: "Instagram",
     tiktok: "Tiktok",
     word_of_mouth: "Word of mouth",
-  };
-
-  const countryData = {
-    ngn: { label: "NGN", icon: NGN },
-    chn: { label: "CHN", icon: CHN },
-    fra: { label: "FRA", icon: FRA },
   };
 
   return (
@@ -169,16 +198,44 @@ export const RegisterStepper1 = () => {
               <button
                 type="button"
                 className="text-[.68rem] sm:text-xs px-2.5 py-2 text-green disabled:bg-slate-300 disabled:opacity-50 font-medium disabled:text-black disabled:cursor-not-allowed bg-green-100 text-main hover:bg-green-200 transition ease-in-out duration-300 rounded-[5px] animate-active"
-                onClick={() => toggleModal("AUTH_EMAIL_VERIFICATION", true)}
+                onClick={async () => {
+                  if (!email || !firstName || !lastName) {
+                    toast.error("Please fill in your first name, last name, and email first.");
+                    return;
+                  }
+
+                  try {
+                    const res = await sendEmailOtp({
+                      email,
+                      first_name: firstName,
+                      last_name: lastName,
+                    }).unwrap();
+
+                    if (res?.success) {
+                      toast.success("OTP sent to your email");
+                      toggleModal("AUTH_EMAIL_VERIFICATION", true);
+                    } else {
+                      toast.error(res?.message || "Failed to send email OTP");
+                    }
+                  } catch (err) {
+                    toast.error(err?.data?.message || "Failed to send email OTP");
+                  }
+                }}
               >
-                Send Email OTP
+                {isEmailVerified ? "Verified" : "Send Email OTP"}
               </button>
             ),
           }}
         />
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FormControl type="password" placeholder="Enter your password" label={{ exist: true, text: "Password" }} />
+          <FormControl
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            label={{ exist: true, text: "Password" }}
+          />
           <div onClick={() => setShowSetPinModal(true)}>
             <FormControl
               type="password"
@@ -202,7 +259,7 @@ export const RegisterStepper1 = () => {
             >
               <figure className="w-5 h-5 rounded-full">
                 <img
-                  src={countryData[selectedCountry]?.icon || NigeriaIcon}
+                  src={selectedCountry?.icon || NigeriaIcon}
                   alt=""
                   className="object-cover w-full h-full rounded-full"
                 />
@@ -215,16 +272,50 @@ export const RegisterStepper1 = () => {
             <aside className="flex-grow">
               <FormControl
                 type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
                 floatEle={{
                   position: "right",
                   exist: true,
                   children: (
                     <button
                       type="button"
-                      className="text-[.5rem] font-bold sm:font-normal sm:text-xs px-2.5 py-2 text-green disabled:bg-slate-300 disabled:opacity-50 disabled:text-black disabled:cursor-not-allowed bg-green-100 text-main hover:bg-green-200 transition ease-in-out duration-300 rounded-[5px] animate-active"
-                      onClick={() => setShowPhoneModal(true)}
+                      className={`text-[.5rem] font-medium sm:text-xs px-2.5 py-2 ${isPhoneVerified
+                        ? "bg-green-200 text-green-800 cursor-default"
+                        : "bg-green-100 text-main hover:bg-green-200"
+                        } transition ease-in-out duration-300 rounded-[5px] animate-active`}
+                      disabled={isPhoneVerified}
+                      onClick={async () => {
+                        if (isPhoneVerified) return;
+
+                        if (!phoneNumber || !username || !pin || !password || !selectedCountry || !userRefCode) {
+                          toast.error("Fill all required fields first");
+                          return;
+                        }
+
+                        try {
+                          const res = await sendSmsOtp({
+                            phone_number: phoneNumber,
+                            username,
+                            pin,
+                            password,
+                            userRefCode,
+                            country_id: selectedCountry?.id || 1,
+                            method: "sms",
+                          }).unwrap();
+
+                          if (res?.success) {
+                            toast.success("OTP sent to your phone");
+                            setShowPhoneModal(true);
+                          } else {
+                            toast.error(res?.message || "Failed to send phone OTP");
+                          }
+                        } catch (err) {
+                          toast.error(err?.data?.message || "Failed to send phone OTP");
+                        }
+                      }}
                     >
-                      Send Phone OTP
+                      {isPhoneVerified ? "Verified" : "Send Phone OTP"}
                     </button>
                   ),
                 }}
@@ -269,7 +360,7 @@ export const RegisterStepper1 = () => {
       <SelectCountryModal
         modalData={{ toggleModal }}
         open={modals.SELECT_COUNTRY}
-        action={(countryId) => setSelectedCountry(countryId)}
+        action={(countryObj) => setSelectedCountry(countryObj)}
       />
       <EmailVerificationModal
         modalData={{ toggleModal }}
@@ -277,6 +368,7 @@ export const RegisterStepper1 = () => {
         email={email}
         first_name={firstName}
         last_name={lastName}
+        action={() => setIsEmailVerified(true)}
       />
       <SelectReferralMethodModal
         modalData={{ toggleModal }}
@@ -291,11 +383,19 @@ export const RegisterStepper1 = () => {
       <NumberVerificationModal
         open={showPhoneModal}
         modalData={{
-          toggleModal: (type, state) => setShowPhoneModal(state)
+          toggleModal: (type, state) => setShowPhoneModal(state),
         }}
         action={(otpCode) => {
           console.log("Verified OTP:", otpCode);
+          setIsPhoneVerified(true);
         }}
+        phone_number={phoneNumber}
+        userRefCode={userRefCode}
+        username={username}
+        dialCode={selectedCountry?.dialCode || "234"}
+        country_id={selectedCountry?.id || 1}
+        password={password}
+        pin={pin}
       />
     </>
   );
