@@ -95,64 +95,74 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
 
   const handleSubmit = () => {
     if (!isValid) {
-      if (pin.length !== 4 || confirmPin.length !== 4) {
-        setError("PIN must be exactly 4 digits.");
-      } else if (pin !== confirmPin) {
-        setError("PINs do not match.");
-      }
-    } else {
-      setError("");
-      action?.(pin);
-      toggleModal("SET_PASSWORD", false);
+      setError("PINs do not match or are incomplete");
+      return;
     }
+
+    action(pin); // or however you want to pass the pin
+    toggleModal("SET_PASSWORD_MODAL", false);
   };
 
   return (
     <Modal
       isOpen={open}
-      onRequestClose={() => toggleModal("SET_PASSWORD", false)}
+      onRequestClose={() => toggleModal("SET_PASSWORD_MODAL", false)}
       modalHeader={{
         hasHeader: true,
-        modalTitle: "Enter a pin",
+        modalTitle: "Set Your Transaction PIN",
         style: "border-b",
         textStyle: "text-main",
       }}
     >
-      <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
-        <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          <section>
-            <span>
-              Enter your preferred 4-digit pin for your Naira4Yuan account.
-            </span>
-            <div className="flex flex-col mt-6 gap-y-2">
-              <FormControl
-                type="password"
-                inputMode="numeric"
-                label={{ exist: true, text: "Pin *" }}
-                placeholder="Enter your pin"
-                value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
-              />
-              <FormControl
-                type="password"
-                inputMode="numeric"
-                label={{ exist: true, text: "Repeat Pin *" }}
-                placeholder="Enter your pin again"
-                value={confirmPin}
-                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
-              />
-            </div>
-            {error && <span className="text-xs text-[#FF0000] mt-2">{error}</span>}
-          </section>
+      <div className="flex flex-col w-full p-6 mx-auto gap-y-10 sm:w-10/12 md:w-9/12">
+        <div className="flex flex-col gap-y-1">
+          <div>
+            <label className="text-[.94rem] mb-2 block">Enter PIN</label>
+            <InputOTP
+              maxLength={4}
+              value={pin}
+              onChange={(val) => {
+                if (/^\d*$/.test(val)) setPin(val);
+              }}
+              className="flex flex-col"
+              id="pin-entry"
+            >
+              <InputOTPGroup className="flex gap-x-2">
+                {[0, 1, 2, 3].map((index) => (
+                  <InputOTPSlot key={index} index={index} className={inputModalStyle} />
+                ))}
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+
+          <div>
+            <label className="text-[.94rem] mb-2 block">Confirm PIN</label>
+            <InputOTP
+              maxLength={4}
+              value={confirmPin}
+              onChange={(val) => {
+                if (/^\d*$/.test(val)) setConfirmPin(val);
+              }}
+              className="flex flex-col"
+              id="pin-confirm"
+            >
+              <InputOTPGroup className="flex gap-x-2">
+                {[0, 1, 2, 3].map((index) => (
+                  <InputOTPSlot key={index} index={index} className={inputModalStyle} />
+                ))}
+              </InputOTPGroup>
+            </InputOTP>
+          </div>
+
+          {error && <p className="text-sm text-red-600">{error}</p>}
         </div>
-        <div>
-          <FooterButton
-            text="Continue"
-            className="!text-[1.05rem]"
-            onClick={handleSubmit}
-            disabled={!isValid}
-          />
-        </div>
+
+        <FooterButton
+          text="Set PIN"
+          onClick={handleSubmit}
+          disabled={!isValid}
+          className="!text-[1.05rem] uppercase"
+        />
       </div>
     </Modal>
   );
