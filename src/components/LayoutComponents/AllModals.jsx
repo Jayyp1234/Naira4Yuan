@@ -86,9 +86,12 @@ export const SelectIdTypeModal = ({ open, modalData, action }) => {
 
 export const SetPasswordModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
+
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [error, setError] = useState("");
+
+  const isValid = pin.length === 4 && confirmPin.length === 4 && pin === confirmPin;
 
   const handleSubmit = () => {
     if (pin.length !== 4 || confirmPin.length !== 4) {
@@ -97,15 +100,21 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
       setError("PINs do not match.");
     } else {
       setError("");
-      action(pin);
+      action?.(pin);
       toggleModal("SET_PASSWORD", false);
     }
   };
+
   return (
     <Modal
       isOpen={open}
       onRequestClose={() => toggleModal("SET_PASSWORD", false)}
-      modalHeader={{ hasHeader: true, modalTitle: "Enter a pin", style: "border-b", textStyle: "text-main" }}
+      modalHeader={{
+        hasHeader: true,
+        modalTitle: "Enter a pin",
+        style: "border-b",
+        textStyle: "text-main",
+      }}
     >
       <div className="flex flex-col w-full py-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
@@ -120,7 +129,7 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
                 label={{ exist: true, text: "Pin *" }}
                 placeholder="Enter your pin"
                 value={pin}
-                onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
               />
               <FormControl
                 type="password"
@@ -128,10 +137,10 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
                 label={{ exist: true, text: "Repeat Pin *" }}
                 placeholder="Enter your pin again"
                 value={confirmPin}
-                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, "").slice(0, 4))}
               />
             </div>
-            {error && <span className="text-xs text-[#FF0000]">{error}</span>}
+            {error && <span className="text-xs text-[#FF0000] mt-2">{error}</span>}
           </section>
         </div>
         <div>
@@ -139,7 +148,7 @@ export const SetPasswordModal = ({ open, modalData, action }) => {
             text="Continue"
             className="!text-[1.05rem]"
             onClick={handleSubmit}
-            disabled={pin.length < 4 || confirmPin.length < 4}
+            disabled={!isValid}
           />
         </div>
       </div>
