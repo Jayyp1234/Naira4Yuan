@@ -8,7 +8,7 @@ import { StateDataContext } from "@/App";
 import { useModalTrigger } from "@/hooks/useModalTrigger";
 import { ResetPasswordModal } from "../../components/LayoutComponents/AllModals";
 import { AlertNotification } from "@/components/BaseComponents/Error";
-import { useLoginMutation } from "@/states/services/authApi";
+import { useForgotPasswordOtpMutation, useLoginMutation } from "@/states/services/authApi";
 import { toast } from "react-toastify";
 import { Spinner } from "@/components/BaseComponents/Spinner";
 
@@ -25,6 +25,7 @@ const Login = () => {
   const [formData, setFormData] = React.useState({ email: "", password: "" });
 
   const [login, { isLoading, error }] = useLoginMutation();
+  const [resendOtp] = useForgotPasswordOtpMutation();
 
   const isFormValid = formData.email.trim() !== "" && formData.password.trim() !== "";
 
@@ -128,12 +129,22 @@ const Login = () => {
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  if (!formData.email.trim()) {
+                onClick={async () => {
+                  const email = formData.email.trim();
+                  if (!email) {
                     toast.error("Please enter your email address first");
                     return;
                   }
-                  toggleModal("AUTH_RESET_PASSWORD", true);
+
+                  try {
+                    toast.dismiss();
+                    await resendOtp({ email }).unwrap();
+                    toast.success("OTP sent to your email");
+                    toggleModal("AUTH_RESET_PASSWORD", true);
+                  } catch (err) {
+                    const msg = err?.data?.message || "Failed to send OTP";
+                    toast.error(msg);
+                  }
                 }}
                 className={postFormBtnTextStyle}
               >
