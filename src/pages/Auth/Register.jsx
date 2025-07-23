@@ -18,6 +18,7 @@ import { useFinalizeRegistrationMutation, useSendEmailOtpMutation, useSendSmsOtp
 import { toast } from "react-toastify";
 import { routes } from "@/data/routes";
 import { AlertNotification } from "@/components/BaseComponents/Error";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 // export default function Register() {
 //   const {
@@ -64,6 +65,9 @@ import { AlertNotification } from "@/components/BaseComponents/Error";
 //     </div>
 //   );
 // }
+
+const inputModalStyle =
+  "!bg-[#F8F9FD] !focus:bg-[#eff1f7] flex-1 rounded-lg !min-h-[3.2rem] !text-2xl";
 
 export default function Register() {
   const {
@@ -224,14 +228,6 @@ export const RegisterStepper1 = () => {
           />
         </div>
 
-        <FormControl
-          type="text"
-          placeholder="Enter your username"
-          label={{ exist: true, text: "Username" }}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
         {/* Email Field with OTP */}
         <FormControl
           type="email"
@@ -289,6 +285,14 @@ export const RegisterStepper1 = () => {
           }}
         />
 
+        <FormControl
+          type="text"
+          placeholder="Enter your username"
+          label={{ exist: true, text: "Username" }}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
         {/* Password + PIN */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormControl
@@ -298,17 +302,23 @@ export const RegisterStepper1 = () => {
             placeholder="Enter your password"
             label={{ exist: true, text: "Password" }}
           />
-          <div onClick={() => setShowSetPinModal(true)}>
-            <FormControl
-              type="password"
-              inputMode="numeric"
+          <div>
+            <label className="text-[.94rem] block">Enter PIN</label>
+            <InputOTP
               maxLength={4}
-              style="cursor-pointer"
-              placeholder="Enter your 4 digit pin"
-              label={{ exist: true, text: "Pin" }}
               value={pin}
-              readOnly
-            />
+              onChange={(val) => {
+                if (/^\d*$/.test(val)) setPin(val);
+              }}
+              className="flex flex-col position-relative"
+              id="pin-entry"
+            >
+              <InputOTPGroup className="flex w-full gap-x-2">
+                {[0, 1, 2, 3].map((index) => (
+                  <InputOTPSlot key={index} index={index} className={inputModalStyle} />
+                ))}
+              </InputOTPGroup>
+            </InputOTP>
           </div>
         </div>
 
@@ -336,7 +346,14 @@ export const RegisterStepper1 = () => {
                 type="tel"
                 inputMode="numeric"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(e) => {
+                  let input = e.target.value.replace(/\D/g, "");
+                  if (input.length > 11) input = input.slice(0, 11);
+                  if (input.length > 0 && input[0] !== "0") {
+                    input = "0" + input;
+                  }
+                  setPhoneNumber(input);
+                }}
                 placeholder="Enter your phone number"
                 style="w-full"
                 label={{ exist: false }}

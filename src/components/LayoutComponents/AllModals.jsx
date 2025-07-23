@@ -697,9 +697,12 @@ export const SelectReferralMethodModal = ({ open, modalData, action }) => {
             <label
               key={referral.id}
               htmlFor={referral.id}
-              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0 ${selected === referral.id ? "" : ""
-                }`}
-              onClick={() => setSelected(referral.id)}
+              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer last:border-b-0`}
+              onClick={() => {
+                setSelected(referral.id);
+                action(referral.id);
+                toggleModal("SELECT_REFERRAL_METHOD", false);
+              }}
             >
               <div className="flex items-center gap-2">
                 <RadioInput name="referral" id={referral.id} checked={selected === referral.id} />
@@ -934,7 +937,14 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
                 key={country.id}
                 htmlFor={country.id}
                 className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer"
-                onClick={() => setSelected(country.id)}
+                onClick={() => {
+                  setSelected(country.id);
+                  action({
+                    ...country,
+                    icon: country.flag_url,
+                  });
+                  toggleModal("SELECT_COUNTRY", false);
+                }}
               >
                 <div className="flex items-center gap-2">
                   <RadioInput name="country" id={country.id} checked={selected === country.id} />
