@@ -243,6 +243,10 @@ export const RegisterStepper1 = () => {
             children: (
               <button
                 type="button"
+                className={`text-[.68rem] sm:text-xs font-medium px-2.5 py-2 ${isEmailVerified
+                  ? "bg-green-200 text-green-800 cursor-default"
+                  : "bg-green-100 text-main hover:bg-green-200"
+                  } transition ease-in-out duration-300 rounded-[5px] animate-active`}
                 onClick={async () => {
                   if (!email || !firstName || !lastName) {
                     toast.error("Please fill in your first name, last name, and email first.");
@@ -279,7 +283,6 @@ export const RegisterStepper1 = () => {
                     setShowAlert(true);
                   }
                 }}
-                className="text-[.68rem] sm:text-xs px-2.5 py-2 text-green disabled:bg-slate-300 disabled:opacity-50 font-medium disabled:text-black disabled:cursor-not-allowed bg-green-100 text-main hover:bg-green-200 transition ease-in-out duration-300 rounded-[5px] animate-active"
               >
                 {isEmailVerified ? "Verified" : "Send Email OTP"}
               </button>
@@ -371,7 +374,7 @@ export const RegisterStepper1 = () => {
                     <button
                       type="button"
                       disabled={isPhoneVerified}
-                      className={`text-[.5rem] font-medium sm:text-xs px-2.5 py-2 ${isPhoneVerified
+                      className={`text-[.68rem] sm:text-xs font-medium px-2.5 py-2 ${isPhoneVerified
                         ? "bg-green-200 text-green-800 cursor-default"
                         : "bg-green-100 text-main hover:bg-green-200"
                         } transition ease-in-out duration-300 rounded-[5px] animate-active`}
