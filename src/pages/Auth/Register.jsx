@@ -94,7 +94,7 @@ export default function Register() {
       )}
 
       {/* ─── Main Content ───────────────────────────────────── */}
-      <main className="mt-10">
+      <main className="my-10">
         {isRegistered ? <Registered /> : <RegisterStepper1 />}
       </main>
     </div>
