@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { StateDataContext } from "@/App";
 import { useNavigate } from "react-router";
@@ -17,6 +17,7 @@ import {
 import { useFinalizeRegistrationMutation, useSendEmailOtpMutation, useSendSmsOtpMutation } from "@/states/services/authApi";
 import { toast } from "react-toastify";
 import { routes } from "@/data/routes";
+import { AlertNotification } from "@/components/BaseComponents/Error";
 
 // export default function Register() {
 //   const {
@@ -72,7 +73,6 @@ export default function Register() {
     stateData,
     setStateData,
   } = React.useContext(StateDataContext);
-
   const isRegistered = register?.isRegistered;
 
   return (
@@ -90,7 +90,7 @@ export default function Register() {
       )}
 
       {/* ─── Main Content ───────────────────────────────────── */}
-      <main className="mt-12">
+      <main className="mt-10">
         {isRegistered ? <Registered /> : <RegisterStepper1 />}
       </main>
     </div>
@@ -123,15 +123,18 @@ export const RegisterStepper1 = () => {
   const [showSetPinModal, setShowSetPinModal] = useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
+  const [showAlert, setShowAlert] = useState(false);
+
+  const [alertContent, setAlertContent] = useState({
+    type: "danger",
+    message: "",
+    subMessage: "",
+  });
+
   // ─── RTK Query Hooks ──────────────────────────────────────────
   const [sendEmailOtp, { isLoading: sendingEmail }] = useSendEmailOtpMutation();
   const [sendSmsOtp, { isLoading: sendingSms }] = useSendSmsOtpMutation();
   const [finalizeRegistration, { isLoading: submitting }] = useFinalizeRegistrationMutation();
-
-  // ─── Auto-generate Username from Email ────────────────────────
-  useEffect(() => {
-    if (email) setUsername(email.split("@")[0]);
-  }, [email]);
 
   // ─── Map for Referral Source Display ──────────────────────────
   const referralSourcesMap = {
@@ -147,7 +150,7 @@ export const RegisterStepper1 = () => {
   async function registerUser() {
     try {
       const response = await finalizeRegistration({
-        userRefCode: "WZLDA",
+        userRefCode,
         hear_about_us: selectedReferral,
         referred_by: "",
       }).unwrap();
@@ -157,17 +160,51 @@ export const RegisterStepper1 = () => {
         newStates.auth.register.isRegistered = true;
         setStateData(newStates);
         toast.success("Registration completed");
+        setShowAlert(false);
       } else {
-        toast.error(response?.message || "Failed to finalize registration");
+        const msg = response?.message || "Failed to finalize registration";
+        toast.error(msg);
+        setAlertContent({
+          type: "danger",
+          message: "Registration Error",
+          subMessage: msg.includes("already exists")
+            ? "It looks like you're already registered with this information."
+            : msg,
+        });
+        setShowAlert(true);
       }
     } catch (err) {
-      toast.error(err?.data?.message || "Error finalizing registration");
+      const msg = err?.data?.message || "Error finalizing registration";
+      toast.error(msg);
+      setAlertContent({
+        type: "danger",
+        message: "Registration Failed",
+        subMessage: msg.includes("network")
+          ? "Please check your internet connection and try again."
+          : msg,
+      });
+      setShowAlert(true);
     }
   }
+
+  const handleSelectCountry = useCallback((countryObj) => {
+    setSelectedCountry(countryObj);
+  }, []);
 
   // ─── Component JSX ─────────────────────────────────────────────
   return (
     <>
+      <div className="mb-5">
+        {showAlert && (
+          <AlertNotification
+            type={alertContent.type}
+            message={alertContent.message}
+            subMessage={alertContent.subMessage}
+            onClose={() => setShowAlert(false)}
+          />
+        )}
+      </div>
+
       <form className="flex flex-col gap-y-4">
         {/* Name Fields */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -187,6 +224,14 @@ export const RegisterStepper1 = () => {
           />
         </div>
 
+        <FormControl
+          type="text"
+          placeholder="Enter your username"
+          label={{ exist: true, text: "Username" }}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
         {/* Email Field with OTP */}
         <FormControl
           type="email"
@@ -203,18 +248,37 @@ export const RegisterStepper1 = () => {
                 onClick={async () => {
                   if (!email || !firstName || !lastName) {
                     toast.error("Please fill in your first name, last name, and email first.");
+                    setAlertContent({
+                      type: "warning",
+                      message: "Missing Fields",
+                      subMessage: "Please fill in your first name, last name, and email first.",
+                    });
+                    setShowAlert(true);
                     return;
                   }
                   try {
                     const res = await sendEmailOtp({ email, first_name: firstName, last_name: lastName }).unwrap();
                     if (res?.success) {
                       toast.success("OTP sent to your email");
+                      setShowAlert(false);
                       toggleModal("AUTH_EMAIL_VERIFICATION", true);
                     } else {
                       toast.error(res?.message || "Failed to send email OTP");
+                      setAlertContent({
+                        type: "danger",
+                        message: "Email OTP Failed",
+                        subMessage: res?.message || "Failed to send email OTP",
+                      });
+                      setShowAlert(true);
                     }
                   } catch (err) {
                     toast.error(err?.data?.message || "Failed to send email OTP");
+                    setAlertContent({
+                      type: "danger",
+                      message: "Email OTP Error",
+                      subMessage: err?.data?.message || "Failed to send email OTP",
+                    });
+                    setShowAlert(true);
                   }
                 }}
                 className="text-[.68rem] sm:text-xs px-2.5 py-2 text-green disabled:bg-slate-300 disabled:opacity-50 font-medium disabled:text-black disabled:cursor-not-allowed bg-green-100 text-main hover:bg-green-200 transition ease-in-out duration-300 rounded-[5px] animate-active"
@@ -239,6 +303,7 @@ export const RegisterStepper1 = () => {
               type="password"
               inputMode="numeric"
               maxLength={4}
+              style="cursor-pointer"
               placeholder="Enter your 4 digit pin"
               label={{ exist: true, text: "Pin" }}
               value={pin}
@@ -258,7 +323,7 @@ export const RegisterStepper1 = () => {
               className="min-h-[3rem] flex-shrink-1 p-3 gap-x-1.5 transition ease-in-out duration-300 text-sm flex items-center justify-between border-gray-300 rounded-lg bg-[#F8F9FD] hover:bg-[#eff1f7]"
             >
               <figure className="w-5 h-5 rounded-full">
-                <img src={selectedCountry?.icon || NigeriaIcon} alt="" className="object-cover w-full h-full rounded-full" />
+                <img src={selectedCountry?.icon} alt="" className="object-cover w-full h-full rounded-full" />
               </figure>
               <IconWrapper>
                 <ChevronDownIcon />
@@ -288,10 +353,18 @@ export const RegisterStepper1 = () => {
                         } transition ease-in-out duration-300 rounded-[5px] animate-active`}
                       onClick={async () => {
                         if (isPhoneVerified) return;
+
                         if (!phoneNumber || !username || !pin || !password || !selectedCountry || !userRefCode) {
-                          toast.error("Fill all required fields first");
+                          toast.error("Fill all required fields first before sending OTP.");
+                          setAlertContent({
+                            type: "warning",
+                            message: "Missing Fields",
+                            subMessage: "Fill all required fields first before sending OTP.",
+                          });
+                          setShowAlert(true);
                           return;
                         }
+
                         try {
                           const res = await sendSmsOtp({
                             phone_number: phoneNumber,
@@ -305,12 +378,25 @@ export const RegisterStepper1 = () => {
 
                           if (res?.success) {
                             toast.success("OTP sent to your phone");
+                            setShowAlert(false);
                             setShowPhoneModal(true);
                           } else {
                             toast.error(res?.message || "Failed to send phone OTP");
+                            setAlertContent({
+                              type: "danger",
+                              message: "Phone OTP Failed",
+                              subMessage: res?.message || "Failed to send phone OTP",
+                            });
+                            setShowAlert(true);
                           }
                         } catch (err) {
                           toast.error(err?.data?.message || "Failed to send phone OTP");
+                          setAlertContent({
+                            type: "danger",
+                            message: "Phone OTP Error",
+                            subMessage: err?.data?.message || "Failed to send phone OTP",
+                          });
+                          setShowAlert(true);
                         }
                       }}
                     >
@@ -362,7 +448,7 @@ export const RegisterStepper1 = () => {
       <SelectCountryModal
         open={modals.SELECT_COUNTRY}
         modalData={{ toggleModal }}
-        action={(countryObj) => setSelectedCountry(countryObj)}
+        action={handleSelectCountry}
       />
 
       <EmailVerificationModal

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Modal } from "../BaseComponents/Modal";
 import { FormControl, RadioInput, SelectBox } from "../BaseComponents/FormInputs";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
@@ -12,7 +12,7 @@ import { ArrowDownToLine, ChevronLeft, ChevronRight, Download, Plus } from 'luci
 import { Link, useNavigate } from "react-router";
 import { Xchange, XchangeCard } from "./Xchange";
 import { toast } from "react-toastify";
-import { useForgotPasswordOtpMutation, useResetPasswordWithOtpMutation, useSendEmailOtpMutation, useSendSmsOtpMutation, useVerifyEmailOtpMutation, useVerifyPhoneOtpMutation } from "@/states/services/authApi";
+import { useForgotPasswordOtpMutation, useGetCountriesListQuery, useResetPasswordWithOtpMutation, useSendEmailOtpMutation, useSendSmsOtpMutation, useVerifyEmailOtpMutation, useVerifyPhoneOtpMutation } from "@/states/services/authApi";
 import { Spinner } from "../BaseComponents/Spinner";
 
 const inputModalStyle =
@@ -883,18 +883,31 @@ export const AccountOwnershipSelectBalanceModal = ({ open, modalData, action }) 
 export const SelectCountryModal = ({ open, modalData, action }) => {
   const { toggleModal } = modalData;
 
-  const countries = [
-    { id: 1, label: "NGN", dialCode: "234", icon: NGN },
-    { id: 2, label: "CHN", dialCode: "86", icon: CHN },
-    { id: 3, label: "FRA", dialCode: "33", icon: FRA },
-  ];
+  const { data, isLoading, isError } = useGetCountriesListQuery();
 
-  const [selected, setSelected] = useState("1");
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    if (data?.data?.countries?.length > 0 && selected === null) {
+      const firstCountry = data.data.countries[0];
+      setSelected(firstCountry.id);
+
+      // Immediately notify the parent with default
+      action({
+        ...firstCountry,
+        icon: firstCountry.flag_url,
+      });
+    }
+  }, [data, selected]);
+
 
   const handleContinue = () => {
-    const selectedCountry = countries.find((c) => c.id === selected);
+    const selectedCountry = data?.data?.countries?.find((c) => c.id === selected);
     if (selectedCountry) {
-      action(selectedCountry); t
+      action({
+        ...selectedCountry,
+        icon: selectedCountry.flag_url,
+      });
       toggleModal("SELECT_COUNTRY", false);
     }
   };
@@ -905,29 +918,33 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
       onRequestClose={() => toggleModal("SELECT_COUNTRY", false)}
       modalHeader={{
         hasHeader: true,
-        modalTitle: "Basic Verification",
+        modalTitle: "Select Country",
         style: "",
         textStyle: "text-main",
       }}
     >
       <div className="flex flex-col w-full p-6 mx-auto gap-y-4 sm:w-10/12 md:w-9/12">
         <div className="flex flex-col flex-grow gap-y-3 min-h-72">
-          {countries.map((country) => (
-            <label
-              key={country.id}
-              htmlFor={country.id}
-              className={`flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer`}
-              onClick={() => setSelected(country.id)}
-            >
-              <div className="flex items-center gap-2">
-                <RadioInput name="country" id={country.id} checked={selected === country.id} />
-                <span className="flex text-sm leading-tight">{country.label}</span>
-              </div>
-              <figure className="w-5 h-5">
-                <img src={country.icon} alt="" className="img-fluid" />
-              </figure>
-            </label>
-          ))}
+          {isLoading && <Spinner />} {/* Or some loading text */}
+          {isError && <p className="text-sm text-red-500">Failed to load countries</p>}
+
+          {!isLoading &&
+            data?.data?.countries?.map((country) => (
+              <label
+                key={country.id}
+                htmlFor={country.id}
+                className="flex items-center justify-between pb-2 border-b border-gray-200 cursor-pointer"
+                onClick={() => setSelected(country.id)}
+              >
+                <div className="flex items-center gap-2">
+                  <RadioInput name="country" id={country.id} checked={selected === country.id} />
+                  <span className="flex text-sm leading-tight">{country.name}</span>
+                </div>
+                <figure className="w-5 h-5">
+                  <img src={country.flag_url} alt={`${country.name} flag`} className="img-fluid" />
+                </figure>
+              </label>
+            ))}
         </div>
         <div>
           <FooterButton
@@ -941,7 +958,6 @@ export const SelectCountryModal = ({ open, modalData, action }) => {
     </Modal>
   );
 };
-
 
 export const TwoFAMessageAlertPreferenceModal = ({ open, modalData, action }) => {
   const preferences = [

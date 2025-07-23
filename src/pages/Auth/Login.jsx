@@ -59,7 +59,7 @@ const Login = () => {
         <h2 className="text-3xl font-bold">Welcome Back.</h2>
         <span>
           New to Naira4yuan?
-          <Link to={routes.AUTH.register.abs} className="ml-2 font-semibold text-black underline">
+          <Link to={routes.AUTH.register.abs} className="ml-2 font-semibold text-black underline underline-offset-2">
             Sign up
           </Link>
         </span>
@@ -68,6 +68,7 @@ const Login = () => {
         <div className="mb-4">
           {showAlert && (
             <AlertNotification
+              type="default"
               message="Account logged out."
               subMessage="We logged you out because you were inactive for 5 minutes — it’s to help keep your account secure."
               onClose={() => setShowAlert(false)}

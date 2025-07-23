@@ -62,6 +62,18 @@ interface LoginRequest {
   password: string;
 }
 
+interface Country {
+  id: number;
+  name: string;
+  code: string;
+  phonecode: string;
+  flag_url: string;
+}
+
+interface CountriesListResponse {
+  countries: Country[];
+}
+
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
@@ -141,6 +153,13 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+
+    getCountriesList: builder.query<BaseResponse<CountriesListResponse>, void>({
+      query: () => ({
+        url: "/api/user/location/countries",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -154,4 +173,5 @@ export const {
   useResetPasswordWithOtpMutation,
   useLoginMutation,
   useRunQueueQuery,
+  useGetCountriesListQuery,
 } = authApi;
