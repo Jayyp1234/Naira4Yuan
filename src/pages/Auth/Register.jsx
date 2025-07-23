@@ -331,7 +331,7 @@ export const RegisterStepper1 = () => {
 
         {/* Phone Number with OTP */}
         <div>
-          <label className="text-[.94rem] font-medium text-gray-700 dark:text-gray-300">Phone number</label>
+          <label className="text-[.94rem]">Phone number</label>
           <div className="flex items-stretch gap-x-3">
             {/* Country Selector */}
             <button
@@ -436,7 +436,7 @@ export const RegisterStepper1 = () => {
         {/* Referral & Referral Code */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex flex-col">
-            <label className="text-[.94rem] font-medium text-gray-700 dark:text-gray-300">How did you hear about us?</label>
+            <label className="text-[.94rem]">How did you hear about us?</label>
             <button
               type="button"
               onClick={() => toggleModal("SELECT_REFERRAL_METHOD", true)}
