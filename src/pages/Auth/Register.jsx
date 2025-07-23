@@ -3,7 +3,7 @@ import { FormControl } from "@/components/BaseComponents/FormInputs";
 import { StateDataContext } from "@/App";
 import { useNavigate } from "react-router";
 import { CHN, CompletedIcon, FRA, NGN, NigeriaIcon } from "@/data";
-import { ChevronDownIcon, IconWrapper } from "@/data/Icons";
+import { ChevronDownIcon, CloseEyeIcon, IconWrapper, OpenEyeIcon } from "@/data/Icons";
 import { useModalTrigger } from "../../hooks/useModalTrigger";
 import {
   EmailVerificationModal,
@@ -128,6 +128,8 @@ export const RegisterStepper1 = () => {
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const [alertContent, setAlertContent] = useState({
     type: "danger",
@@ -296,8 +298,13 @@ export const RegisterStepper1 = () => {
         {/* Password + PIN */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormControl
-            type="password"
+            type={isVisible ? "text" : "password"}
             value={password}
+            icon={{
+              exist: true,
+              action: () => setIsVisible((prev) => !prev),
+              element: isVisible ? OpenEyeIcon : CloseEyeIcon,
+            }}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             label={{ exist: true, text: "Password" }}
