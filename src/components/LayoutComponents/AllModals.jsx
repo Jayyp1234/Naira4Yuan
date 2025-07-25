@@ -249,7 +249,9 @@ export const EmailVerificationModal = ({ open, modalData, action, email, first_n
 
       if (res?.success) {
         toast.success("Email verified successfully");
-        action();
+
+        action(res.data);
+
         toggleModal("AUTH_EMAIL_VERIFICATION", false);
       } else {
         toast.error(res?.message || "Verification failed");
@@ -387,7 +389,7 @@ export const NumberVerificationModal = ({
         userRefCode,
         password,
         pin,
-        phone_number,
+        phone_number: phone_number,
         country_id,
         username,
         code: otp,
@@ -412,9 +414,9 @@ export const NumberVerificationModal = ({
         userRefCode,
         password,
         pin,
-        phone_number,
+        phone_number: phone_number,
         country_id,
-        method: "sms", // or 'whatsapp', 'call'
+        method: "sms",
         username,
       }).unwrap();
       toast.success("OTP sent to your phone");
@@ -539,12 +541,13 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
         email,
         otp,
         password,
-        confirm_password: confirmPassword,
+        confirm_password: confirmPassword, // ✅ updated to match backend
       }).unwrap();
 
       if (res?.success) {
         toast.success("Password reset successful");
         toggleModal("AUTH_RESET_PASSWORD", false);
+        action?.();
       } else {
         toast.error(res?.message || "Password reset failed");
       }
@@ -558,7 +561,7 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
     toast.dismiss();
 
     try {
-      await resendOtp({ email }).unwrap();
+      await resendOtp({ email }).unwrap(); // ✅ only `email` required
       toast.success("OTP resent to your email");
       setTimer(60);
     } catch (err) {

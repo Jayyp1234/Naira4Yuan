@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { routes } from "@/data/routes";
 import { FormControl } from "@/components/BaseComponents/FormInputs";
@@ -15,14 +15,20 @@ import { Spinner } from "@/components/BaseComponents/Spinner";
 const postFormBtnTextStyle = "text-[.92rem] text-main font-semibold";
 
 const Login = () => {
-  const passwordInputRef = React.useRef(null);
-  const [isVisible, setIsVisible] = React.useState(false);
-  const { stateData } = React.useContext(StateDataContext);
-  const [showAlert, setShowAlert] = React.useState(true);
+  const passwordInputRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const { stateData } = useContext(StateDataContext);
+  const [showAlert, setShowAlert] = useState(true);
   const { data: { modals }, toggleModal } = useModalTrigger(stateData);
   const navigate = useNavigate();
 
-  const [formData, setFormData] = React.useState({ email: "", password: "" });
+  const [alertContent, setAlertContent] = useState({
+    type: "default",
+    message: "Account logged out.",
+    subMessage: "We logged you out because you were inactive for 5 minutes — it’s to help keep your account secure.",
+  });
+
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const [login, { isLoading, error }] = useLoginMutation();
   const [resendOtp] = useForgotPasswordOtpMutation();
@@ -46,10 +52,22 @@ const Login = () => {
         navigate(routes.DASHBOARD.abs);
       } else {
         toast.error(response?.message || "Login failed");
+        setAlertContent({
+          type: "danger",
+          message: "nvalid credentials.",
+          subMessage: response?.message || "Login failed",
+        });
+        setShowAlert(true);
       }
     } catch (err) {
       const message = err?.data?.message || "Something went wrong";
       toast.error(message);
+      setAlertContent({
+        type: "danger",
+        message: "Login Failed",
+        subMessage: message,
+      });
+      setShowAlert(true);
     }
   };
 
@@ -68,9 +86,9 @@ const Login = () => {
         <div className="mb-4">
           {showAlert && (
             <AlertNotification
-              type="default"
-              message="Account logged out."
-              subMessage="We logged you out because you were inactive for 5 minutes — it’s to help keep your account secure."
+              type={alertContent.type}
+              message={alertContent.message}
+              subMessage={alertContent.subMessage}
               onClose={() => setShowAlert(false)}
             />
           )}

@@ -119,7 +119,7 @@ export const RegisterStepper1 = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedReferral, setSelectedReferral] = useState("");
-  const [userRefCode, setUserRefCode] = useState("WZLDA");
+  const [userRefCode, setUserRefCode] = useState("");
 
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
@@ -484,7 +484,10 @@ export const RegisterStepper1 = () => {
         email={email}
         first_name={firstName}
         last_name={lastName}
-        action={() => setIsEmailVerified(true)}
+        action={(verifiedData) => {
+          setIsEmailVerified(true);
+          setUserRefCode(verifiedData.userRefCode);
+        }}
       />
 
       <SelectReferralMethodModal
