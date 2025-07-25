@@ -18,7 +18,7 @@ const Login = () => {
   const passwordInputRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const { stateData } = useContext(StateDataContext);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const { data: { modals }, toggleModal } = useModalTrigger(stateData);
   const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ const Login = () => {
         toast.error(response?.message || "Login failed");
         setAlertContent({
           type: "danger",
-          message: "nvalid credentials.",
+          message: "Invalid credentials.",
           subMessage: response?.message || "Login failed",
         });
         setShowAlert(true);

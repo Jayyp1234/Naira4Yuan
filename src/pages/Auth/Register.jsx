@@ -20,52 +20,6 @@ import { routes } from "@/data/routes";
 import { AlertNotification } from "@/components/BaseComponents/Error";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
-// export default function Register() {
-//   const {
-//     stateData: {
-//       auth: { register },
-//     },
-//     stateData,
-//     setStateData,
-//   } = React.useContext(StateDataContext);
-
-//   return (
-//     <div className="w-full pt-10 mx-auto md:w-9/12 lg:w-8/12 xl:w-3/6 sm:py-14 md:py-20">
-//       {!register.isVerified && (
-//         <header className="flex items-center justify-between gap-x-3">
-//           <h2 className="text-3xl font-bold">
-//             {!register.isRegistered && <>{register.stepperVal === 1 && "Register"}</>}
-//             {register.isRegistered && <>{register.stepperVal === 2 && "Individual Verification"}</>}
-//           </h2>
-//           <div className="flex flex-col gap-y-1.5 text-end">
-//             {(!register.isRegistered && register.stepperVal === 1) || (register.isRegistered && register.stepperVal === 2) ? (
-//               <span className="bg-slate-200 flex items-center justify-center select-none rounded-md py-1.5 px-2 leading-tighter text-sm text-main">
-//                 {register.stepperVal} of 2
-//               </span>
-//             ) : null}
-//             {register.stepperVal === 2 && (
-//               <button type="button" className="text-xs text-main">
-//                 Skip this step
-//               </button>
-//             )}
-//           </div>
-//         </header>
-//       )}
-
-//       {register.isVerified ? (
-//         <Verified />
-//       ) : register.isRegistered && register.stepperVal !== 2 ? (
-//         <Registered />
-//       ) : (
-//         <main className="mt-12">
-//           {register.stepperVal === 1 && <RegisterStepper1 />}
-//           {register.stepperVal === 2 && <RegisterStepper2 />}
-//         </main>
-//       )}
-//     </div>
-//   );
-// }
-
 const inputModalStyle =
   "!bg-[#F8F9FD] !focus:bg-[#eff1f7] flex-1 rounded-lg !min-h-[3.2rem] !text-2xl";
 
@@ -117,7 +71,7 @@ export const RegisterStepper1 = () => {
   const [pin, setPin] = useState("");
   const [username, setUsername] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState("NGN");
   const [selectedReferral, setSelectedReferral] = useState("");
   const [userRefCode, setUserRefCode] = useState("");
 
@@ -261,9 +215,17 @@ export const RegisterStepper1 = () => {
                   try {
                     const res = await sendEmailOtp({ email, first_name: firstName, last_name: lastName }).unwrap();
                     if (res?.success) {
-                      toast.success("OTP sent to your email");
-                      setShowAlert(false);
-                      toggleModal("AUTH_EMAIL_VERIFICATION", true);
+                      if (res?.data?.emailVerified) {
+                        setIsEmailVerified(true);
+                        setUserRefCode(res?.data?.userRefCode);
+                        toast.success("Email Already Verified");
+                      }
+                      else{
+                        toast.success("OTP sent to your email");
+                        setShowAlert(false);
+                        toggleModal("AUTH_EMAIL_VERIFICATION", true);
+                      }
+                      
                     } else {
                       toast.error(res?.message || "Failed to send email OTP");
                       setAlertContent({
@@ -381,7 +343,7 @@ export const RegisterStepper1 = () => {
                       onClick={async () => {
                         if (isPhoneVerified) return;
 
-                        if (!phoneNumber || !username || !pin || !password || !selectedCountry || !userRefCode) {
+                        if (!phoneNumber || !username || !pin || !password || !selectedCountry || !userRefCode ) {
                           toast.error("Fill all required fields first before sending OTP.");
                           setAlertContent({
                             type: "warning",

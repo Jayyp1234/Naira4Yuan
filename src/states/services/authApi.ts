@@ -74,6 +74,63 @@ interface CountriesListResponse {
   countries: Country[];
 }
 
+interface ContactUsRequest {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  country: string;
+  state?: string;
+  body: string;
+  terms_accepted: boolean;
+}
+
+export interface SystemOverviewResponse {
+  testimonials: Array<{
+    title: string;
+    content: string;
+    rating: number;
+    submitted_at: string;
+    user: {
+      fname: string;
+      lname: string;
+      avatar: string | null;
+    };
+  }>;
+  system_settings: {
+    support_email: string;
+    support_hotline: string;
+    blog_link: string;
+    manual_fund_fee: string;
+    referral_bonus: string;
+    transfer_fee: string;
+  };
+  level_limits: Array<{
+    id: number;
+    level: number;
+    name: string;
+    dailyincometrans: string;
+    dailyoutgoingtrans: string;
+    monthlyincometrans: string;
+    monthlyoutgoingtrans: string;
+    created_at: string | null;
+    updated_at: string | null;
+  }>;
+  exchange_rates: Array<{
+    currency_from_name: string;
+    currency_from_code: string;
+    currency_to_name: string;
+    currency_to_code: string;
+    rate: string;
+  }>;
+  latest_rate_changes: Array<{
+    date: string;
+    value: string;
+    currency_from_code: string;
+    currency_to_code: string;
+  }>;
+}
+
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
@@ -160,8 +217,20 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
+     getSystemOverview: builder.query<BaseResponse<SystemOverviewResponse>, void>({
+      query: () => ({
+        url: "/api/user/system/overview",
+        method: "GET",
+      }),
+    }),
+    contactUs: builder.mutation<BaseResponse, ContactUsRequest>({
+      query: (body) => ({
+        url: "/api/user/system/contact-us",
+        method: "POST",
+        body,
+      }),
+    }),
 
-    
   }),
 });
 
@@ -176,4 +245,6 @@ export const {
   useLoginMutation,
   useRunQueueQuery,
   useGetCountriesListQuery,
+  useGetSystemOverviewQuery, 
+  useContactUsMutation,
 } = authApi;

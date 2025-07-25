@@ -226,7 +226,7 @@ export const EmailVerificationModal = ({ open, modalData, action, email, first_n
 
   useEffect(() => {
     if (!open) return;
-    setTimer(60);
+    setTimer(120);
     setOtp("");
   }, [open]);
 
@@ -368,7 +368,7 @@ export const NumberVerificationModal = ({
   useEffect(() => {
     if (!open) return;
     setOtp("");
-    setTimer(60);
+    setTimer(120);
   }, [open]);
 
   useEffect(() => {
@@ -514,7 +514,7 @@ export const ResetPasswordModal = ({ open, modalData, action, email }) => {
 
   useEffect(() => {
     if (!open) return;
-    setTimer(60);
+    setTimer(120);
   }, [open]);
 
   useEffect(() => {

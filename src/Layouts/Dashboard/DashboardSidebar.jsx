@@ -1,54 +1,20 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { SideBarArray } from "../../data/dataArray";
 import { CloseIcon, IconWrapper } from "../../data/Icons";
 import React from "react";
-import { LogoFullDarkVariant } from "../../data";
+// import { LogoFullDarkVariant } from "../../data";
 import { StateDataContext } from "../../App";
 
-// export const DashboardSidebar = () => {
-// 	const { stateData, setStateData } = React.useContext(StateDataContext);
 
-// 	function closeSideBar() {
-// 		const newState = structuredClone(stateData);
-// 		newState.dashboard.sidebar = false;
-// 		setStateData(newState);
-// 	}
-// 	return (
-// 		<aside className={`h-full`}>
-// 			<header className="flex items-center justify-between md:hidden">
-// 				<Link to={""}>
-// 					<figure className="flex items-center justify-center max-w-32">
-// 						<img src={LogoFullDarkVariant} alt="" />
-// 					</figure>
-// 				</Link>
-// 				<button type="button" onClick={closeSideBar} className="p-1.5 rounded-full hover:bg-slate-200 transition-all duration-300 ease-in-out">
-// 					<IconWrapper>
-// 						<CloseIcon className="w-5 h-5" />
-// 					</IconWrapper>
-// 				</button>
-// 			</header>
-// 			<ul className="flex flex-col gap-y-6 mt-5 md:mt-0">
-// 				{SideBarArray.map((link, index) => {
-// 					return (
-// 						<NavLink
-// 							to={link.goto}
-// 							key={index}
-// 							className={({ isActive }) =>
-// 								`flex items-center gap-x-3 transition-all duration-300 ease-in-out
-// 								${isActive ? "font-medium text-black" : "text-slate-600 hover:text-slate-900"}`
-// 							}>
-// 							<IconWrapper>{React.createElement(link.icon, { className: "w-6 h-6" })}</IconWrapper>
-// 							<span>{link.text}</span>
-// 						</NavLink>
-// 					);
-// 				})}
-// 			</ul>
-// 		</aside>
-// 	);
-// };
 export const DashboardSidebar = () => {
 	const { stateData, setStateData } = React.useContext(StateDataContext);
+  const navigate = useNavigate();
 
+  const handleLogout = () => {
+    // Clear auth tokens or user data here
+    localStorage.removeItem("token"); 
+    navigate("/auth/login");
+  };
 	return (
     <aside className={`h-full`}>
       <ul className=" flex-col gap-y-6 mt-5 md:mt-0 hidden md:flex">
@@ -70,6 +36,15 @@ export const DashboardSidebar = () => {
             </NavLink>
 					);
 				})}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-x-3 text-red-600 hover:text-red-800 transition-all duration-300 mt-6"
+        >
+          <IconWrapper>
+            <CloseIcon className="w-6 h-6" />
+          </IconWrapper>
+          <span>Logout</span>
+        </button>
       </ul>
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 bg-white shadow-2xl shadow-black w-full left-0 right-0 mx-auto py-2 px-6 rounded-2xl rounded-ee-none rounded-es-none transition-all duration-300 md:hidden z-50">
@@ -89,6 +64,15 @@ export const DashboardSidebar = () => {
               </NavLink>
             </li>
           ))}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-x-3 text-red-600 hover:text-red-800 transition-all duration-300 mt-6"
+          >
+            <IconWrapper>
+              <CloseIcon className="w-6 h-6" />
+            </IconWrapper>
+            <span>Logout</span>
+          </button>
         </ul>
       </nav>
 

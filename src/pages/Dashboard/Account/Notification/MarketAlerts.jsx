@@ -3,25 +3,40 @@ import { ArrowRightIcon, ChevronLeftIcon, IconWrapper } from "@/data/Icons";
 import { NotificationAlertComponent } from "./NotificationAlertComponent";
 import { Link, useNavigate } from "react-router";
 import { ArrowDownIcon } from "lucide-react";
-import { Graph } from "@/data";
 import { MarketAlertDetailsSkeleton } from "@/components/Skeleton/Skeleton";
+import { useGetSystemOverviewQuery } from "@/states/services/authApi";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const commonLinkStyle = `hover:bg-slate-100/50 rounded-lg transition-all ease-in-out duration-300 py-3 px-2 border-2 border-solid border-transparent bg-transparent active:border-black active:bg-[#D9D9D966]`;
 
 export const MarketAlerts = () => {
   const navigate = useNavigate();
-
   const [isDashboardLoading, setIsDashboardLoading] = useState(true);
+
+  // Fetch system overview data
+  const { data, isLoading: isRatesLoading } = useGetSystemOverviewQuery();
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsDashboardLoading(false);
-    }, 2000); // 2000ms = 2 seconds
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isDashboardLoading) {
+  // Get NGN->CNY rate changes (last 5)
+  const ngnToCnyChanges = data?.data?.latest_rate_changes
+    ?.filter(r => r.currency_from_code === "NGN" && r.currency_to_code === "CNY")
+    ?.slice(-5)
+    .reverse() || [];
+
+  // Prepare chart data
+  const ngnToCnyChartData = ngnToCnyChanges.map(item => ({
+    ...item,
+    name: item.date.slice(5, 10), // e.g. "07-18"
+    value: parseFloat(item.value),
+  }));
+
+  if (isDashboardLoading || isRatesLoading) {
     return <MarketAlertDetailsSkeleton />;
   }
 
@@ -65,96 +80,52 @@ export const MarketAlerts = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4 mt-5">
             <aside>
               <ul className="flex flex-col gap-y-2">
-                <li>
-                  <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
-                    <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
-                      <ArrowDownIcon className="-rotate-90 w-5 h-5" />
-                    </IconWrapper>
-                    <div className="flex items-center justify-between flex-grow gap-3">
-                      <aside className="text-start">
-                        <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
-                        <p className="text-gray-500 text-sm">12/April/2025 10:00am</p>
-                      </aside>
-                      <aside className="text-end">
-                        <h3 className="text-lg leading-tight font-medium">230 NGN/CNY</h3>
-                        <p className="text-gray-500 text-sm">229 NGN/CNY</p>
-                      </aside>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
-                    <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
-                      <ArrowDownIcon className="-rotate-90 w-5 h-5" />
-                    </IconWrapper>
-                    <div className="flex items-center justify-between flex-grow gap-3">
-                      <aside className="text-start">
-                        <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
-                        <p className="text-gray-500 text-sm">12/April/2025 10:00am</p>
-                      </aside>
-                      <aside className="text-end">
-                        <h3 className="text-lg leading-tight font-medium">230 NGN/CNY</h3>
-                        <p className="text-gray-500 text-sm">229 NGN/CNY</p>
-                      </aside>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
-                    <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
-                      <ArrowDownIcon className="-rotate-90 w-5 h-5" />
-                    </IconWrapper>
-                    <div className="flex items-center justify-between flex-grow gap-3">
-                      <aside className="text-start">
-                        <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
-                        <p className="text-gray-500 text-sm">12/April/2025 10:00am</p>
-                      </aside>
-                      <aside className="text-end">
-                        <h3 className="text-lg leading-tight font-medium">230 NGN/CNY</h3>
-                        <p className="text-gray-500 text-sm">229 NGN/CNY</p>
-                      </aside>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
-                    <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
-                      <ArrowDownIcon className="-rotate-90 w-5 h-5" />
-                    </IconWrapper>
-                    <div className="flex items-center justify-between flex-grow gap-3">
-                      <aside className="text-start">
-                        <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
-                        <p className="text-gray-500 text-sm">12/April/2025 10:00am</p>
-                      </aside>
-                      <aside className="text-end">
-                        <h3 className="text-lg leading-tight font-medium">230 NGN/CNY</h3>
-                        <p className="text-gray-500 text-sm">229 NGN/CNY</p>
-                      </aside>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
-                    <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
-                      <ArrowDownIcon className="-rotate-90 w-5 h-5" />
-                    </IconWrapper>
-                    <div className="flex items-center justify-between flex-grow gap-3">
-                      <aside className="text-start">
-                        <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
-                        <p className="text-gray-500 text-sm">12/April/2025 10:00am</p>
-                      </aside>
-                      <aside className="text-end">
-                        <h3 className="text-lg leading-tight font-medium">230 NGN/CNY</h3>
-                        <p className="text-gray-500 text-sm">229 NGN/CNY</p>
-                      </aside>
-                    </div>
-                  </Link>
-                </li>
+                {ngnToCnyChanges.map((change, idx) => (
+                  <li key={idx}>
+                    <Link className={`flex items-center gap-3.5 flex-grow ${commonLinkStyle}`}>
+                      <IconWrapper className="bg-slate-200/50 text-slate-600 p-2.5 rounded-full">
+                        <ArrowDownIcon className="-rotate-90 w-5 h-5" />
+                      </IconWrapper>
+                      <div className="flex items-center justify-between flex-grow gap-3">
+                        <aside className="text-start">
+                          <h3 className="text-lg leading-tight font-medium">Rate Change</h3>
+                          <p className="text-gray-500 text-sm">
+                            {new Date(change.date).toLocaleString(undefined, {
+                              year: "numeric",
+                              month: "short",
+                              day: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        </aside>
+                        <aside className="text-end">
+                          <h3 className="text-lg leading-tight font-medium">
+                            {parseFloat(change.value).toLocaleString()} NGN/CNY
+                          </h3>
+                          <p className="text-gray-500 text-sm">
+                            {/* Show previous value if available */}
+                            {ngnToCnyChanges[idx + 1]
+                              ? `${parseFloat(ngnToCnyChanges[idx + 1].value).toLocaleString()} NGN/CNY`
+                              : "-"}
+                          </p>
+                        </aside>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </aside>
             <aside className="bg-[#F8F9FD]">
-              <figure className="h-full flex flex-col items-center">
-                <img className="mx-auto my-auto" src={Graph} alt="" />
+              <figure className="h-full flex flex-col items-center justify-center" style={{ minHeight: 180 }}>
+                <ResponsiveContainer width="100%" height={180}>
+                  <LineChart data={ngnToCnyChartData}>
+                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                    <YAxis domain={['auto', 'auto']} tick={{ fontSize: 12 }} />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="value" stroke="#222" strokeWidth={2} dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
               </figure>
             </aside>
           </div>
