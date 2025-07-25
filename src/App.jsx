@@ -192,9 +192,6 @@ const App = () => {
           <Route path={routes.DASHBOARD.help.contact.abs} element={<HelpContact />} />
           <Route path={`${routes.DASHBOARD.help.contact.abs}/:helpId`} element={<HelpDetails />} />
         </Route>
-
-
-
         {/* 404 Not Found Route */}
         {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
