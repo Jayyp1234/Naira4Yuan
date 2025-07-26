@@ -217,7 +217,10 @@ export const authApi = createApi({
         method: "GET",
       }),
     }),
-     getSystemOverview: builder.query<BaseResponse<SystemOverviewResponse>, void>({
+    getSystemOverview: builder.query<
+      BaseResponse<SystemOverviewResponse>,
+      void
+    >({
       query: () => ({
         url: "/api/user/system/overview",
         method: "GET",
@@ -230,7 +233,6 @@ export const authApi = createApi({
         body,
       }),
     }),
-
   }),
 });
 
@@ -245,6 +247,6 @@ export const {
   useLoginMutation,
   useRunQueueQuery,
   useGetCountriesListQuery,
-  useGetSystemOverviewQuery, 
+  useGetSystemOverviewQuery,
   useContactUsMutation,
 } = authApi;
